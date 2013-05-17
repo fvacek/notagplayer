@@ -1,6 +1,6 @@
 import bb.cascades 1.0
-import bb.cascades.pickers 1.0
 import bb.multimedia 1.0
+import "picker"
 
 Page {
     titleBar: TitleBar {
@@ -37,14 +37,7 @@ Page {
         ActionItem {
             title: "Add files"
             onTriggered: {
-                pickFiles();
-            }
-            imageSource: "asset:///images/ic_open_file.png"
-        },
-        ActionItem {
-            title: "Add dir"
-            onTriggered: {
-                pickDir()
+                pickFiles()
             }
             imageSource: "asset:///images/ic_add_folder.png"
             ActionBar.placement: ActionBarPlacement.OnBar
@@ -84,8 +77,8 @@ Page {
                         id: nowPlayingLabel
                         property string trackName
                         horizontalAlignment: HorizontalAlignment.Fill
-                        text: 'A'+ trackName
-                        textStyle.color: Color.Yellow
+                        text: trackName
+                        //textStyle.color: Color.Yellow
                         //multiline: true
                         //visible: (trackName != "")
                     }
@@ -145,51 +138,6 @@ Page {
     }
 
     attachedObjects: [
-        FilePicker {
-            id: picker
-            //defaultSaveFileNames: ["*.mp3 *.ogg *.acc"]
-
-            property string selectedFile
-
-            title: qsTr("File Picker")
-
-            onFileSelected: {
-                console.log("selectedFiles: " + selectedFiles);
-                if (selectedFiles.length == 0) return;
-                playListModel.clear();
-                if (mode == FilePickerMode.Saver) {
-                    /// dir opened
-                    var file_name = selectedFiles[0];
-                    var ix = file_name.lastIndexOf('/');
-                    if (ix > 0) {
-                        var filters = file_name.substring(ix + 1);
-                        var dir_path = file_name.substring(0, ix);
-                        console.debug("AAA adding to playlist: " + file_name);
-                        console.debug("AAA ApplicationUI: " + ApplicationUI);
-                        var files = ApplicationUI.getFilesRecursively(dir_path, filters);
-                        /*
-                        for (var i = 0; i < files.length; i ++) {
-                            var f = files[i];
-                            console.debug("adding to playlist: " + f);
-                            appendToPlayList(f);
-                        }
-                        */
-                    }
-                } else {
-                    // files picked
-                    for (var i = 0; i < selectedFiles.length; i ++) {
-                        var file_path = selectedFiles[i];
-                        var ix = file_path.lastIndexOf('/');
-                        if (ix >= 0) {
-                            var file_name = file_path.substring(ix + 1);
-                            console.debug("adding to playlist: " + file_name);
-                            appendToPlayList({ name: file_name, path: file_path });
-                        }
-                    }
-                }
-            }
-
-        },
         MediaPlayer {
             id: audioPlayer
             property string errorMessage
@@ -201,6 +149,17 @@ Page {
         QtObject {
             id: playStatus
             property int playedIndex: -1
+        },
+        Sheet {
+            id: filePickerSheet
+            DirPicker {
+                id: dirPicker
+            }
+            onCreationCompleted: {
+                dirPicker.done.connect(close);
+                dirPicker.dirChosen.connect(dirPicked);
+                dirPicker.fileChosen.connect(filePicked);
+            }
         }
     ]
     
@@ -209,22 +168,31 @@ Page {
         playListModel.append(file_info);
     }
     
-    function pickDir() {
-        console.log("pickDir()");
-        picker.defaultType = FileType.Other
-        picker.type = FileType.Other
-        picker.defaultSaveFileNames = ["mp3 ogg acc"]
-        //picker.defaultSaveFileNames = ["ahoj"]
-        picker.mode = FilePickerMode.Saver
-        picker.open();
+    function pickFiles() {
+        console.log("pickFiles()");
+        dirPicker.load();
+        filePickerSheet.open();
     }
 
-    function pickFiles() {
-    	picker.defaultType = FileType.Music
-        picker.type = FileType.Music
-        picker.mode = FilePickerMode.PickerMultiple
-        picker.open();
-    }
+	function dirPicked(path)
+	{
+	    console.debug("dirPicked: " + path);
+	    if(path) {
+            ApplicationUI.fetchFilesRecursively(path, ["*.mp3", "*.aac", "*.ogg"]);
+	    }
+	}
+
+	function filePicked(path)
+	{
+	    console.debug("filePicked: " + path);
+	    if(path) {
+            var file_name = path[path.length - 1];
+            var file_path = '/' + path.join('/');
+            console.debug("adding to playlist: " + file_name);
+            appendToPlayList({ name: file_name, path: file_path });
+	    }
+	}
+	
     function play(is_stop) {
         if (is_stop) {
             audioPlayer.pause();

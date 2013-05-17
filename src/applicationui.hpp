@@ -32,9 +32,11 @@ public:
 private slots:
     void onSystemLanguageChanged();
 public:
-    Q_INVOKABLE QVariantList getFilesRecursively(const QString &parent_dir_path, const QString &file_filters);
+    Q_INVOKABLE QVariantList fetchFilesRecursively(const QStringList &parent_dir_path, const QStringList &file_filters);
+    Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path);
+    Q_INVOKABLE bool dirExists(const QStringList &dir_path);
 private:
-    QVariantList getFilesRecursively(const QDir &parent_dir, const QStringList &file_filters);
+    QVariantList fetchFilesRecursively(const QDir &parent_dir, const QStringList &file_filters);
 signals:
 	void fileFound(const QVariant &file_info);
 private:

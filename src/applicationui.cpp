@@ -7,6 +7,7 @@
 
 #include <QFileInfo>
 #include <QDir>
+#include <QStringBuilder>
 #include <QDebug>
 
 using namespace bb::cascades;
@@ -44,17 +45,14 @@ void ApplicationUI::onSystemLanguageChanged()
     }
 }
 
-QVariantList ApplicationUI::getFilesRecursively(const QString &parent_dir_path, const QString &file_filters)
+QVariantList ApplicationUI::fetchFilesRecursively(const QStringList &parent_dir_path, const QStringList &file_filters)
 {
-	QStringList filters = file_filters.split(' ', QString::SkipEmptyParts);
-	for(int i=0; i<filters.count(); i++) {
-		filters[i] = "*." + filters[i];
-	}
-	QDir dir(parent_dir_path);
-	return getFilesRecursively(dir, filters);
+	QString path = '/'%parent_dir_path.join("/");
+	QDir dir(path);
+	return fetchFilesRecursively(dir, file_filters);
 }
 
-QVariantList ApplicationUI::getFilesRecursively(const QDir &parent_dir, const QStringList &file_filters)
+QVariantList ApplicationUI::fetchFilesRecursively(const QDir &parent_dir, const QStringList &file_filters)
 {
 	qDebug() << ">>>>>>>>>>>>>>>>>>>>>" << parent_dir.canonicalPath() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>";
 	QVariantList ret;
@@ -69,9 +67,39 @@ QVariantList ApplicationUI::getFilesRecursively(const QDir &parent_dir, const QS
 		ret << m;
 	}
 	foreach(QFileInfo fi, parent_dir.entryInfoList(QStringList(), QDir::NoDot | QDir::NoDotDot | QDir::Dirs | QDir::Readable)) {
-		QDir dir(fi.canonicalFilePath());
-		ret << getFilesRecursively(dir, file_filters);
+		QDir dir(fi.absoluteFilePath());
+		ret << fetchFilesRecursively(dir, file_filters);
 	}
 	qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<" << parent_dir.canonicalPath() << "<<<<<<<<<<<<<<<<<<<<<<<";
+	return ret;
+}
+
+bool ApplicationUI::dirExists(const QStringList &dir_path)
+{
+	QDir dir("/"%dir_path.join("/"));
+	return dir.exists();
+}
+
+QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path)
+{
+	QVariantList ret;
+	QDir parent_dir("/"%parent_dir_path.join("/"));
+	qDebug() << "ApplicationUI::getDirContent" << parent_dir.canonicalPath();
+	/// don't know why entryInfoList() returns some duplicates
+	QSet<QString> names;
+	foreach(QFileInfo fi, parent_dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries | QDir::Readable, QDir::DirsFirst)) {
+		QString name = fi.fileName();
+		if(names.contains(name)) continue;
+		names << name;
+		QString path = fi.absoluteFilePath();
+		QString type = fi.isDir()? "dir": "file";
+		QVariantMap m;
+		m["name"] = name;
+		m["path"] = path;
+		m["type"] = type;
+		//qDebug() << "\t" << name << "->" << path;
+		ret << m;
+	}
+	qDebug() << "ApplicationUI::getDirContent return" << ret.count() << "items";
 	return ret;
 }

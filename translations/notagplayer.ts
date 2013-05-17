@@ -8,10 +8,5 @@
         <source>NoTag Player</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../assets/main.qml" line="154"/>
-        <source>File Picker</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 </TS>
