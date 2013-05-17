@@ -1,8 +1,31 @@
 import bb.cascades 1.0
 import bb.multimedia 1.0
+import bb.system 1.0
 import "picker"
 
 Page {
+    Menu.definition: MenuDefinition {
+        helpAction: HelpActionItem {
+            onTriggered: {
+                sheetAbout.open()
+            }
+        }
+        settingsAction: SettingsActionItem {
+            onTriggered: {
+                sheetSettings.open()
+            }
+        }
+        attachedObjects: [
+            Sheet {
+                id: sheetAbout
+                AboutPage {
+                    onAboutPageClose: {
+                        sheetAbout.close();
+                    }
+                }
+            }
+        ]
+    }
     titleBar: TitleBar {
         title: qsTr("NoTag Player")
     }
@@ -17,7 +40,7 @@ Page {
         },
         ActionItem {
             id: actPlay
-            title: "Play"
+            title: pressed? qsTr("Pause"): qsTr("Play")
             property bool pressed: false
             imageSource: pressed ? "asset:///images/ic_pause.png" : "asset:///images/ic_play_now.png"
             onTriggered: {
@@ -60,7 +83,7 @@ Page {
             horizontalAlignment: HorizontalAlignment.Fill
             verticalAlignment: VerticalAlignment.Fill
             Container {
-                background: Color.Yellow
+                background: Color.create("#ff5ab3ff")
                 horizontalAlignment: HorizontalAlignment.Fill
                 topPadding: 2.0
                 bottomPadding: topPadding
@@ -92,28 +115,46 @@ Page {
                 visible: (audioPlayer.errorMessage != "")
                 textStyle.color: Color.Red
             }
-            Slider {
-                id: timeSlider
-                toValue: audioPlayer.duration
-                value: audioPlayer.position
-                property int recentImediateValue: 0
-                onValueChanged: {
-                    console.log("VAL:" + value);
+            Container {
+                layout: StackLayout {
+                    orientation: LayoutOrientation.LeftToRight
                 }
-                onImmediateValueChanged: {
-                    console.log("IV:" + immediateValue);
-                    //audioPlayer.seek(1, immediateValue)
-                }
-                onTouch: {
-                    if (event.touchType == TouchType.Down) console.log("TOUCH down:" + event.touchType);
-                    else if (event.touchType == TouchType.Up) {
-                        console.log("TOUCH up:" + event.touchType);
-                        audioPlayer.seek(1, immediateValue);
+                Slider {
+                    id: timeSlider
+                    toValue: audioPlayer.duration
+                    value: audioPlayer.position
+                    property int recentImediateValue: 0
+                    onValueChanged: {
+                        console.log("VAL:" + value);
                     }
+                    onImmediateValueChanged: {
+                        console.log("IV:" + immediateValue);
+                        //audioPlayer.seek(1, immediateValue)
+                    }
+                    onTouch: {
+                        if (event.touchType == TouchType.Down) console.log("TOUCH down:" + event.touchType);
+                        else if (event.touchType == TouchType.Up) {
+                            console.log("TOUCH up:" + event.touchType);
+                            audioPlayer.seek(1, immediateValue);
+                        }
+                    }
+                    layoutProperties: StackLayoutProperties {
+                        spaceQuota: 1.0
+
+                    }
+                }
+                TimeLabel {
+                    id: lblPlayTime
+                    totalMs: audioPlayer.duration
+                    playedMs: audioPlayer.position
+                    //text: "--:--"
+                    //minWidth: 100.0
                 }
             }
             ListView {
                 id: playList
+                property int movedTrackIndex: -1
+                property int activatedIndex: -1
                 property alias playedIndex: playStatus.playedIndex
                 dataModel: ArrayDataModel {
                     id: playListModel
@@ -121,18 +162,51 @@ Page {
                 listItemComponents: [
                     ListItemComponent {
                         StandardListItem {
-                            title: ListItemData.name
+                            title: (ListItem.indexPath[0] + 1) + " - " + ListItemData.name
                             description: ListItemData.path
                             imageSource: (ListItem.indexPath[0] == ListItem.view.playedIndex) ? "asset:///images/ic_play.png" : ""
                         }
                     }
                 ]
+                onActivationChanged: {
+                    activatedIndex = indexPath[0];
+                }
                 onTriggered: {
                     var ix = indexPath[0];
-                    playStatus.playedIndex = ix;
-                    playCurrentPlayListItem();
-
+                    if(movedTrackIndex >= 0) {
+                        moveTrack(movedTrackIndex, ix);
+                        movedTrackIndex = -1;
+                    }
+                    else {
+                        playStatus.playedIndex = ix;
+                        playCurrentPlayListItem();
+                    }
                 }
+                contextActions: [
+                    ActionSet {
+                        title: qsTr("Playlist actions")
+                        ActionItem {
+                            title: qsTr("Move track")
+                            onTriggered: {
+                                if(playList.activatedIndex >= 0) {
+                                    playList.movedTrackIndex = playList.activatedIndex;
+                                    playList.activatedIndex = -1;
+                                    moveTrackToast.show();
+                                }
+                            }
+                            imageSource: "asset:///images/ic_move.png"
+                        }
+                        DeleteActionItem {
+                            title: qsTr("Remove track")
+                            onTriggered: {
+                                if(playList.activatedIndex >= 0) {
+                                    removeTrack(playList.activatedIndex);
+                                    playList.activatedIndex = -1;
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         }
     }
@@ -148,7 +222,7 @@ Page {
         },
         QtObject {
             id: playStatus
-            property int playedIndex: -1
+            property int playedIndex: 0
         },
         Sheet {
             id: filePickerSheet
@@ -160,7 +234,12 @@ Page {
                 dirPicker.dirChosen.connect(dirPicked);
                 dirPicker.fileChosen.connect(filePicked);
             }
+        },
+        SystemToast {
+            id: moveTrackToast
+            body: qsTr("Tap on track to move after.")
         }
+
     ]
     
     function appendToPlayList(file_info)
@@ -197,7 +276,10 @@ Page {
         if (is_stop) {
             audioPlayer.pause();
         } else {
-            audioPlayer.play();
+            console.debug("audioPlayer.sourceUrl: '" + audioPlayer.sourceUrl + "'");
+            console.debug("!audioPlayer.sourceUrl: " + !audioPlayer.sourceUrl);
+            if(audioPlayer.sourceUrl == "") playCurrentPlayListItem();
+            else audioPlayer.play();
         }
     }
     function playCurrentPlayListItem() {
@@ -205,7 +287,8 @@ Page {
         nowPlayingLabel.trackName = "";
         audioPlayer.errorMessage = "";
         var ix = playStatus.playedIndex;
-        var entry = playListModel.data([ ix ]);
+        var entry = playListModel.value(ix);
+        console.debug("playCurrentPlayListItem() " + ix + " entry: " + entry);
         if (entry) {
             var file_path = entry.path;
             var err = audioPlayer.setSourceUrl(file_path);
@@ -254,7 +337,47 @@ Page {
         playListModel.clear();
     }
     
-    onCreationCompleted: {
+    function moveTrack(moved_track_ix, after_track_ix)
+    {
+        if(moved_track_ix == after_track_ix) return;
+        var insert_ix = after_track_ix;
+        if(after_track_ix < moved_track_ix) insert_ix++;
+        var d = playListModel.data([moved_track_ix]);
+        playListModel.removeAt(moved_track_ix);
+        playListModel.insert(insert_ix, d);
+    
+    }
+
+	function removeTrack(track_ix)
+	{
+	    if(playStatus.playedIndex == track_ix) playStatus.playedIndex = -1;
+	    playListModel.removeAt(track_ix);
+	}
+	
+	function loadSettings()
+	{
+        // load default playlist
+        var recent_tracks = ApplicationUI.getSettings("playlists/default/tracks");
+        if(recent_tracks) {
+            playListModel.append(recent_tracks);
+        }
+        playStatus.playedIndex = ApplicationUI.getSettings("playlists/default/playStatus/playedIndex", 0);
+	}
+	
+	function saveSettings()
+	{
+        console.debug("Saving settings ... " + playListModel.size() + " playlist items");
+	    var dd = []
+	    for(var i=0; i<playListModel.size(); i++) {
+	        dd.push(playListModel.value(i));
+	    }
+        ApplicationUI.setSettings("playlists/default/tracks", dd);
+        ApplicationUI.setSettings("playlists/default/playStatus/playedIndex", playStatus.playedIndex);
+	}
+	
+	onCreationCompleted: {
         ApplicationUI.fileFound.connect(appendToPlayList);
+        Application.aboutToQuit.connect(saveSettings);
+        loadSettings();
     }
 }

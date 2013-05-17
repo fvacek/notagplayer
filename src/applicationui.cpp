@@ -34,6 +34,12 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app) :
     app->setScene(root);
 }
 
+ApplicationUI::~ApplicationUI()
+{
+	qDebug() << "ApplicationUI::~ApplicationUI()";
+	//emit aboutToQuit();
+}
+
 void ApplicationUI::onSystemLanguageChanged()
 {
     QCoreApplication::instance()->removeTranslator(m_pTranslator);
@@ -102,4 +108,19 @@ QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path)
 	}
 	qDebug() << "ApplicationUI::getDirContent return" << ret.count() << "items";
 	return ret;
+}
+
+QVariant ApplicationUI::getSettings(const QString &path, const QVariant &default_value)
+{
+	QSettings settings;
+	QVariant ret = settings.value(path, default_value);
+	qDebug() << "get settings" << path << "->" << ret.toString() << ret.typeName();
+	return ret;
+}
+
+void ApplicationUI::setSettings(const QString &path, const QVariant &val)
+{
+	QSettings settings;
+	qDebug() << "set settings" << path << "->" << val.toString() << val.typeName();
+	settings.setValue(path, val);
 }

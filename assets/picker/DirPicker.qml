@@ -1,4 +1,5 @@
 import bb.cascades 1.0
+import bb.system 1.0
 
 // device: /accounts/1000/shared/music/
 // sdcard: /accounts/1000/removable/sdcard/music/
@@ -31,6 +32,7 @@ Page {
                 else {
                     var file_path = parentPath;
                     file_path.push(file_info.name);
+                    filesChosenToast.show();
                     fileChosen(file_path)
                 }
             }
@@ -58,6 +60,7 @@ Page {
             title: qsTr("Choose dir")
             ActionBar.placement: ActionBarPlacement.OnBar
             onTriggered: {
+                filesChosenToast.show();
                 dirChosen(parentPath);
             }
             imageSource: "asset:///images/ic_accept.png"
@@ -69,6 +72,12 @@ Page {
                 done();
             }
             imageSource: "asset:///images/cs_close.png"
+        }
+    ]
+    attachedObjects: [
+        SystemToast {
+            id: filesChosenToast
+            body: qsTr("Files chosen.")
         }
     ]
     function load()
@@ -97,21 +106,32 @@ Page {
         }   
     }
     
-    function initParentPath()
+    function loadSettings()
     {
-        if(ApplicationUI.dirExists(sdcardStoragePath)) {
-            parentPath = sdcardStoragePath;
-        }
-        else if(ApplicationUI.dirExists(deviceStoragePath)) {
-            parentPath = deviceStoragePath;
-        }
-        else {
-            parentPath = [];
+        parentPath = ApplicationUI.getSettings("DirPicker/parentPath", []);
+    }
+    
+    function saveSettings()
+    {
+        ApplicationUI.setSettings("DirPicker/parentPath", parentPath);
+    }
+
+	function initParentPath()
+    {
+        if(!parentPath || !ApplicationUI.dirExists(parentPath)) {
+            if(ApplicationUI.dirExists(sdcardStoragePath)) {
+                parentPath = sdcardStoragePath;
+            }
+            else if(ApplicationUI.dirExists(deviceStoragePath)) {
+                parentPath = deviceStoragePath;
+            }
         }
     }
     
     onCreationCompleted: {
+        loadSettings();
         initParentPath();
+        done.connect(saveSettings);
     }
 }
 
