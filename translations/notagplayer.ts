@@ -37,12 +37,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="218"/>
+        <location filename="../assets/main.qml" line="217"/>
+        <source>Shift track after current</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="225"/>
         <source>Remove track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="255"/>
+        <location filename="../assets/main.qml" line="261"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>

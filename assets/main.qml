@@ -164,7 +164,6 @@ Page {
         ListView {
             id: playList
             property int movedTrackIndex: -1
-            property int activatedIndex: -1
             property alias playedIndex: playStatus.playedIndex
             dataModel: ArrayDataModel {
                 id: playListModel
@@ -186,9 +185,6 @@ Page {
                     }
                 }
             ]
-            onActivationChanged: {
-                activatedIndex = indexPath[0];
-            }
             onTriggered: {
                 var ix = indexPath[0];
                 if(movedTrackIndex >= 0) {
@@ -200,26 +196,36 @@ Page {
                     playCurrentPlayListItem();
                 }
             }
+            function contextMenuIndex()
+            {
+                return selected()[0];
+            }
             contextActions: [
                 ActionSet {
                     title: qsTr("Playlist actions")
                     ActionItem {
                         title: qsTr("Move track")
                         onTriggered: {
-                            if(playList.activatedIndex >= 0) {
-                                playList.movedTrackIndex = playList.activatedIndex;
-                                playList.activatedIndex = -1;
+                            if(playList.contextMenuIndex() >= 0) {
+                                playList.movedTrackIndex = playList.contextMenuIndex();
                                 moveTrackToast.show();
                             }
                         }
                         imageSource: "asset:///images/ic_move.png"
                     }
+                    ActionItem {
+                        title: qsTr("Shift track after current")
+                        onTriggered: {
+                            //console.debug("selected: " + playList.selected());
+                            shiftTrackAfterCurrent(playList.contextMenuIndex());
+                        }
+                        imageSource: "asset:///images/move_after_current.png"
+                    }
                     DeleteActionItem {
                         title: qsTr("Remove track")
                         onTriggered: {
-                            if(playList.activatedIndex >= 0) {
-                                removeTrack(playList.activatedIndex);
-                                playList.activatedIndex = -1;
+                            if(playList.contextMenuIndex() >= 0) {
+                                removeTrack(playList.contextMenuIndex());
                             }
                         }
                     }
@@ -352,6 +358,11 @@ Page {
     
     }
 
+	function shiftTrackAfterCurrent(track_to_shift)
+	{
+        moveTrack(track_to_shift, playStatus.playedIndex);
+	}
+	
 	function removeTrack(track_ix)
 	{
 	    if(playStatus.playedIndex == track_ix) playStatus.playedIndex = -1;
