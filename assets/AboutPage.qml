@@ -11,31 +11,41 @@ Page {
         topPadding: leftPadding
         bottomPadding: leftPadding
 
+Container {
+    layoutProperties: StackLayoutProperties {
+        spaceQuota: 1.0
+    }
+}
         ImageView {
         	horizontalAlignment: HorizontalAlignment.Center
-            imageSource: "asset:///images/ca_music.png"
+            imageSource: "asset:///images/icon.png"
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
-            text: "No Tag Player v1.0"
+            text: "<b>No Tag Player</b>"
+            textFormat: TextFormat.Html
+        }
+        Label {
+            horizontalAlignment: HorizontalAlignment.Center
+            text: "ver. 1.0.0"
+        }
+        Container {
+            layoutProperties: StackLayoutProperties {
+                spaceQuota: 1.0
+            }
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
             text: "Fanda Vacek"
         }
-        /*
         Label {
             horizontalAlignment: HorizontalAlignment.Center
-            text: "<html>" + qsTr("More info at %1").arg("<a href='http://www.notagplayer.org/'></a>") + "</html>"
-            textFormat: TextFormat.Html
+            text: "fvacek@blackberry.com"
         }
-        */
         Container {
             layoutProperties: StackLayoutProperties {
                 spaceQuota: 1.0
-
             }
-
         }
         Button {
             text: qsTr("Close")

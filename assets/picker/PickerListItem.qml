@@ -1,6 +1,7 @@
 import bb.cascades 1.0
 
 StandardListItem {
+    id: item1
     title: ListItemData.name
     description: ListItemData.path
     //status: ListItemData.type
@@ -19,4 +20,20 @@ StandardListItem {
         }
         src
     } 
+    contextActions: [
+        ActionSet {
+            // needed by multiselect
+            ActionItem {
+                title: "Add to play list"
+                imageSource: "asset:///images/ic_add_tracks.png"
+                onTriggered: {
+                    //console.debug("item1: " + item1);
+                    //console.debug("item1.ListItem: " + item1.ListItem);
+                    //console.debug("item1.ListItem.view: " + item1.ListItem.view);
+                    //console.debug("item1.ListItem.view.chooseSelection: " + item1.ListItem.view.chooseSelection);
+                    item1.ListItem.view.chooseSelection();
+                }
+            }
+        }
+    ]
 }

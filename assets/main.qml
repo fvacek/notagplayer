@@ -26,9 +26,11 @@ Page {
             }
         ]
     }
+    /*
     titleBar: TitleBar {
         title: qsTr("NoTag Player")
     }
+    */
     actions: [
         ActionItem {
             title: "Backward"
@@ -58,13 +60,21 @@ Page {
             ActionBar.placement: ActionBarPlacement.OnBar
         },
         ActionItem {
+            title: "Shuffle"
+            onTriggered: {
+                shuffle()
+            }
+            imageSource: "asset:///images/ic_shuffle_all.png"
+        
+        },
+        ActionItem {
             title: "Add files"
             onTriggered: {
                 pickFiles()
             }
             imageSource: "asset:///images/ic_add_folder.png"
             ActionBar.placement: ActionBarPlacement.OnBar
-
+        
         },
         DeleteActionItem {
             title: "Clear play list"
@@ -76,141 +86,147 @@ Page {
         }
     ]
     Container {
-        layout: DockLayout {
-        }
-
+        horizontalAlignment: HorizontalAlignment.Fill
+        verticalAlignment: VerticalAlignment.Fill
         Container {
+            attachedObjects: [
+                ImagePaintDefinition {
+                    id: ucBackground
+                    imageSource: "asset:///images/uc.amd"
+                    repeatPattern: RepeatPattern.XY
+                }
+            ]
+            background: ucBackground.imagePaint
             horizontalAlignment: HorizontalAlignment.Fill
-            verticalAlignment: VerticalAlignment.Fill
+            topPadding: 30.0
+            bottomPadding: 20.0
             Container {
-                background: Color.create("#ff5ab3ff")
+                background: Color.Black
                 horizontalAlignment: HorizontalAlignment.Fill
-                topPadding: 2.0
-                bottomPadding: topPadding
-                leftPadding: topPadding
-                rightPadding: topPadding
-                Container {
+                topPadding: 5.0
+                leftPadding: 10.0
+                Label {
+                    id: nowPlayingLabel
+                    property string trackName
                     horizontalAlignment: HorizontalAlignment.Fill
-                    background: Color.Black
-                    topPadding: 2.0
-                    bottomPadding: topPadding
-                    leftPadding: 4
-                    rightPadding: leftPadding
-                    Label {
-                        id: nowPlayingLabel
-                        property string trackName
-                        horizontalAlignment: HorizontalAlignment.Fill
-                        text: trackName
-                        //textStyle.color: Color.Yellow
-                        //multiline: true
-                        //visible: (trackName != "")
-                    }
-                }
-            }
-            Label {
-                id: errorLabel
-                horizontalAlignment: HorizontalAlignment.Center
-                text: audioPlayer.errorMessage
-                multiline: true
-                visible: (audioPlayer.errorMessage != "")
-                textStyle.color: Color.Red
-            }
-            Container {
-                layout: StackLayout {
-                    orientation: LayoutOrientation.LeftToRight
-                }
-                Slider {
-                    id: timeSlider
-                    toValue: audioPlayer.duration
-                    value: audioPlayer.position
-                    property int recentImediateValue: 0
-                    onValueChanged: {
-                        console.log("VAL:" + value);
-                    }
-                    onImmediateValueChanged: {
-                        console.log("IV:" + immediateValue);
-                        //audioPlayer.seek(1, immediateValue)
-                    }
-                    onTouch: {
-                        if (event.touchType == TouchType.Down) console.log("TOUCH down:" + event.touchType);
-                        else if (event.touchType == TouchType.Up) {
-                            console.log("TOUCH up:" + event.touchType);
-                            audioPlayer.seek(1, immediateValue);
-                        }
-                    }
-                    layoutProperties: StackLayoutProperties {
-                        spaceQuota: 1.0
+                    text: (trackName)? trackName: qsTr("No track played ...")
 
-                    }
-                }
-                TimeLabel {
-                    id: lblPlayTime
-                    totalMs: audioPlayer.duration
-                    playedMs: audioPlayer.position
-                    //text: "--:--"
-                    //minWidth: 100.0
+                    //textStyle.color: Color.Yellow
+                    //multiline: true
+                    //visible: (trackName != "")
                 }
             }
-            ListView {
-                id: playList
-                property int movedTrackIndex: -1
-                property int activatedIndex: -1
-                property alias playedIndex: playStatus.playedIndex
-                dataModel: ArrayDataModel {
-                    id: playListModel
-                }
-                listItemComponents: [
-                    ListItemComponent {
-                        StandardListItem {
-                            title: (ListItem.indexPath[0] + 1) + " - " + ListItemData.name
-                            description: ListItemData.path
-                            imageSource: (ListItem.indexPath[0] == ListItem.view.playedIndex) ? "asset:///images/ic_play.png" : ""
-                        }
-                    }
-                ]
-                onActivationChanged: {
-                    activatedIndex = indexPath[0];
-                }
-                onTriggered: {
-                    var ix = indexPath[0];
-                    if(movedTrackIndex >= 0) {
-                        moveTrack(movedTrackIndex, ix);
-                        movedTrackIndex = -1;
-                    }
-                    else {
-                        playStatus.playedIndex = ix;
-                        playCurrentPlayListItem();
-                    }
-                }
-                contextActions: [
-                    ActionSet {
-                        title: qsTr("Playlist actions")
-                        ActionItem {
-                            title: qsTr("Move track")
-                            onTriggered: {
-                                if(playList.activatedIndex >= 0) {
-                                    playList.movedTrackIndex = playList.activatedIndex;
-                                    playList.activatedIndex = -1;
-                                    moveTrackToast.show();
-                                }
-                            }
-                            imageSource: "asset:///images/ic_move.png"
-                        }
-                        DeleteActionItem {
-                            title: qsTr("Remove track")
-                            onTriggered: {
-                                if(playList.activatedIndex >= 0) {
-                                    removeTrack(playList.activatedIndex);
-                                    playList.activatedIndex = -1;
-                                }
-                            }
-                        }
-                    }
-                ]
+        }
+        Label {
+            id: errorLabel
+            horizontalAlignment: HorizontalAlignment.Center
+            text: audioPlayer.errorMessage
+            multiline: true
+            visible: (audioPlayer.errorMessage != "")
+            textStyle.color: Color.Red
+        }
+        Container {
+            layout: StackLayout {
+                orientation: LayoutOrientation.LeftToRight
             }
+            topPadding: 5.0
+            Slider {
+                id: timeSlider
+                toValue: audioPlayer.duration
+                value: audioPlayer.position
+                property int recentImediateValue: 0
+                onValueChanged: {
+                    console.log("VAL:" + value);
+                }
+                onImmediateValueChanged: {
+                    console.log("IV:" + immediateValue);
+                    //audioPlayer.seek(1, immediateValue)
+                }
+                onTouch: {
+                    if (event.touchType == TouchType.Down) console.log("TOUCH down:" + event.touchType);
+                    else if (event.touchType == TouchType.Up) {
+                        console.log("TOUCH up:" + event.touchType);
+                        audioPlayer.seek(1, immediateValue);
+                    }
+                }
+                layoutProperties: StackLayoutProperties {
+                    spaceQuota: 1.0
+                
+                }
+            }
+            TimeLabel {
+                id: lblPlayTime
+                totalMs: audioPlayer.duration
+                playedMs: audioPlayer.position
+                textStyle.color: Color.Yellow
+            }
+        }
+        ListView {
+            id: playList
+            property int movedTrackIndex: -1
+            property int activatedIndex: -1
+            property alias playedIndex: playStatus.playedIndex
+            dataModel: ArrayDataModel {
+                id: playListModel
+                function allData()
+                {
+                    var dd = []
+                    for(var i=0; i<size(); i++) {
+                        dd.push(value(i));
+                    }
+                    return dd;
+                }
+            }
+            listItemComponents: [
+                ListItemComponent {
+                    StandardListItem {
+                        title: (ListItem.indexPath[0] + 1) + " - " + ListItemData.name
+                        description: ListItemData.path
+                        imageSource: (ListItem.indexPath[0] == ListItem.view.playedIndex) ? "asset:///images/play_uc.png" : ""
+                    }
+                }
+            ]
+            onActivationChanged: {
+                activatedIndex = indexPath[0];
+            }
+            onTriggered: {
+                var ix = indexPath[0];
+                if(movedTrackIndex >= 0) {
+                    moveTrack(movedTrackIndex, ix);
+                    movedTrackIndex = -1;
+                }
+                else {
+                    playStatus.playedIndex = ix;
+                    playCurrentPlayListItem();
+                }
+            }
+            contextActions: [
+                ActionSet {
+                    title: qsTr("Playlist actions")
+                    ActionItem {
+                        title: qsTr("Move track")
+                        onTriggered: {
+                            if(playList.activatedIndex >= 0) {
+                                playList.movedTrackIndex = playList.activatedIndex;
+                                playList.activatedIndex = -1;
+                                moveTrackToast.show();
+                            }
+                        }
+                        imageSource: "asset:///images/ic_move.png"
+                    }
+                    DeleteActionItem {
+                        title: qsTr("Remove track")
+                        onTriggered: {
+                            if(playList.activatedIndex >= 0) {
+                                removeTrack(playList.activatedIndex);
+                                playList.activatedIndex = -1;
+                            }
+                        }
+                    }
+                }
+            ]
         }
     }
-
     attachedObjects: [
         MediaPlayer {
             id: audioPlayer
@@ -231,8 +247,7 @@ Page {
             }
             onCreationCompleted: {
                 dirPicker.done.connect(close);
-                dirPicker.dirChosen.connect(dirPicked);
-                dirPicker.fileChosen.connect(filePicked);
+                dirPicker.pathsChosen.connect(pathsChosen);
             }
         },
         SystemToast {
@@ -253,25 +268,14 @@ Page {
         filePickerSheet.open();
     }
 
-	function dirPicked(path)
+	function pathsChosen(path_list)
 	{
-	    console.debug("dirPicked: " + path);
-	    if(path) {
-            ApplicationUI.fetchFilesRecursively(path, ["*.mp3", "*.aac", "*.ogg"]);
+        console.debug("pathsChosen: " + path_list.join("\n"));
+        if(path_list) {
+            ApplicationUI.fetchFilesRecursively(path_list, ["*.mp3", "*.aac", "*.ogg"]);
 	    }
 	}
 
-	function filePicked(path)
-	{
-	    console.debug("filePicked: " + path);
-	    if(path) {
-            var file_name = path[path.length - 1];
-            var file_path = '/' + path.join('/');
-            console.debug("adding to playlist: " + file_name);
-            appendToPlayList({ name: file_name, path: file_path });
-	    }
-	}
-	
     function play(is_stop) {
         if (is_stop) {
             audioPlayer.pause();
@@ -354,6 +358,19 @@ Page {
 	    playListModel.removeAt(track_ix);
 	}
 	
+	function shuffle()
+	{
+        var dd = playListModel.allData();
+        for(var i=0; i<dd.length; i++) {
+            dd[i].shuffle = Math.random();
+        }
+        dd.sort(function(a, b) {
+                return a.shuffle - b.shuffle;
+        });
+        playListModel.clear();
+        playListModel.append(dd);
+	}
+	
 	function loadSettings()
 	{
         // load default playlist
@@ -367,10 +384,7 @@ Page {
 	function saveSettings()
 	{
         console.debug("Saving settings ... " + playListModel.size() + " playlist items");
-	    var dd = []
-	    for(var i=0; i<playListModel.size(); i++) {
-	        dd.push(playListModel.value(i));
-	    }
+	    var dd = playListModel.allData();
         ApplicationUI.setSettings("playlists/default/tracks", dd);
         ApplicationUI.setSettings("playlists/default/playStatus/playedIndex", playStatus.playedIndex);
 	}

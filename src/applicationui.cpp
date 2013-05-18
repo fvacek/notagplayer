@@ -51,18 +51,23 @@ void ApplicationUI::onSystemLanguageChanged()
     }
 }
 
-QVariantList ApplicationUI::fetchFilesRecursively(const QStringList &parent_dir_path, const QStringList &file_filters)
+QVariantList ApplicationUI::fetchFilesRecursively(const QStringList &path_list, const QStringList &file_filters)
 {
-	QString path = '/'%parent_dir_path.join("/");
-	QDir dir(path);
-	return fetchFilesRecursively(dir, file_filters);
+	//qDebug() << "ApplicationUI::fetchFilesRecursively:" << path_list.join("/n");
+	QVariantList ret;
+	foreach(QString path, path_list) {
+		//qDebug() << "###########" << path;
+		ret << fetchFilesRecursively(path, file_filters);
+	}
+	return ret;
 }
 
-QVariantList ApplicationUI::fetchFilesRecursively(const QDir &parent_dir, const QStringList &file_filters)
+QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QStringList &file_filters)
 {
-	qDebug() << ">>>>>>>>>>>>>>>>>>>>>" << parent_dir.canonicalPath() << ">>>>>>>>>>>>>>>>>>>>>>>>>>>";
+	qDebug() << ">>>>>>>>>>>>>>>>>>>>>" << path << ">>>>>>>>>>>>>>>>>>>>>>>>>>>";
 	QVariantList ret;
-	foreach(QFileInfo fi, parent_dir.entryInfoList(file_filters, QDir::NoDot | QDir::NoDotDot | QDir::Files | QDir::Readable)) {
+	QFileInfo fi(path);
+	if(fi.isFile()) {
 		QString path = fi.canonicalFilePath();
 		QString name = fi.fileName();
 		qDebug() << name << "+++" << path;
@@ -72,11 +77,14 @@ QVariantList ApplicationUI::fetchFilesRecursively(const QDir &parent_dir, const 
 		emit fileFound(m);
 		ret << m;
 	}
-	foreach(QFileInfo fi, parent_dir.entryInfoList(QStringList(), QDir::NoDot | QDir::NoDotDot | QDir::Dirs | QDir::Readable)) {
-		QDir dir(fi.absoluteFilePath());
-		ret << fetchFilesRecursively(dir, file_filters);
+	else if(fi.isDir()) {
+		QVariantList files = getDirContent(path, file_filters);
+		foreach(QVariant file_v, files) {
+			QVariantMap file_m = file_v.toMap();
+			ret << fetchFilesRecursively(file_m.value("path").toString(), file_filters);
+		}
 	}
-	qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<" << parent_dir.canonicalPath() << "<<<<<<<<<<<<<<<<<<<<<<<";
+	qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<" << path << "<<<<<<<<<<<<<<<<<<<<<<<";
 	return ret;
 }
 
@@ -86,14 +94,24 @@ bool ApplicationUI::dirExists(const QStringList &dir_path)
 	return dir.exists();
 }
 
-QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path)
+QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path_list)
+{
+	QString parent_dir_path = "/"%parent_dir_path_list.join("/");
+	return getDirContent(parent_dir_path, QStringList());
+}
+
+QVariantList ApplicationUI::getDirContent(const QString &parent_dir_path, const QStringList &file_filters)
 {
 	QVariantList ret;
-	QDir parent_dir("/"%parent_dir_path.join("/"));
+	QDir parent_dir(parent_dir_path);
 	qDebug() << "ApplicationUI::getDirContent" << parent_dir.canonicalPath();
-	/// don't know why entryInfoList() returns some duplicates
+	/// don't know why, but entryInfoList() returns some duplicates
 	QSet<QString> names;
-	foreach(QFileInfo fi, parent_dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries | QDir::Readable, QDir::DirsFirst)) {
+	QFileInfoList fi_lst;
+	QDir::Filters filters = QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files | QDir::Readable;
+	if(file_filters.isEmpty()) fi_lst = parent_dir.entryInfoList(filters, QDir::DirsFirst);
+	else fi_lst = parent_dir.entryInfoList(file_filters, filters, QDir::DirsFirst);
+	foreach(QFileInfo fi, fi_lst) {
 		QString name = fi.fileName();
 		if(names.contains(name)) continue;
 		names << name;
@@ -103,7 +121,7 @@ QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path)
 		m["name"] = name;
 		m["path"] = path;
 		m["type"] = type;
-		//qDebug() << "\t" << name << "->" << path;
+		qDebug() << "\t" << name << "->" << path;
 		ret << m;
 	}
 	qDebug() << "ApplicationUI::getDirContent return" << ret.count() << "items";

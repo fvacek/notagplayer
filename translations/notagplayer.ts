@@ -4,7 +4,7 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../assets/AboutPage.qml" line="41"/>
+        <location filename="../assets/AboutPage.qml" line="51"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12,37 +12,37 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="30"/>
-        <source>NoTag Player</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="43"/>
+        <location filename="../assets/main.qml" line="45"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="43"/>
+        <location filename="../assets/main.qml" line="45"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="187"/>
+        <location filename="../assets/main.qml" line="112"/>
+        <source>No track played ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="205"/>
         <source>Playlist actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="189"/>
+        <location filename="../assets/main.qml" line="207"/>
         <source>Move track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="200"/>
+        <location filename="../assets/main.qml" line="218"/>
         <source>Remove track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="240"/>
+        <location filename="../assets/main.qml" line="255"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>

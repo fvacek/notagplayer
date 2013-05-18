@@ -1,5 +1,5 @@
 import bb.cascades 1.0
-import bb.system 1.0
+//import bb.system 1.0
 
 // device: /accounts/1000/shared/music/
 // sdcard: /accounts/1000/removable/sdcard/music/
@@ -9,8 +9,8 @@ Page {
     property variant parentPath: []// sdcardMusicPath.split("/")
     //signal dirChosen(variant path)
     signal done()
-    signal dirChosen(variant path)
-    signal fileChosen(variant path)
+    signal pathsChosen(variant path_list)
+    //signal fileChosen(variant path)
     Container {
         Label {
             id: lblPath
@@ -19,6 +19,7 @@ Page {
         }
         ListView {
             id: listView
+            signal chooseSelection()
             dataModel: ArrayDataModel {
                 id: listModel
             }
@@ -30,10 +31,8 @@ Page {
                     enterSubDir(subdir_name);
                 }
                 else {
-                    var file_path = parentPath;
-                    file_path.push(file_info.name);
-                    filesChosenToast.show();
-                    fileChosen(file_path)
+                    pathsChosen([file_info.path]);
+                    done();
                 }
             }
             listItemComponents: [
@@ -43,6 +42,50 @@ Page {
                     }
                 }
             ]
+            onSelectionChanged: {
+                // Call a function to update the number of selected items in the multi-select view.
+                updateMultiStatus();
+            }
+            function updateMultiStatus() {
+                
+                // The status text of the multi-select handler is updated to show how
+                // many items are currently selected.
+                if (selectionList().length > 1) {
+                    multiSelectHandler.status = selectionList().length + " items selected";
+                } else if (selectionList().length == 1) {
+                    multiSelectHandler.status = "1 item selected";
+                } else {
+                    multiSelectHandler.status = "None selected";
+                }
+            }
+            multiSelectAction: MultiSelectActionItem { 
+            }
+            multiSelectHandler {
+                actions: [
+                    ActionItem {
+                        title: qsTr("Add to play list")
+                        imageSource: "asset:///images/ic_add_tracks.png"
+                        onTriggered: {
+                            listView.chooseSelection();
+                        }
+                    }
+                ]
+                
+                status: "None selected"
+                
+                onActiveChanged: {
+                    if (active == true) {
+                        console.log("Multiple selection is activated");
+                    }
+                    else {
+                        console.log("Multiple selection is deactivated");
+                    }
+                }
+                
+                onCanceled: {
+                    console.log("Multi selection canceled!");
+                }
+            }
         }
     }
     
@@ -57,15 +100,6 @@ Page {
 
         },
         ActionItem {
-            title: qsTr("Choose dir")
-            ActionBar.placement: ActionBarPlacement.OnBar
-            onTriggered: {
-                filesChosenToast.show();
-                dirChosen(parentPath);
-            }
-            imageSource: "asset:///images/ic_accept.png"
-        },
-        ActionItem {
             title: qsTr("Close")
             ActionBar.placement: ActionBarPlacement.OnBar
             onTriggered: {
@@ -74,12 +108,18 @@ Page {
             imageSource: "asset:///images/cs_close.png"
         }
     ]
-    attachedObjects: [
-        SystemToast {
-            id: filesChosenToast
-            body: qsTr("Files chosen.")
+    function chooseSelection()
+    {
+        var selected_paths = [];
+        var selected_indexes = listView.selectionList();
+        for(var i=0; i<selected_indexes.length; i++) {
+            selected_paths.push(listModel.data(selected_indexes[i]).path);
         }
-    ]
+        if(selected_paths) {
+            pathsChosen(selected_paths);
+            listView.clearSelection();   
+        }
+    }
     function load()
     {
         listModel.clear();
@@ -131,6 +171,7 @@ Page {
     onCreationCompleted: {
         loadSettings();
         initParentPath();
+        listView.chooseSelection.connect(chooseSelection);
         done.connect(saveSettings);
     }
 }
