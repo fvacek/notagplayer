@@ -106,6 +106,26 @@ Page {
                 done();
             }
             imageSource: "asset:///images/cs_close.png"
+        },
+        ActionItem {
+            id: actSDCard
+            title: qsTr("Media card")
+            ActionBar.placement: ActionBarPlacement.InOverflow
+            onTriggered: {
+                parentPath = sdcardStoragePath;
+                load();
+            }
+            imageSource: "asset:///images/storage_mediacard.png"
+        },
+        ActionItem {
+            id: actDevice
+            title: qsTr("Device media")
+            ActionBar.placement: ActionBarPlacement.InOverflow
+            onTriggered: {
+                parentPath = deviceStoragePath;
+                load();
+            }
+            imageSource: "asset:///images/storage_device.png"
         }
     ]
     function chooseSelection()
@@ -166,6 +186,7 @@ Page {
                 parentPath = deviceStoragePath;
             }
         }
+        actSDCard.enabled = ApplicationUI.dirExists(sdcardStoragePath);
     }
     
     onCreationCompleted: {

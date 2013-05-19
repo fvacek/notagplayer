@@ -27,27 +27,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="205"/>
+        <location filename="../assets/main.qml" line="203"/>
         <source>Playlist actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="207"/>
+        <location filename="../assets/main.qml" line="205"/>
         <source>Move track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="217"/>
+        <location filename="../assets/main.qml" line="215"/>
         <source>Shift track after current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="225"/>
+        <location filename="../assets/main.qml" line="223"/>
         <source>Remove track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="261"/>
+        <location filename="../assets/main.qml" line="259"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>

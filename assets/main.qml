@@ -110,10 +110,8 @@ Page {
                     property string trackName
                     horizontalAlignment: HorizontalAlignment.Fill
                     text: (trackName)? trackName: qsTr("No track played ...")
-
-                    //textStyle.color: Color.Yellow
-                    //multiline: true
-                    //visible: (trackName != "")
+					textStyle.color: (trackName)? Color.White: Color.DarkGray
+                    multiline: true
                 }
             }
         }
