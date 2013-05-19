@@ -96,7 +96,7 @@ Page {
             onTriggered: {
                 upDir();
             }
-            imageSource: "asset:///images/ic_folder.png"
+            imageSource: "asset:///images/dir_up.png"
 
         },
         ActionItem {
@@ -168,17 +168,19 @@ Page {
     
     function loadSettings()
     {
-        parentPath = ApplicationUI.getSettings("DirPicker/parentPath", []);
+        //var settings = ApplicationUI.settings();
+        //parentPath = ApplicationUI.getSettings("DirPicker/parentPath", []);
     }
     
     function saveSettings()
     {
-        ApplicationUI.setSettings("DirPicker/parentPath", parentPath);
+        //ApplicationUI.setSettings("DirPicker/parentPath", parentPath);
     }
 
 	function initParentPath()
     {
-        if(!parentPath || !ApplicationUI.dirExists(parentPath)) {
+        //console.debug("parentPath1: " + parentPath.length);
+        if(!parentPath || !parentPath.length || !ApplicationUI.dirExists(parentPath)) {
             if(ApplicationUI.dirExists(sdcardStoragePath)) {
                 parentPath = sdcardStoragePath;
             }
@@ -186,6 +188,7 @@ Page {
                 parentPath = deviceStoragePath;
             }
         }
+        //console.debug("parentPath2: " + (typeof parentPath));
         actSDCard.enabled = ApplicationUI.dirExists(sdcardStoragePath);
     }
     

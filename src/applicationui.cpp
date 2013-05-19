@@ -1,4 +1,5 @@
 #include "applicationui.hpp"
+#include "settings.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -121,24 +122,18 @@ QVariantList ApplicationUI::getDirContent(const QString &parent_dir_path, const 
 		m["name"] = name;
 		m["path"] = path;
 		m["type"] = type;
-		qDebug() << "\t" << name << "->" << path;
+		//qDebug() << "\t" << name << "->" << path;
 		ret << m;
 	}
 	qDebug() << "ApplicationUI::getDirContent return" << ret.count() << "items";
 	return ret;
 }
 
-QVariant ApplicationUI::getSettings(const QString &path, const QVariant &default_value)
+QVariant ApplicationUI::settings()
 {
-	QSettings settings;
-	QVariant ret = settings.value(path, default_value);
-	qDebug() << "get settings" << path << "->" << ret.toString() << ret.typeName();
+	Settings *s = new Settings(this);
+	QObject *o = s;
+	QVariant ret = QVariant::fromValue(o);
 	return ret;
 }
 
-void ApplicationUI::setSettings(const QString &path, const QVariant &val)
-{
-	QSettings settings;
-	qDebug() << "set settings" << path << "->" << val.toString() << val.typeName();
-	settings.setValue(path, val);
-}
