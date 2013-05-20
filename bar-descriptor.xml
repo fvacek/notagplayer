@@ -47,7 +47,6 @@
 
     <!-- The name that is displayed in the BlackBerry 10 application installer. 
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <name>notagplayer</name>
     
     <!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade. 
          Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
@@ -63,7 +62,7 @@
 
     <!-- Description, displayed in the BlackBerry 10 application installer.
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <description>The notagplayer application</description>
+    <description>Audio player using file system insteat of MP3 tags</description>
 
     <!-- Copyright information. Optional. -->
     <!-- <copyright></copyright> -->
@@ -81,6 +80,7 @@
     </initialWindow>
     
     <!--  The category where the application appears. Either core.games or core.media. -->
+    <name>No Tag Player</name>
     <category>core.games</category>
     
     <!--  The icon for the application, which should be 114x114. -->

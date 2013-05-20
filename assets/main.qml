@@ -6,7 +6,9 @@ import "picker"
 TabbedPane {
     id: tabbedPane
     property bool tabRemoval: false
-    Menu.definition: MenuDefinition {
+    signal playerTabCountChanged(int new_tab_count);    
+
+Menu.definition: MenuDefinition {
         helpAction: HelpActionItem {
             onTriggered: {
                 sheetAbout.open()
@@ -99,6 +101,7 @@ TabbedPane {
         var new_tab = playListTabDef.createObject(parent);
         new_tab.tabId = tab_id;//newPlayerTabId();
         new_tab.player.deletePlaylistTab.connect(tabbedPane.deletePlayerTab);
+        tabbedPane.playerTabCountChanged.connect(new_tab.player.playerTabCountChanged);
         console.debug("adding new tab: " + new_tab + " playlist id: " + new_tab.tabId);
         tabbedPane.add(new_tab);
         tabbedPane.activeTab = new_tab;
@@ -107,6 +110,7 @@ TabbedPane {
     
     function deletePlayerTab(playlist_id)
     {
+        if(tabbedPane.count() < 3) return;
         console.debug("delete playlist tab: " + playlist_id);
         for(var i=1; i<tabbedPane.count(); i++) {
             var tab = tabbedPane.at(i);
@@ -178,8 +182,15 @@ TabbedPane {
         console.debug("SAVED LOADED active tab index: " + active_tab_index);
         settings.dispose();
     }
+    
+    function onTabCountChanged() 
+    {
+        playerTabCountChanged(tabbedPane.count());    
+    }
 
 	onCreationCompleted: {
+        tabbedPane.tabRemoved.connect(onTabCountChanged);
+        tabbedPane.tabAdded.connect(onTabCountChanged);
 	    Application.aboutToQuit.connect(saveSettings);
 	    loadSettings();
 	}

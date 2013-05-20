@@ -12,12 +12,12 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/Player.qml" line="183"/>
+        <location filename="../assets/Player.qml" line="182"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="183"/>
+        <location filename="../assets/Player.qml" line="182"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
@@ -27,47 +27,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="140"/>
+        <location filename="../assets/Player.qml" line="139"/>
         <source>Playlist actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="142"/>
+        <location filename="../assets/Player.qml" line="141"/>
         <source>Move track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="152"/>
+        <location filename="../assets/Player.qml" line="151"/>
         <source>Shift track after current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="160"/>
+        <location filename="../assets/Player.qml" line="159"/>
         <source>Remove track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="174"/>
+        <location filename="../assets/Player.qml" line="173"/>
         <source>Backward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="193"/>
+        <location filename="../assets/Player.qml" line="192"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="201"/>
+        <location filename="../assets/Player.qml" line="200"/>
         <source>Shuffle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="209"/>
+        <location filename="../assets/Player.qml" line="208"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="218"/>
+        <location filename="../assets/Player.qml" line="217"/>
         <source>Edit playlist properties</source>
         <translation type="unfinished"></translation>
     </message>

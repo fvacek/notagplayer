@@ -22,7 +22,7 @@ Page {
         verticalAlignment: VerticalAlignment.Fill
         /*
         Label {
-            text: player.tabName
+            text: player.parent
         }
         */
         Container {
@@ -86,13 +86,12 @@ Page {
                 }
                 layoutProperties: StackLayoutProperties {
                     spaceQuota: 1.0
-                
                 }
             }
             TimeLabel {
                 id: lblPlayTime
-                totalMs: audioPlayer.duration
-                playedMs: audioPlayer.position
+                totalMs: timeSlider.toValue - timeSlider.fromValue
+                playedMs: timeSlider.immediateValue
                 textStyle.color: Color.Yellow
             }
         }
@@ -222,8 +221,9 @@ Page {
             imageSource: "asset:///images/ic_edit_list.png"
         },
         ActionItem {
+            id: actDeletePlaylistTab
             title: qsTr("Delete playlist tab")
-            enabled: player.playlistId > 0
+            //enabled: tabbedPane.count() > 2
             onTriggered: {
                 confirmDeletePlaylistDialog.open();
             }
@@ -457,6 +457,11 @@ Page {
             settings.setValue(settinsPath + "/player/playlistName", player.playlistName);
             settings.dispose();
         }
+	}
+	
+	function playerTabCountChanged(new_tab_count)
+	{
+		actDeletePlaylistTab.enabled = new_tab_count > 2;	    
 	}
 	
 	onCreationCompleted: {
