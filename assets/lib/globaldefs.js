@@ -38,7 +38,7 @@ if(typeof __GLOBALDEFS_JS === "undefined") {
 	        	schema = "DropBox";    
 	        }
 	        else if(ret.startsWith(sdcardSubPath)) {
-	        	ret = ret.slice(sdcardMusicSubPath.length);
+	        	ret = ret.slice(sdcardSubPath.length);
 	        	schema = "sdcard";    
 	        }
 	        else if(ret.startsWith(deviceSubPath)) {

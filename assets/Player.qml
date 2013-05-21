@@ -14,12 +14,12 @@ Page {
     */
     id: player
     signal deletePlaylistTab(int playlist_id)
+    //signal playlistNameChanged(string playlist_name)
     property int playlistId: -1
-    property string playlistName: ""
-    property string tabName: playlistName? playlistName: "Playlist " + playlistId
     property bool isInitialized: false
     property string settinsPath: "playlists/" + playlistId
     property variant filePickerSheet: null
+    property variant tab: null
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
@@ -292,8 +292,8 @@ Page {
                 }
             }
             function done(ok) {
-                if (ok) {
-                    player.playlistName = playlistSettings.playlistName.trim();
+                if (ok && tab) {
+                    tab.playlistName = playlistSettings.playlistName.trim();
                 }
                 playlistSettingsSheet.close();
             }
@@ -302,20 +302,6 @@ Page {
             id: confirmDialog
             title: "Confirm Dialog"
         },
-        /*
-         * ConfirmDialog {
-         * id: confirmDeletePlaylistDialog
-         * message: qsTr("Realy delete current playlist tab?");
-         * onOpened: {
-         * //customDialogPage.actionBarVisibility = ChromeVisibility.Hidden
-         * }
-         * onClosed: {
-         * if(result) {
-         * deletePlaylistTab(playlistId)
-         * }
-         * }
-         * },
-         */
         SystemToast {
             id: moveTrackToast
             body: qsTr("Tap on track to move after.")
@@ -445,8 +431,10 @@ Page {
 	
     function editPlaylistName()
     {
-        playlistSettings.playlistName = player.playlistName
-        playlistSettingsSheet.open()
+        if(tab) {
+            playlistSettings.playlistName = tab.playlistName
+            playlistSettingsSheet.open()
+        }
     }
     
 	function init()
@@ -467,7 +455,6 @@ Page {
                 playListModel.append(recent_tracks);
             }
             playStatus.playedIndex = settings.value(settinsPath + "/playStatus/playedIndex", 0);
-            player.playlistName = settings.value(settinsPath + "/player/playlistName");
         }
     }
     
@@ -479,7 +466,6 @@ Page {
             var dd = playListModel.allData();
             settings.setValue(settinsPath + "/tracks", dd);
             settings.setValue(settinsPath + "/playStatus/playedIndex", playStatus.playedIndex);
-            settings.setValue(settinsPath + "/player/playlistName", player.playlistName);
         }
 	}
 	

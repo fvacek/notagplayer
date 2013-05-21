@@ -92,7 +92,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="321"/>
+        <location filename="../assets/Player.qml" line="307"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>

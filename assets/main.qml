@@ -6,7 +6,8 @@ import "picker"
 TabbedPane {
     id: tabbedPane
     property bool tabRemoval: false
-    signal playerTabCountChanged(int new_tab_count);    
+    //property bool tabAppend: false
+    signal playerTabCountChanged(int new_tab_count);
 
 	Menu.definition: MenuDefinition {
         helpAction: HelpActionItem {
@@ -38,11 +39,11 @@ TabbedPane {
 	    imageSource: "asset:///images/ic_add_tracks.png"
 	}
     onActiveTabChanged: {
-        console.debug("active tab changed to:" + activeTab.tabId);
+        console.debug("active tab changed to tabId:" + activeTab.tabId + " tab: " + activeTab);
         if(activeTab == tabNewPlayList) {
             if(tabRemoval) {
                 // remove cause to tab at index 0 becomes active, ignore it
-            	tabRemoval = false;                
+            	tabRemoval = false;
             }
             else {
                 var new_tab = appendPlayerTab(newPlayerTabId());
@@ -50,7 +51,7 @@ TabbedPane {
             }
         }
         else {
-            activeTab.player.init();
+            activeTab.initPlayer();
         }
     }
     attachedObjects: [
@@ -58,17 +59,46 @@ TabbedPane {
             id: playListTabDef
             Tab {
                 id: tab
-                property variant player: player1
+                property variant player: null
                 //signal saveSettings()
             	property int tabId: -1
-                //property string caption
-                //title: (player1.caption.length == 0)? "Playlist " + playlistId: player1.caption
+                property string playlistName: ""
+                title: playlistName? playlistName: "Playlist " + tabId
+                imageSource: "asset:///images/playlist.png"
+                /*
                 title: player1.tabName
-               	imageSource: "asset:///images/playlist.png"
                 Player {
                     id: player1
-                    playlistId: tab.tabId                
+                    playlistId: tab.tabId
                 }
+                */
+                function initPlayer()
+                {
+                    //console.debug("initPlayer: " + tab.tabId + " player: " + player);
+                    if(!player) {
+                        console.debug("***** creating player: " + tab.tabId + " name: " + tab.title);
+                        tab.player = playerDef.createObject(tab);
+                        tab.content = tab.player;
+                        player.tab = tab;
+                        player.playlistId = tab.tabId;
+                        player.init();
+                        //tab.title = player.tabName;
+                        //player.playlistNameChanged.connect(tab.onPlayerPlaylistNameChanged);
+                        player.deletePlaylistTab.connect(tabbedPane.deletePlayerTab);
+                        tabbedPane.playerTabCountChanged.connect(player.playerTabCountChanged);
+                    }
+                }
+                function onPlayerPlaylistNameChanged(tab_name)
+                {
+                    title = tab_name;
+                }
+            }
+        },
+        ComponentDefinition {
+            id: playerDef
+            Player {
+                id: player1
+                playlistId: tab.tabId
             }
         }
     ]
@@ -95,19 +125,18 @@ TabbedPane {
         }
         return new_id;
     }
-    
+
     function appendPlayerTab(tab_id)
     {
         var new_tab = playListTabDef.createObject(parent);
         new_tab.tabId = tab_id;//newPlayerTabId();
-        new_tab.player.deletePlaylistTab.connect(tabbedPane.deletePlayerTab);
-        tabbedPane.playerTabCountChanged.connect(new_tab.player.playerTabCountChanged);
+        //new_tab.playlistName = playlist_name;
         console.debug("adding new tab: " + new_tab + " playlist id: " + new_tab.tabId);
         tabbedPane.add(new_tab);
-        tabbedPane.activeTab = new_tab;
+        //tabbedPane.activeTab = new_tab;
         return new_tab;
     }
-    
+
     function deletePlayerTab(playlist_id)
     {
         if(tabbedPane.count() < 3) return;
@@ -132,9 +161,9 @@ TabbedPane {
                 }
                 else tabRemoval = true;
             }
-        }        
+        }
     }
-    
+
     function loadSettings()
     {
         var settings = ApplicationUI.settings();
@@ -149,47 +178,52 @@ TabbedPane {
         var default_tab = null;
         for(var i=0; i<tab_ids.length; i++) {
             var tab_id = tab_ids[i];
+            var playlist_name = settings.value("playlists/" + tab_id + "/player/playlistName");
             var tab = appendPlayerTab(tab_id);
+            tab.playlistName = playlist_name;
             if(tab_id == 0) default_tab = tab;
         }
         var active_tab = null;
         var active_tab_index = settings.value("player/tabs/activeIndex", -1);
-        //console.debug("LOADED active tab index: " + active_tab_index);
+        console.debug("LOADED active tab index: " + active_tab_index);
         if(active_tab_index >= 1) {
-            active_tab = at(active_tab_index);
+            console.debug("afinding ctive tab for index: " + active_tab_index);
+            active_tab = tabbedPane.at(active_tab_index);
+            console.debug("found: " + active_tab);
         }
+        console.debug("tabbed pane tab count: " + tabbedPane.count() + " !active_tab: " + (!active_tab));
         if(!active_tab) active_tab = default_tab;
         tabbedPane.activeTab = active_tab;
     }
-    
+
     function saveSettings()
     {
+        console.debug("main.qml saveSettings()" );
+        var settings = ApplicationUI.settings();
         var tab_ids = []; // default tab is always present
-        for(var i=0; i<count(); i++) {
+        for(var i=0; i<tabbedPane.count(); i++) {
             var tab = tabbedPane.at(i);
             var tab_id = tab.tabId;
             if(tab_id >= 0) {
-                tab.player.saveSettings();
+                if(tab.player) tab.player.saveSettings();
+                settings.setValue("playlists/" + tab_id + "/player/playlistName", tab.playlistName);
             }
         }
-        var settings = ApplicationUI.settings();
         var active_tab_index = tabbedPane.indexOf(tabbedPane.activeTab);
-        console.debug("SAVED active tab index: " + active_tab_index);
+        //console.debug("SAVED active tab index: " + active_tab_index);
         settings.setValue("player/tabs/activeIndex", active_tab_index);
         active_tab_index = settings.value("player/tabs/activeIndex", -2);
-        console.debug("SAVED LOADED active tab index: " + active_tab_index);
-        settings.dispose();
-    }
-    
-    function onTabCountChanged() 
-    {
-        playerTabCountChanged(tabbedPane.count());    
     }
 
-	onCreationCompleted: {
+    function onTabCountChanged()
+    {
+        playerTabCountChanged(tabbedPane.count());
+    }
+
+    onCreationCompleted: {
         tabbedPane.tabRemoved.connect(onTabCountChanged);
         tabbedPane.tabAdded.connect(onTabCountChanged);
-	    Application.aboutToQuit.connect(saveSettings);
-	    loadSettings();
-	}
+        Application.aboutToQuit.connect(saveSettings);
+        loadSettings();
+    }
 }
