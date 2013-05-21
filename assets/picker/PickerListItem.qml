@@ -1,16 +1,12 @@
 import bb.cascades 1.0
+import "../lib/globaldefs.js" as GlobalDefs
 
 StandardListItem {
     id: item1
     title: ListItemData.name
-    description: ListItemData.path
+    description: GlobalDefs.decorateSystemPath(ListItemData.path)
     //status: ListItemData.type
     imageSource: {
-        if (typeof String.prototype.endsWith !== 'function') {
-            String.prototype.endsWith = function(suffix) {
-                return this.indexOf(suffix, this.length - suffix.length) !== -1;
-            };
-        }
         var src = "asset:///images/ic_folder.png";
         if(ListItemData.type == "file") {
             if(title.endsWith(".mp3")
@@ -36,4 +32,6 @@ StandardListItem {
             }
         }
     ]
+    onCreationCompleted: {
+    }
 }

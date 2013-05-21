@@ -1,11 +1,12 @@
 import bb.cascades 1.0
 //import bb.system 1.0
+import "../lib/globaldefs.js" as GlobalDefs
 
 // device: /accounts/1000/shared/music/
 // sdcard: /accounts/1000/removable/sdcard/music/
 Page {
-    property variant deviceStoragePath: ["accounts", "1000", "shared", "music"]
-    property variant sdcardStoragePath: ["accounts", "1000", "removable", "sdcard", "music"]
+    property variant deviceMusicPath: GlobalDefs.splitPath(GlobalDefs.deviceMusicPath)
+    property variant sdcardMusicPath: GlobalDefs.splitPath(GlobalDefs.sdcardMusicPath)
     property variant parentPath: []// sdcardMusicPath.split("/")
     //signal dirChosen(variant path)
     signal done()
@@ -14,8 +15,11 @@ Page {
     Container {
         Label {
             id: lblPath
-            text: parentPath.join('/')
-            //text: parentPath.join('/').replace(deviceStoragePath, "device://").replace(sdcardStoragePath, "sdcard://")
+            text: {
+                console.debug("path update, parentPath: " + parentPath + "of type: " + (typeof parentPath));
+                GlobalDefs.decorateSystemPath("/" + parentPath.join('/'))
+            }
+            //text: "AAA"
         }
         ListView {
             id: listView
@@ -112,7 +116,7 @@ Page {
             title: qsTr("Media card")
             ActionBar.placement: ActionBarPlacement.InOverflow
             onTriggered: {
-                parentPath = sdcardStoragePath;
+                parentPath = sdcardMusicPath;
                 load();
             }
             imageSource: "asset:///images/storage_mediacard.png"
@@ -122,7 +126,7 @@ Page {
             title: qsTr("Device media")
             ActionBar.placement: ActionBarPlacement.InOverflow
             onTriggered: {
-                parentPath = deviceStoragePath;
+                parentPath = deviceMusicPath;
                 load();
             }
             imageSource: "asset:///images/storage_device.png"
@@ -179,17 +183,17 @@ Page {
 
 	function initParentPath()
     {
-        //console.debug("parentPath1: " + parentPath.length);
+        console.debug("parentPath: " + parentPath + " of type: " + (typeof parentPath));
         if(!parentPath || !parentPath.length || !ApplicationUI.dirExists(parentPath)) {
-            if(ApplicationUI.dirExists(sdcardStoragePath)) {
-                parentPath = sdcardStoragePath;
+            if(ApplicationUI.dirExists(sdcardMusicPath)) {
+                parentPath = sdcardMusicPath;
             }
-            else if(ApplicationUI.dirExists(deviceStoragePath)) {
-                parentPath = deviceStoragePath;
+            else if(ApplicationUI.dirExists(deviceMusicPath)) {
+                parentPath = deviceMusicPath;
             }
         }
-        //console.debug("parentPath2: " + (typeof parentPath));
-        actSDCard.enabled = ApplicationUI.dirExists(sdcardStoragePath);
+        console.debug("parentPath inited to: " + parentPath + " of type: " + (typeof parentPath));
+        actSDCard.enabled = ApplicationUI.dirExists(sdcardMusicPath);
     }
     
     onCreationCompleted: {

@@ -16,6 +16,7 @@ using namespace bb::cascades;
 ApplicationUI::ApplicationUI(bb::cascades::Application *app) :
         QObject(app)
 {
+	m_settings = new Settings(this);
     // prepare the localization
     m_pTranslator = new QTranslator(this);
     m_pLocaleHandler = new LocaleHandler(this);
@@ -131,8 +132,7 @@ QVariantList ApplicationUI::getDirContent(const QString &parent_dir_path, const 
 
 QVariant ApplicationUI::settings()
 {
-	Settings *s = new Settings(this);
-	QObject *o = s;
+	QObject *o = m_settings;
 	QVariant ret = QVariant::fromValue(o);
 	return ret;
 }

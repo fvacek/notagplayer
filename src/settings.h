@@ -26,8 +26,6 @@ public slots:
 	QVariant value(const QString &key, const QVariant &default_value = QVariant()) const;
 	QStringList childGroups() const {return Super::childGroups();}
 	void remove(const QString &key) {Super::remove(key);}
-
-	void dispose();
 };
 
 #endif /* SETTINGS_H_ */

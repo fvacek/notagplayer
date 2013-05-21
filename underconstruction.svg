@@ -17,7 +17,35 @@
    version="1.0"
    sodipodi:docname="underconstruction.svg">
   <defs
-     id="defs3" />
+     id="defs3">
+    <pattern
+       patternUnits="userSpaceOnUse"
+       width="106.14741"
+       height="97.831184"
+       patternTransform="translate(-139.53136,-4.8730865)"
+       id="pattern5163">
+      <g
+         id="g5159"
+         transform="translate(139.53136,4.8730865)">
+        <rect
+           inkscape:export-ydpi="54.259998"
+           inkscape:export-xdpi="54.259998"
+           inkscape:export-filename="/home/fvacek/rim/github/notagplayer/assets/images/uc.png"
+           y="-4.8730865"
+           x="-139.53136"
+           height="97.831184"
+           width="106.14741"
+           id="rect5137"
+           style="fill:#000000;stroke:none" />
+        <path
+           style="fill:#feb600;fill-opacity:1;stroke:none"
+           d="m -87.46875,-6.0625 -53.03125,97.75 0,0.0625 53.09375,0 53.03125,-97.78125 0,-0.03125 -53.09375,0 z"
+           transform="translate(0.98007,1.197588)"
+           id="rect4930"
+           inkscape:connector-curvature="0" />
+      </g>
+    </pattern>
+  </defs>
   <sodipodi:namedview
      inkscape:document-units="mm"
      id="base"
@@ -43,16 +71,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-0.98007,-1.197588)">
-    <rect
-       inkscape:export-ydpi="54.259998"
-       inkscape:export-xdpi="54.259998"
-       inkscape:export-filename="/home/fvacek/rim/github/notagplayer/assets/images/uc.png"
-       y="-4.8730865"
-       x="-139.53136"
-       height="97.831184"
-       width="106.14741"
-       id="rect5137"
-       style="fill:#000000;stroke:none;stroke-width:0.15236220000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <rect
        style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
        id="rect5537"
@@ -165,11 +183,21 @@
        x="698.62256"
        y="-478.03421"
        transform="matrix(1,0,0.57783301,-0.81615502,0,0)" />
-    <path
-       style="fill:#feb600;fill-opacity:1;stroke:none"
-       d="M -87.46875 -6.0625 L -140.5 91.6875 L -140.5 91.75 L -87.40625 91.75 L -34.375 -6.03125 L -34.375 -6.0625 L -87.46875 -6.0625 z "
-       transform="translate(0.98007,1.197588)"
-       id="rect4930" />
+    <rect
+       style="stroke:none;fill:url(#pattern5163)"
+       width="106.14741"
+       height="97.831184"
+       x="-139.53136"
+       y="-4.8730865"
+       id="rect5168" />
+    <rect
+       style="fill:url(#pattern5163);fill-opacity:1.0;stroke:none"
+       id="rect5887"
+       width="282"
+       height="152"
+       x="-135"
+       y="140.12462"
+       transform="translate(0.98007,1.197588)" />
   </g>
   <metadata
      id="metadata4245">

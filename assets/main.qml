@@ -8,7 +8,7 @@ TabbedPane {
     property bool tabRemoval: false
     signal playerTabCountChanged(int new_tab_count);    
 
-Menu.definition: MenuDefinition {
+	Menu.definition: MenuDefinition {
         helpAction: HelpActionItem {
             onTriggered: {
                 sheetAbout.open()
@@ -125,7 +125,6 @@ Menu.definition: MenuDefinition {
                         // remove tab settings
                         var settings = ApplicationUI.settings();
                         settings.remove(tab.player.settinsPath);
-                        settings.dispose();
                     }
                     tab.destroy();
                     tab = tabbedPane.at(next_ix);
@@ -155,13 +154,12 @@ Menu.definition: MenuDefinition {
         }
         var active_tab = null;
         var active_tab_index = settings.value("player/tabs/activeIndex", -1);
-        console.debug("LOADED active tab index: " + active_tab_index);
+        //console.debug("LOADED active tab index: " + active_tab_index);
         if(active_tab_index >= 1) {
             active_tab = at(active_tab_index);
         }
         if(!active_tab) active_tab = default_tab;
         tabbedPane.activeTab = active_tab;
-        settings.dispose();
     }
     
     function saveSettings()

@@ -12,82 +12,82 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/Player.qml" line="182"/>
+        <location filename="../assets/Player.qml" line="185"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="182"/>
+        <location filename="../assets/Player.qml" line="185"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="49"/>
+        <location filename="../assets/Player.qml" line="52"/>
         <source>No track played ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="139"/>
+        <location filename="../assets/Player.qml" line="142"/>
         <source>Playlist actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="141"/>
+        <location filename="../assets/Player.qml" line="144"/>
         <source>Move track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="151"/>
+        <location filename="../assets/Player.qml" line="154"/>
         <source>Shift track after current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="159"/>
+        <location filename="../assets/Player.qml" line="162"/>
         <source>Remove track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="173"/>
+        <location filename="../assets/Player.qml" line="176"/>
         <source>Backward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="192"/>
+        <location filename="../assets/Player.qml" line="195"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="200"/>
+        <location filename="../assets/Player.qml" line="203"/>
         <source>Shuffle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="208"/>
+        <location filename="../assets/Player.qml" line="211"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="217"/>
+        <location filename="../assets/Player.qml" line="220"/>
         <source>Edit playlist properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="225"/>
+        <location filename="../assets/Player.qml" line="228"/>
         <source>Delete playlist tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="233"/>
+        <location filename="../assets/Player.qml" line="240"/>
         <source>Clear play list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="282"/>
+        <location filename="../assets/Player.qml" line="231"/>
         <source>Realy delete current playlist tab?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="294"/>
+        <location filename="../assets/Player.qml" line="312"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>

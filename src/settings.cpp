@@ -31,7 +31,3 @@ void Settings::setValue(const QString &key, const QVariant &value)
 	Super::setValue(key, value);
 }
 
-void Settings::dispose()
-{
-	deleteLater();
-}

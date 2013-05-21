@@ -2,7 +2,9 @@ import bb.cascades 1.0
 import bb.multimedia 1.0
 import bb.system 1.0
 import "picker"
-import "dialogs"
+//import "dialogs"
+//import "lib/string.js" as StringExt
+import "lib/globaldefs.js" as GlobalDefs
 
 Page {
     /*
@@ -17,6 +19,7 @@ Page {
     property string tabName: playlistName? playlistName: "Playlist " + playlistId
     property bool isInitialized: false
     property string settinsPath: "playlists/" + playlistId
+    property variant filePickerSheet: null
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
@@ -114,7 +117,7 @@ Page {
                 ListItemComponent {
                     StandardListItem {
                         title: (ListItem.indexPath[0] + 1) + " - " + ListItemData.name
-                        description: ListItemData.path
+                        description: GlobalDefs.decorateSystemPath(ListItemData.path)
                         imageSource: (ListItem.indexPath[0] == ListItem.view.playedIndex) ? "asset:///images/play_uc.png" : ""
                     }
                 }
@@ -225,7 +228,11 @@ Page {
             title: qsTr("Delete playlist tab")
             //enabled: tabbedPane.count() > 2
             onTriggered: {
-                confirmDeletePlaylistDialog.open();
+                confirmDialog.body = qsTr("Realy delete current playlist tab?");
+                confirmDialog.exec()
+                if (confirmDialog.result == SystemUiResult.ConfirmButtonSelection) {
+                    deletePlaylistTab(playlistId)
+                }
             }
             imageSource: "asset:///images/delete_playlist.png"
         },
@@ -252,14 +259,19 @@ Page {
             id: playStatus
             property int playedIndex: 0
         },
-        Sheet {
-            id: filePickerSheet
-            DirPicker {
-                id: dirPicker
-            }
-            onCreationCompleted: {
-                dirPicker.done.connect(close);
-                dirPicker.pathsChosen.connect(pathsChosen);
+        ComponentDefinition {
+            id: filePickerSheetDefinition
+            
+            Sheet {
+                id: filePickerSheet
+                property alias dirPicker: dirPicker
+                DirPicker {
+                    id: dirPicker
+                }
+                onCreationCompleted: {
+                    dirPicker.done.connect(close);
+                    dirPicker.pathsChosen.connect(pathsChosen);
+                }
             }
         },
         Sheet {
@@ -272,11 +284,16 @@ Page {
             }
             function done(ok) {
                 if(ok) {
-                    player.playlistName = playlistSettings.playlistName
+                    player.playlistName = playlistSettings.playlistName.trim();
                 }
                 playlistSettingsSheet.close();
             }
         },
+        SystemDialog {
+            id: confirmDialog
+            title: "Confirm Dialog"
+        },
+        /*
         ConfirmDialog {
             id: confirmDeletePlaylistDialog
             message: qsTr("Realy delete current playlist tab?");
@@ -289,6 +306,7 @@ Page {
                 }                    
             }
         },
+        */
         SystemToast {
             id: moveTrackToast
             body: qsTr("Tap on track to move after.")
@@ -303,7 +321,10 @@ Page {
     
     function pickFiles() {
         console.log("pickFiles()");
-        dirPicker.load();
+        if(!filePickerSheet) {
+            filePickerSheet = filePickerSheetDefinition.createObject(player);
+        }
+        filePickerSheet.dirPicker.load();
         filePickerSheet.open();
     }
 
@@ -442,7 +463,6 @@ Page {
             }
             playStatus.playedIndex = settings.value(settinsPath + "/playStatus/playedIndex", 0);
             player.playlistName = settings.value(settinsPath + "/player/playlistName");
-            settings.dispose();
         }
     }
     
@@ -455,7 +475,6 @@ Page {
             settings.setValue(settinsPath + "/tracks", dd);
             settings.setValue(settinsPath + "/playStatus/playedIndex", playStatus.playedIndex);
             settings.setValue(settinsPath + "/player/playlistName", player.playlistName);
-            settings.dispose();
         }
 	}
 	

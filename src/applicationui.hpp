@@ -5,6 +5,7 @@
 #include <QVariantList>
 
 class QDir;
+class Settings;
 
 namespace bb
 {
@@ -46,6 +47,7 @@ signals:
 private:
     QTranslator* m_pTranslator;
     bb::cascades::LocaleHandler* m_pLocaleHandler;
+    Settings *m_settings;
 };
 
 #endif /* ApplicationUI_HPP_ */
