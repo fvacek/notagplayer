@@ -158,6 +158,15 @@ Page {
                         }
                         imageSource: "asset:///images/move_after_current.png"
                     }
+                    ActionItem {
+                        title: qsTr("Scroll to the played track")
+                        onTriggered: {
+                            if(playStatus.playedIndex >= 0) {
+                                playList.scrollToItem([playStatus.playedIndex], ScrollAnimation.Default);
+                            }
+                        }
+                        imageSource: "asset:///images/scroll_to_current.png"
+                    }
                     DeleteActionItem {
                         title: qsTr("Remove track")
                         onTriggered: {
@@ -177,12 +186,12 @@ Page {
             onTriggered: {
                 backward();
             }
-            ActionBar.placement: ActionBarPlacement.OnBar
             imageSource: "asset:///images/ic_back.png"
+            ActionBar.placement: ActionBarPlacement.OnBar
         },
         ActionItem {
             id: actPlay
-            title: pressed? qsTr("Pause"): qsTr("Play")
+            title: pressed ? qsTr("Pause") : qsTr("Play")
             property bool pressed: false
             imageSource: pressed ? "asset:///images/ic_pause.png" : "asset:///images/ic_play_now.png"
             onTriggered: {
@@ -205,7 +214,7 @@ Page {
                 shuffle()
             }
             imageSource: "asset:///images/ic_shuffle_all.png"
-        
+
         },
         ActionItem {
             title: qsTr("Add files")
@@ -214,7 +223,7 @@ Page {
             }
             imageSource: "asset:///images/ic_add_tracks.png"
             ActionBar.placement: ActionBarPlacement.OnBar
-        
+
         },
         ActionItem {
             title: qsTr("Edit playlist properties")
@@ -242,10 +251,10 @@ Page {
                 clearPlayList()
             }
             //imageSource: "asset:///images/ca_delete.png"
-        
+
         }
     ]
-    
+
     attachedObjects: [
         MediaPlayer {
             id: audioPlayer
@@ -261,7 +270,7 @@ Page {
         },
         ComponentDefinition {
             id: filePickerSheetDefinition
-            
+
             Sheet {
                 id: filePickerSheet
                 property alias dirPicker: dirPicker
@@ -283,7 +292,7 @@ Page {
                 }
             }
             function done(ok) {
-                if(ok) {
+                if (ok) {
                     player.playlistName = playlistSettings.playlistName.trim();
                 }
                 playlistSettingsSheet.close();
@@ -294,57 +303,55 @@ Page {
             title: "Confirm Dialog"
         },
         /*
-        ConfirmDialog {
-            id: confirmDeletePlaylistDialog
-            message: qsTr("Realy delete current playlist tab?");
-            onOpened: {                        
-                //customDialogPage.actionBarVisibility = ChromeVisibility.Hidden
-            }
-            onClosed: {
-                if(result) {
-                    deletePlaylistTab(playlistId)
-                }                    
-            }
-        },
-        */
+         * ConfirmDialog {
+         * id: confirmDeletePlaylistDialog
+         * message: qsTr("Realy delete current playlist tab?");
+         * onOpened: {
+         * //customDialogPage.actionBarVisibility = ChromeVisibility.Hidden
+         * }
+         * onClosed: {
+         * if(result) {
+         * deletePlaylistTab(playlistId)
+         * }
+         * }
+         * },
+         */
         SystemToast {
             id: moveTrackToast
             body: qsTr("Tap on track to move after.")
         }
 
     ]
-    
-    function appendToPlayList(file_info)
-    {
+
+    function appendToPlayList(file_info) {
         playListModel.append(file_info);
     }
-    
+
     function pickFiles() {
         console.log("pickFiles()");
-        if(!filePickerSheet) {
+        if (! filePickerSheet) {
             filePickerSheet = filePickerSheetDefinition.createObject(player);
         }
         filePickerSheet.dirPicker.load();
         filePickerSheet.open();
     }
 
-	function pathsChosen(path_list)
-	{
+    function pathsChosen(path_list) {
         console.debug("pathsChosen: " + path_list.join("\n"));
-        if(path_list) {
+        if (path_list) {
             ApplicationUI.fileFound.connect(appendToPlayList);
-            ApplicationUI.fetchFilesRecursively(path_list, ["*.mp3", "*.aac", "*.ogg"]);
+            ApplicationUI.fetchFilesRecursively(path_list, [ "*.mp3", "*.aac", "*.ogg" ]);
             ApplicationUI.fileFound.disconnect(appendToPlayList);
-	    }
-	}
+        }
+    }
 
     function play(is_stop) {
         if (is_stop) {
             audioPlayer.pause();
         } else {
             console.debug("audioPlayer.sourceUrl: '" + audioPlayer.sourceUrl + "'");
-            console.debug("!audioPlayer.sourceUrl: " + !audioPlayer.sourceUrl);
-            if(audioPlayer.sourceUrl == "") playCurrentPlayListItem();
+            console.debug("!audioPlayer.sourceUrl: " + ! audioPlayer.sourceUrl);
+            if (audioPlayer.sourceUrl == "") playCurrentPlayListItem();
             else audioPlayer.play();
         }
     }
@@ -371,13 +378,11 @@ Page {
         }
     }
 
-    function playNextPlayListItem() 
-    {
+    function playNextPlayListItem() {
         forward(false);
     }
 
-    function forward(wrap_around) 
-    {
+    function forward(wrap_around) {
         if (playStatus.playedIndex < (playListModel.childCount([]) - 1)) {
             playStatus.playedIndex ++;
         } else if (wrap_around) {
