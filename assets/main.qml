@@ -98,7 +98,7 @@ TabbedPane {
             id: playerDef
             Player {
                 id: player1
-                playlistId: tab.tabId
+                //playlistId: tab.tabId
             }
         }
     ]

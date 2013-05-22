@@ -27,7 +27,7 @@ Container {
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
-            text: "ver. 1.0.1"
+            text: "ver. 1.0.2"
         }
         Container {
             layoutProperties: StackLayoutProperties {

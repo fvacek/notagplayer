@@ -24,32 +24,37 @@ if(typeof __GLOBALDEFS_JS === "undefined") {
 
 	function decorateSystemPath(path)
 	{
-		var ret = path;
-		//console.debug("decorateSystemPath: " + ret + " path: " + path);
-	    if(ret.startsWith(accountsPath)) {
-	    	var schema = ""; 
-	    	ret = ret.slice(accountsPath.length);
-	        if(ret.startsWith(boxSubPath)) {
-	        	ret = ret.slice(boxSubPath.length);
-	        	schema = "Box";    
-	        }
-	        else if(ret.startsWith(dropboxSubPath)) {
-	        	ret = ret.slice(dropboxSubPath.length);
-	        	schema = "DropBox";    
-	        }
-	        else if(ret.startsWith(sdcardSubPath)) {
-	        	ret = ret.slice(sdcardSubPath.length);
-	        	schema = "sdcard";    
-	        }
-	        else if(ret.startsWith(deviceSubPath)) {
-	        	ret = ret.slice(deviceSubPath.length);
-	        	schema = "device";    
-	        }
-	        else {
-	        	schema = "account";    
-	        }
-	        ret = schema + ":///" + ret;
-	    }
+		if(path) {
+			var ret = path;
+			//console.debug("decorateSystemPath: " + ret + " path: " + path);
+		    if(ret.startsWith(accountsPath)) {
+		    	var schema = ""; 
+		    	ret = ret.slice(accountsPath.length);
+		        if(ret.startsWith(boxSubPath)) {
+		        	ret = ret.slice(boxSubPath.length);
+		        	schema = "Box";    
+		        }
+		        else if(ret.startsWith(dropboxSubPath)) {
+		        	ret = ret.slice(dropboxSubPath.length);
+		        	schema = "DropBox";    
+		        }
+		        else if(ret.startsWith(sdcardSubPath)) {
+		        	ret = ret.slice(sdcardSubPath.length);
+		        	schema = "sdcard";    
+		        }
+		        else if(ret.startsWith(deviceSubPath)) {
+		        	ret = ret.slice(deviceSubPath.length);
+		        	schema = "device";    
+		        }
+		        else {
+		        	schema = "account";    
+		        }
+		        ret = schema + ":///" + ret;
+		    }
+		}
+		else {
+			var ret = "";
+		}
 	    /*
 	    if(typeof ret != "string") {
 	    	console.debug("decorateSystemPath error, path: " + path);

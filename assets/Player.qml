@@ -141,6 +141,34 @@ Page {
                 ActionSet {
                     title: qsTr("Playlist actions")
                     ActionItem {
+                        title: qsTr("Edit track")
+                        property variant sheet: null
+                        property int activeIndex: -1
+                        onTriggered: {
+                            sheet = editTrackSheetDefinition.createObject();
+                            sheet.trackSettings.done.connect(editTrackDone);
+                            activeIndex = playList.contextMenuIndex();
+                            var file_info = playListModel.value(activeIndex);
+                            if(file_info.name) sheet.trackSettings.trackName = file_info.name;
+                            if(file_info.path) sheet.trackSettings.trackPath = file_info.path;
+                            sheet.open();
+                        }
+                        imageSource: "asset:///images/ic_edit_label.png"
+                        function editTrackDone(ok) {
+                            if (sheet) {
+                                if (ok && activeIndex >= 0) {
+                                    //console.debug("add URI: " + sheet.trackSettings.trackName);
+                                    var file_info = {name: sheet.trackSettings.trackName, path: sheet.trackSettings.trackPath};
+                                    playListModel.replace(activeIndex, file_info);
+                                }
+                                sheet.close();
+                                sheet.destroy();
+                                sheet = null;
+                            }
+                            activeIndex = -1;
+                        }
+                    }
+                    ActionItem {
                         title: qsTr("Move track")
                         onTriggered: {
                             if(playList.contextMenuIndex() >= 0) {
@@ -223,15 +251,51 @@ Page {
             }
             imageSource: "asset:///images/ic_add_tracks.png"
             ActionBar.placement: ActionBarPlacement.OnBar
-
+        
+        },
+        ActionItem {
+            title: qsTr("Add URI")
+            property variant sheet: null
+            onTriggered: {
+                sheet = editTrackSheetDefinition.createObject();
+                sheet.trackSettings.done.connect(addURIDone);
+                sheet.open();
+            }
+            imageSource: "asset:///images/add_uri.png"
+            function addURIDone(ok)
+            {
+            	if(sheet) {
+            	    if(ok) {
+            	        console.debug("add URI: " + sheet.trackSettings.trackName);
+                        appendToPlayList({name: sheet.trackSettings.trackName, path: sheet.trackSettings.trackPath});
+            	    }
+                    sheet.close();
+            	    sheet.destroy();
+            	    sheet = null;
+            	}
+            }
         },
         ActionItem {
             title: qsTr("Edit playlist properties")
+            property variant sheet: null
             onTriggered: {
-                editPlaylistName()
+                sheet = playlistSettingsSheetDefinition.createObject();
+                sheet.playlistSettings.playlistName = player.tab.playlistName;
+                sheet.playlistSettings.done.connect(done);
+                sheet.open();
             }
             imageSource: "asset:///images/ic_edit_list.png"
-        },
+            function done(ok) {
+                if(sheet) {
+                    if (ok && player.tab) {
+                        player.tab.playlistName = sheet.playlistSettings.playlistName.trim();
+                    }
+                    sheet.close();
+                    sheet.destroy();
+                    sheet = null;
+                }
+            }
+       },
         ActionItem {
             id: actDeletePlaylistTab
             title: qsTr("Delete playlist tab")
@@ -272,7 +336,7 @@ Page {
             id: filePickerSheetDefinition
 
             Sheet {
-                id: filePickerSheet
+                //id: filePickerSheet
                 property alias dirPicker: dirPicker
                 DirPicker {
                     id: dirPicker
@@ -283,19 +347,24 @@ Page {
                 }
             }
         },
-        Sheet {
-            id: playlistSettingsSheet
-            PlaylistSettings {
-                id: playlistSettings
-                onCreationCompleted: {
-                    done.connect(playlistSettingsSheet.done)
+        ComponentDefinition {
+            id: editTrackSheetDefinition
+            Sheet {
+                //id: editTrackSheet
+                property alias trackSettings: trackSettings
+                TrackSettings  {
+                    id: trackSettings
                 }
             }
-            function done(ok) {
-                if (ok && tab) {
-                    tab.playlistName = playlistSettings.playlistName.trim();
+        },
+        ComponentDefinition {
+            id: playlistSettingsSheetDefinition
+            Sheet {
+                //id: playlistSettingsSheet
+                property alias playlistSettings: playlistSettings
+                PlaylistSettings {
+                    id: playlistSettings
                 }
-                playlistSettingsSheet.close();
             }
         },
         SystemDialog {
@@ -350,6 +419,7 @@ Page {
         console.debug("playCurrentPlayListItem() " + ix + " entry: " + entry);
         if (entry) {
             var file_path = entry.path;
+            //file_path = "http://icecast2.play.cz/radio1-64.mp3";
             var err = audioPlayer.setSourceUrl(file_path);
             if (err != MediaError.None) {
                 audioPlayer.errorMessage = "setSourceUrl ERROR: " + err;
@@ -429,14 +499,6 @@ Page {
         playListModel.append(dd);
 	}
 	
-    function editPlaylistName()
-    {
-        if(tab) {
-            playlistSettings.playlistName = tab.playlistName
-            playlistSettingsSheet.open()
-        }
-    }
-    
 	function init()
 	{
 		if(!isInitialized) {
