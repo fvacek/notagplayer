@@ -1,5 +1,5 @@
 import bb.cascades 1.0
-import bb.multimedia 1.0
+//import bb.multimedia 1.0
 import bb.system 1.0
 import "picker"
 
@@ -167,7 +167,7 @@ TabbedPane {
     function loadSettings()
     {
         var settings = ApplicationUI.settings();
-        var tab_ids = [0]; // default tab is always present
+        var tab_ids = []; 
         settings.beginGroup("playlists");
         var groups = settings.childGroups();
         settings.endGroup();
@@ -175,19 +175,23 @@ TabbedPane {
             var tab_id = parseInt(groups[i], 10);
             if(tab_id > 0) tab_ids.push(tab_id);
         }
-        var default_tab = null;
+        if(tab_ids.length == 0) {
+            // at least on tab is always present
+            tab_ids.push(0);
+        }
         for(var i=0; i<tab_ids.length; i++) {
             var tab_id = tab_ids[i];
-            var playlist_name = settings.value("playlists/" + tab_id + "/player/playlistName");
+            //console.debug("appending tab: " + i + " id: " + tab_id);
             var tab = appendPlayerTab(tab_id);
-            tab.playlistName = playlist_name;
-            if(tab_id == 0) default_tab = tab;
+            var playlist_name = settings.value("playlists/" + tab_id + "/player/playlistName");
+            if(playlist_name) tab.playlistName = playlist_name;
         }
+        var default_tab = tabbedPane.at(1);
         var active_tab = null;
         var active_tab_index = settings.value("player/tabs/activeIndex", -1);
         console.debug("LOADED active tab index: " + active_tab_index);
         if(active_tab_index >= 1) {
-            console.debug("afinding ctive tab for index: " + active_tab_index);
+            console.debug("finding ctive tab for index: " + active_tab_index);
             active_tab = tabbedPane.at(active_tab_index);
             console.debug("found: " + active_tab);
         }

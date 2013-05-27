@@ -4,19 +4,25 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 device {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/cover.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/cover.h) \
+                 $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
     }
 
     CONFIG(release, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/cover.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/cover.h) \
+                 $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
     }
 }
@@ -24,10 +30,13 @@ device {
 simulator {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
+                 $$quote($$BASEDIR/src/cover.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/cover.h) \
+                 $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
     }
 }

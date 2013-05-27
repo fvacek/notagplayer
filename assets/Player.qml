@@ -28,32 +28,8 @@ Page {
             text: player.parent
         }
         */
-        Container {
-            attachedObjects: [
-                ImagePaintDefinition {
-                    id: ucBackground
-                    imageSource: "asset:///images/uc.amd"
-                    repeatPattern: RepeatPattern.XY
-                }
-            ]
-            background: ucBackground.imagePaint
-            horizontalAlignment: HorizontalAlignment.Fill
-            topPadding: 30.0
-            bottomPadding: 20.0
-            Container {
-                background: Color.Black
-                horizontalAlignment: HorizontalAlignment.Fill
-                topPadding: 5.0
-                leftPadding: 10.0
-                Label {
-                    id: nowPlayingLabel
-                    property string trackName
-                    horizontalAlignment: HorizontalAlignment.Fill
-                    text: (trackName)? trackName: qsTr("No track played ...")
-					textStyle.color: (trackName)? Color.White: Color.DarkGray
-                    multiline: true
-                }
-            }
+        TrackLabel {
+            id: trackLabel
         }
         Label {
             id: errorLabel
@@ -102,6 +78,7 @@ Page {
             id: playList
             property int movedTrackIndex: -1
             property alias playedIndex: playStatus.playedIndex
+            property alias audioPlayer: audioPlayer
             dataModel: ArrayDataModel {
                 id: playListModel
                 function allData()
@@ -118,7 +95,14 @@ Page {
                     StandardListItem {
                         title: (ListItem.indexPath[0] + 1) + " - " + ListItemData.name
                         description: GlobalDefs.decorateSystemPath(ListItemData.path)
-                        imageSource: (ListItem.indexPath[0] == ListItem.view.playedIndex) ? "asset:///images/play_uc.png" : ""
+                        imageSource: {
+                            var ret = "";
+                            if(ListItem.indexPath[0] == ListItem.view.playedIndex) {
+                                if(ListItem.view.audioPlayer.mediaState == MediaState.Started) ret = "asset:///images/play_uc.png";
+                                else ret = "asset:///images/pause.png";
+                            }
+                            ret;
+                        }
                     }
                 }
             ]
@@ -129,8 +113,14 @@ Page {
                     movedTrackIndex = -1;
                 }
                 else {
-                    playStatus.playedIndex = ix;
-                    playCurrentPlayListItem();
+                    if(ix == playStatus.playedIndex) {
+                        if(audioPlayer.mediaState == MediaState.Started) pause();
+                        else play();
+                    }
+                    else {
+                        playStatus.playedIndex = ix;
+                        playCurrentPlayListItem();
+                    }
                 }
             }
             function contextMenuIndex()
@@ -323,9 +313,14 @@ Page {
         MediaPlayer {
             id: audioPlayer
             property string errorMessage
+            signal playbackStatusChanged(bool is_started);
             //sourceUrl: picker.selectedFile
             onPlaybackCompleted: {
                 playNextPlayListItem();
+            }
+            onMediaStateChanged: {
+                if(mediaState == MediaState.Started) playbackStatusChanged(true);
+                else playbackStatusChanged(false);
             }
         },
         QtObject {
@@ -395,11 +390,15 @@ Page {
         console.debug("pathsChosen: " + path_list.join("\n"));
         if (path_list) {
             ApplicationUI.fileFound.connect(appendToPlayList);
-            ApplicationUI.fetchFilesRecursively(path_list, [ "*.mp3", "*.aac", "*.ogg" ]);
+            ApplicationUI.fetchFilesRecursively(path_list, [ "*.mp3", "*.m4a", "*.aac", "*.ogg", "*.flac" ]);
             ApplicationUI.fileFound.disconnect(appendToPlayList);
         }
     }
 
+	function pause() {
+		play(true);    
+	}
+	
     function play(is_stop) {
         if (is_stop) {
             audioPlayer.pause();
@@ -410,9 +409,10 @@ Page {
             else audioPlayer.play();
         }
     }
+    
     function playCurrentPlayListItem() {
         actPlay.pressed = true;
-        nowPlayingLabel.trackName = "";
+        trackLabel.trackName = "";
         audioPlayer.errorMessage = "";
         var ix = playStatus.playedIndex;
         var entry = playListModel.value(ix);
@@ -428,9 +428,11 @@ Page {
                 if (err != MediaError.None) {
                     audioPlayer.errorMessage = "Media ERROR: " + err;
                 } else {
-                    nowPlayingLabel.trackName = entry.name;
+                    trackLabel.trackName = entry.name;
                 }
             }
+            // make sure the current track is visible
+            // don't do it, since user can edit playlist concurently in the different place
         }
     }
 
@@ -462,6 +464,7 @@ Page {
     function clearPlayList() 
     {
         playListModel.clear();
+        playStatus.playedIndex = 0;
     }
     
     function moveTrack(moved_track_ix, after_track_ix)
@@ -537,6 +540,6 @@ Page {
 	}
 	
 	onCreationCompleted: {
-        //init();
+        audioPlayer.playbackStatusChanged.connect(trackLabel.animatePlayback);
     }
 }

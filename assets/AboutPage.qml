@@ -11,14 +11,15 @@ Page {
         topPadding: leftPadding
         bottomPadding: leftPadding
 
-Container {
-    layoutProperties: StackLayoutProperties {
-        spaceQuota: 1.0
-    }
-}
+		Container {
+		    layoutProperties: StackLayoutProperties {
+		        spaceQuota: 1.0
+		    }
+		}
         ImageView {
         	horizontalAlignment: HorizontalAlignment.Center
             imageSource: "asset:///images/icon.png"
+            scalingMethod: ScalingMethod.AspectFit
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
@@ -27,7 +28,7 @@ Container {
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
-            text: "ver. 1.0.2"
+            text: "ver. 1.0.3"
         }
         Container {
             layoutProperties: StackLayoutProperties {

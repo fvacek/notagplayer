@@ -6,7 +6,7 @@
 
 #include <Qt/qdeclarativedebug.h>
 
-//#include "../../../qtmsghandler.h"
+//#include "qtmsghandler.h"
 
 using namespace bb::cascades;
 

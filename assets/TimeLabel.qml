@@ -1,8 +1,7 @@
 import bb.cascades 1.0
-
 Label {
-    property int playedMs
-    property int totalMs
+    property int playedMs: 0
+    property int totalMs: 0
     text: msToStr(playedMs) + "/" + msToStr(totalMs)
     //minWidth: 100.0
     function mod(a, b) {return a % b;}

@@ -37,6 +37,8 @@ public:
     Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path);
     Q_INVOKABLE bool dirExists(const QStringList &dir_path);
 
+	Q_INVOKABLE QVariantMap displayInfo();
+
 	Q_INVOKABLE QVariant settings();
 private:
     QVariantList getDirContent(const QString &parent_dir_path, const QStringList &file_filters);
