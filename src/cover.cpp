@@ -48,7 +48,7 @@ void Cover::backgrounded()
 void Cover::update() {
 
     if (m_isActive) {
-        QTimer::singleShot(2000, this, SLOT(update()));
+        QTimer::singleShot(3000, this, SLOT(update()));
 
         emit updateQml();
     }

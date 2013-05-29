@@ -30,14 +30,12 @@ Page {
         */
         TrackLabel {
             id: trackLabel
+            animatePlayback: audioPlayer.isPlaying
         }
-        Label {
+        MediaErrorLabel {
             id: errorLabel
             horizontalAlignment: HorizontalAlignment.Center
-            text: audioPlayer.errorMessage
-            multiline: true
-            visible: (audioPlayer.errorMessage != "")
-            textStyle.color: Color.Red
+            mediaErrorType: audioPlayer.mediaError
         }
         Container {
             layout: StackLayout {
@@ -98,7 +96,7 @@ Page {
                         imageSource: {
                             var ret = "";
                             if(ListItem.indexPath[0] == ListItem.view.playedIndex) {
-                                if(ListItem.view.audioPlayer.mediaState == MediaState.Started) ret = "asset:///images/play_uc.png";
+                                if(ListItem.view.audioPlayer.isPlaying) ret = "asset:///images/play_uc.png";
                                 else ret = "asset:///images/pause.png";
                             }
                             ret;
@@ -197,7 +195,7 @@ Page {
             ]
         }
     }
-    
+
     actions: [
         ActionItem {
             title: qsTr("Backward")
@@ -209,12 +207,12 @@ Page {
         },
         ActionItem {
             id: actPlay
-            title: pressed ? qsTr("Pause") : qsTr("Play")
-            property bool pressed: false
-            imageSource: pressed ? "asset:///images/ic_pause.png" : "asset:///images/ic_play_now.png"
+            title: audioPlayer.isPlaying? qsTr("Pause") : qsTr("Play")
+            //property bool pressed: false
+            imageSource: audioPlayer.isPlaying ? "asset:///images/ic_pause.png" : "asset:///images/ic_play_now.png"
             onTriggered: {
-                pressed = ! pressed;
-                play(! pressed);
+                //pressed = ! pressed;
+                play(audioPlayer.isPlaying);
             }
             ActionBar.placement: ActionBarPlacement.OnBar
         },
@@ -241,7 +239,7 @@ Page {
             }
             imageSource: "asset:///images/ic_add_tracks.png"
             ActionBar.placement: ActionBarPlacement.OnBar
-        
+
         },
         ActionItem {
             title: qsTr("Add URI")
@@ -313,14 +311,14 @@ Page {
         MediaPlayer {
             id: audioPlayer
             property string errorMessage
-            signal playbackStatusChanged(bool is_started);
-            //sourceUrl: picker.selectedFile
+            property bool isPlaying: false
+            //signal playbackStatusChanged(bool is_started);
             onPlaybackCompleted: {
                 playNextPlayListItem();
             }
             onMediaStateChanged: {
-                if(mediaState == MediaState.Started) playbackStatusChanged(true);
-                else playbackStatusChanged(false);
+                if(mediaState == MediaState.Started) isPlaying = true; //playbackStatusChanged(true);
+                else  isPlaying = false;; //playbackStatusChanged(false);
             }
         },
         QtObject {
@@ -396,9 +394,9 @@ Page {
     }
 
 	function pause() {
-		play(true);    
+		play(true);
 	}
-	
+
     function play(is_stop) {
         if (is_stop) {
             audioPlayer.pause();
@@ -409,9 +407,9 @@ Page {
             else audioPlayer.play();
         }
     }
-    
+
     function playCurrentPlayListItem() {
-        actPlay.pressed = true;
+        //actPlay.pressed = true;
         trackLabel.trackName = "";
         audioPlayer.errorMessage = "";
         var ix = playStatus.playedIndex;
@@ -420,7 +418,9 @@ Page {
         if (entry) {
             var file_path = entry.path;
             //file_path = "http://icecast2.play.cz/radio1-64.mp3";
-            var err = audioPlayer.setSourceUrl(file_path);
+            audioPlayer.setSourceUrl(file_path);
+            trackLabel.trackName = entry.name;
+            /*
             if (err != MediaError.None) {
                 audioPlayer.errorMessage = "setSourceUrl ERROR: " + err;
             } else {
@@ -431,6 +431,7 @@ Page {
                     trackLabel.trackName = entry.name;
                 }
             }
+            */
             // make sure the current track is visible
             // don't do it, since user can edit playlist concurently in the different place
         }
@@ -449,7 +450,7 @@ Page {
         playCurrentPlayListItem();
     }
 
-    function backward() 
+    function backward()
     {
         if (audioPlayer.position > 100) {
             audioPlayer.seek(1, 0);
@@ -460,13 +461,13 @@ Page {
             }
         }
     }
-    
-    function clearPlayList() 
+
+    function clearPlayList()
     {
         playListModel.clear();
         playStatus.playedIndex = 0;
     }
-    
+
     function moveTrack(moved_track_ix, after_track_ix)
     {
         if(moved_track_ix == after_track_ix) return;
@@ -475,20 +476,20 @@ Page {
         var d = playListModel.data([moved_track_ix]);
         playListModel.removeAt(moved_track_ix);
         playListModel.insert(insert_ix, d);
-    
+
     }
 
 	function shiftTrackAfterCurrent(track_to_shift)
 	{
         moveTrack(track_to_shift, playStatus.playedIndex);
 	}
-	
+
 	function removeTrack(track_ix)
 	{
 	    if(playStatus.playedIndex == track_ix) playStatus.playedIndex = -1;
 	    playListModel.removeAt(track_ix);
 	}
-	
+
 	function shuffle()
 	{
         var dd = playListModel.allData();
@@ -501,15 +502,15 @@ Page {
         playListModel.clear();
         playListModel.append(dd);
 	}
-	
+
 	function init()
 	{
 		if(!isInitialized) {
 		    isInitialized = true;
 		    loadSettings();
-		}    
+		}
 	}
-	
+
     function loadSettings()
     {
         // load default playlist
@@ -522,7 +523,7 @@ Page {
             playStatus.playedIndex = settings.value(settinsPath + "/playStatus/playedIndex", 0);
         }
     }
-    
+
 	function saveSettings()
 	{
         if(playlistId >= 0) {
@@ -533,13 +534,30 @@ Page {
             settings.setValue(settinsPath + "/playStatus/playedIndex", playStatus.playedIndex);
         }
 	}
-	
+
 	function playerTabCountChanged(new_tab_count)
 	{
-		actDeletePlaylistTab.enabled = new_tab_count > 2;	    
+		actDeletePlaylistTab.enabled = new_tab_count > 2;
 	}
-	
+
+	function getPlaybackInfo()
+	{
+	    var ret = {
+            playedMs: 0,
+            totalMs: 0,
+            isPlaying: false
+	    }
+	    if(playStatus.playedIndex >= 0) {
+            ret.trackName = playListModel.value(playStatus.playedIndex).name;
+            ret.nextTrackName = playListModel.value(playStatus.playedIndex + 1).name;
+	    }
+	    ret.playedMs = audioPlayer.position;
+	    ret.totalMs = audioPlayer.duration;
+	    ret.isPlaying = audioPlayer.isPlaying;
+	    return ret;
+	}
+
 	onCreationCompleted: {
-        audioPlayer.playbackStatusChanged.connect(trackLabel.animatePlayback);
+        //audioPlayer.playbackStatusChanged.connect(trackLabel.animatePlayback);
     }
 }

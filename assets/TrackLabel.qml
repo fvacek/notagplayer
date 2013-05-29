@@ -2,6 +2,7 @@ import bb.cascades 1.0
 Container {
     id: root
     property string trackName
+    property bool animatePlayback: false
     layout: DockLayout {
 
     }
@@ -56,6 +57,15 @@ Container {
             }
         }
     }
+    onAnimatePlaybackChanged: {
+        if(animatePlayback) {
+            translateAnimation.play();
+        }
+        else {
+            translateAnimation.stop();
+        }
+    }
+    /*
     function animatePlayback(is_playing)
     {
         if(is_playing) {
@@ -65,4 +75,5 @@ Container {
             translateAnimation.stop();
         }
     }
+    */
 }

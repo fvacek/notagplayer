@@ -38,6 +38,7 @@ TabbedPane {
 	    title: "Add playlist"
 	    imageSource: "asset:///images/ic_add_tracks.png"
 	}
+	
     onActiveTabChanged: {
         console.debug("active tab changed to tabId:" + activeTab.tabId + " tab: " + activeTab);
         if(activeTab == tabNewPlayList) {
@@ -54,6 +55,7 @@ TabbedPane {
             activeTab.initPlayer();
         }
     }
+    
     attachedObjects: [
         ComponentDefinition {
             id: playListTabDef
@@ -224,7 +226,26 @@ TabbedPane {
         playerTabCountChanged(tabbedPane.count());
     }
 
+	function getPlaybackInfo()
+	{
+        console.debug("getPlaybackInfo()");
+	    var ret = {
+	        playedMs: 0,
+	        totalMs: 0,
+	        isPlaying: false
+	    }
+	    var tab = tabbedPane.activeTab;
+	    if(tab) {
+	        var player = tab.player;
+	        if(player) ret = player.getPlaybackInfo();
+	    }
+	    if(!ret.trackName) ret.trackName = "no track";
+	    if(!ret.nextTrackName) ret.nextTrackName = "no track";
+	    return ret;
+	}
+
     onCreationCompleted: {
+        //console.debug("************************ onCreationCompleted()");
         tabbedPane.tabRemoved.connect(onTabCountChanged);
         tabbedPane.tabAdded.connect(onTabCountChanged);
         Application.aboutToQuit.connect(saveSettings);
