@@ -17,7 +17,8 @@ TabbedPane {
         }
         settingsAction: SettingsActionItem {
             onTriggered: {
-                sheetSettings.open()
+                sheetSettings.settingsPage.loadSettings();
+                sheetSettings.open();
             }
         }
         attachedObjects: [
@@ -26,6 +27,16 @@ TabbedPane {
                 AboutPage {
                     onAboutPageClose: {
                         sheetAbout.close();
+                    }
+                }
+            },
+            Sheet {
+                id: sheetSettings
+                property alias settingsPage: settingsPage
+                SettingsPage {
+                    id: settingsPage
+                    onDone: {
+                        sheetSettings.close();
                     }
                 }
             }

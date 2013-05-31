@@ -58,22 +58,17 @@ Container {
         }
     }
     onAnimatePlaybackChanged: {
-        if(animatePlayback) {
-            translateAnimation.play();
-        }
+        if (animatePlayback) {
+            var settings = ApplicationUI.settings();
+            //console.debug("settings/trackBar/playbackAnimation:", settings.value("settings/trackBar/playbackAnimation"));
+            //console.debug("settings/trackBar/playbackAnimation:", settings.value("settings/trackBar/playbackAnimation", true));
+            if(settings.value("settings/trackBar/playbackAnimation", true) === true) {
+                //console.debug("translateAnimation.play()");
+                translateAnimation.play();
+            }
+        } 
         else {
             translateAnimation.stop();
         }
     }
-    /*
-    function animatePlayback(is_playing)
-    {
-        if(is_playing) {
-            translateAnimation.play();
-        }
-        else {
-            translateAnimation.stop();
-        }
-    }
-    */
 }
