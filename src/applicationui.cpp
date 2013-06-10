@@ -11,6 +11,7 @@
 #include <bb/multimedia/MediaState>
 
 #include <bb/device/DisplayInfo>
+#include <bbndk.h>
 
 #include <QFileInfo>
 #include <QDir>
@@ -25,6 +26,12 @@
 #include <dirent.h>
 #include <sys/stat.h>
 //#endif
+
+#if BBNDK_VERSION_AT_LEAST(10,2,0)
+      // code to compile on BBNDK 10.1.0 or higher
+#else
+	#define BB10_API_LEVEL_10_1
+#endif
 
 #ifdef BB10_API_LEVEL_10_1
 /// 10.1 developpers foregot to declare mediastate metatype, fixed in 10.2
