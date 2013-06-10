@@ -60,9 +60,10 @@ Container {
     onAnimatePlaybackChanged: {
         if (animatePlayback) {
             var settings = ApplicationUI.settings();
-            //console.debug("settings/trackBar/playbackAnimation:", settings.value("settings/trackBar/playbackAnimation"));
-            //console.debug("settings/trackBar/playbackAnimation:", settings.value("settings/trackBar/playbackAnimation", true));
-            if(settings.value("settings/trackBar/playbackAnimation", true) === true) {
+            //console.debug("+++ settings/trackBar/playbackAnimation:", settings.value("settings/trackBar/playbackAnimation"));
+            var enable_animations = settings.boolValue("settings/trackBar/playbackAnimation", true);
+            //console.debug("enable_animations:", enable_animations);
+            if(enable_animations) {
                 //console.debug("translateAnimation.play()");
                 translateAnimation.play();
             }

@@ -26,6 +26,14 @@ QVariant Settings::value(const QString &key, const QVariant &default_value) cons
 	return ret;
 }
 
+bool Settings::boolValue(const QString &key, bool default_val) const
+{
+	bool ret = default_val;
+	QVariant v = value(key);
+	if(v.isValid()) ret = v.toBool();
+	return ret;
+}
+
 void Settings::setValue(const QString &key, const QVariant &value)
 {
 	Super::setValue(key, value);

@@ -1,4 +1,5 @@
 #include "applicationui.hpp"
+#include "appglobals.h"
 #include "settings.h"
 #include "cover.h"
 
@@ -7,12 +8,15 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
 
+#include <bb/multimedia/MediaState>
+
 #include <bb/device/DisplayInfo>
 
 #include <QFileInfo>
 #include <QDir>
 #include <QDirIterator>
 #include <QStringBuilder>
+#include <QMetaType>
 #include <QDebug>
 
 //#if 0
@@ -22,11 +26,21 @@
 #include <sys/stat.h>
 //#endif
 
+#ifdef BB10_API_LEVEL_10_1
+/// 10.1 developpers foregot to declare mediastate metatype, fixed in 10.2
+Q_DECLARE_METATYPE(bb::multimedia::MediaState::Type);
+#endif
+
 using namespace bb::cascades;
 
 ApplicationUI::ApplicationUI(bb::cascades::Application *app) :
 QObject(app)
 {
+#ifdef BB10_API_LEVEL_10_1
+	/// 10.1 developpers foregot to declare mediastate metatype, fixed in 10.2
+	qRegisterMetaType<bb::multimedia::MediaState::Type>();
+#endif
+
 	m_settings = new Settings(this);
 	// prepare the localization
 	m_pTranslator = new QTranslator(this);

@@ -24,6 +24,8 @@ public slots:
 	void endGroup() {Super::endGroup();}
 	void setValue(const QString &key, const QVariant &value);
 	QVariant value(const QString &key, const QVariant &default_value = QVariant()) const;
+	// QSettings return saved bool values as strings "true"/"false"
+	bool boolValue(const QString &key, bool default_val = false) const;
 	QStringList childGroups() const {return Super::childGroups();}
 	void remove(const QString &key) {Super::remove(key);}
 };

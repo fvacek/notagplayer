@@ -13,7 +13,8 @@ Page {
     }
     */
     id: player
-    signal deletePlaylistTab(int playlist_id)
+    signal deletePlaylistTab(int playlist_id);
+    signal playbackStatusChanged(bool is_playing);
     //signal playlistNameChanged(string playlist_name)
     property int playlistId: -1
     property bool isInitialized: false
@@ -310,16 +311,32 @@ Page {
     attachedObjects: [
         MediaPlayer {
             id: audioPlayer
-            property string errorMessage
             property bool isPlaying: false
             //signal playbackStatusChanged(bool is_started);
             onPlaybackCompleted: {
                 playNextPlayListItem();
             }
+            /*
             onMediaStateChanged: {
                 if(mediaState == MediaState.Started) isPlaying = true; //playbackStatusChanged(true);
-                else  isPlaying = false;; //playbackStatusChanged(false);
+                else  isPlaying = false; //playbackStatusChanged(false);
             }
+            */
+           onMediaStateChanged: {
+               console.debug("+++ onMediaStateChanged: " + mediaState);
+               if (audioPlayer.mediaState == MediaState.Started) {
+                   //console.debug("STARTED");
+                   isPlaying = true;
+               } 
+               else {
+                   //console.debug("OTHER: ");
+                   isPlaying = false;
+               }
+           }
+           onIsPlayingChanged: {
+               player.playbackStatusChanged(isPlaying);
+           }
+
         },
         QtObject {
             id: playStatus
@@ -411,7 +428,6 @@ Page {
     function playCurrentPlayListItem() {
         //actPlay.pressed = true;
         trackLabel.trackName = "";
-        audioPlayer.errorMessage = "";
         var ix = playStatus.playedIndex;
         var entry = playListModel.value(ix);
         console.debug("playCurrentPlayListItem() " + ix + " entry: " + entry);
@@ -420,18 +436,7 @@ Page {
             //file_path = "http://icecast2.play.cz/radio1-64.mp3";
             audioPlayer.setSourceUrl(file_path);
             trackLabel.trackName = entry.name;
-            /*
-            if (err != MediaError.None) {
-                audioPlayer.errorMessage = "setSourceUrl ERROR: " + err;
-            } else {
-                err = audioPlayer.play();
-                if (err != MediaError.None) {
-                    audioPlayer.errorMessage = "Media ERROR: " + err;
-                } else {
-                    trackLabel.trackName = entry.name;
-                }
-            }
-            */
+            audioPlayer.play();
             // make sure the current track is visible
             // don't do it, since user can edit playlist concurently in the different place
         }
@@ -442,17 +447,25 @@ Page {
     }
 
     function forward(wrap_around) {
-        if (playStatus.playedIndex < (playListModel.childCount([]) - 1)) {
-            playStatus.playedIndex ++;
-        } else if (wrap_around) {
-            playStatus.playedIndex = 0;
+        var new_ix = playStatus.playedIndex;
+        new_ix++;
+        if (new_ix >= playListModel.childCount([])) {
+            if (wrap_around) {
+                new_ix = 0;
+            }
+            else {
+                new_ix = playStatus.playedIndex;
+            }  
         }
-        playCurrentPlayListItem();
+        if(new_ix != playStatus.playedIndex) {
+            playStatus.playedIndex = new_ix;
+            playCurrentPlayListItem();
+        }
     }
 
     function backward()
     {
-        if (audioPlayer.position > 100) {
+        if (audioPlayer.position > 500) {
             audioPlayer.seek(1, 0);
         } else {
             if (playStatus.playedIndex > 0) {
@@ -542,18 +555,26 @@ Page {
 
 	function getPlaybackInfo()
 	{
+        //console.debug("Player.getPlaybackInfo()");
 	    var ret = {
             playedMs: 0,
             totalMs: 0,
-            isPlaying: false
+            isPlaying: false,
+            trackName: "",
+            nextTrackName: ""
 	    }
-	    if(playStatus.playedIndex >= 0) {
-            ret.trackName = playListModel.value(playStatus.playedIndex).name;
-            ret.nextTrackName = playListModel.value(playStatus.playedIndex + 1).name;
-	    }
+        var ix = playStatus.playedIndex;
+        if(ix >= 0 && ix < playListModel.size()) {
+            ret.trackName = playListModel.value(ix).name;
+        }
+        ix++;
+        if(ix >= 0 && ix < playListModel.size()) {
+            ret.nextTrackName = playListModel.value(ix).name;
+        }
 	    ret.playedMs = audioPlayer.position;
 	    ret.totalMs = audioPlayer.duration;
 	    ret.isPlaying = audioPlayer.isPlaying;
+        //console.debug("ret: " + ret);
 	    return ret;
 	}
 

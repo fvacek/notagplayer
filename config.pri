@@ -8,7 +8,8 @@ device {
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+        HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
+                 $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
@@ -20,7 +21,8 @@ device {
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+        HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
+                 $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
@@ -34,7 +36,8 @@ simulator {
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/applicationui.hpp) \
+        HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
+                 $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)

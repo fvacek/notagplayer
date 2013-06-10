@@ -99,6 +99,7 @@ TabbedPane {
                         //player.playlistNameChanged.connect(tab.onPlayerPlaylistNameChanged);
                         player.deletePlaylistTab.connect(tabbedPane.deletePlayerTab);
                         tabbedPane.playerTabCountChanged.connect(player.playerTabCountChanged);
+                        player.playbackStatusChanged.connect(tabbedPane.playerPlaybackStatusChanged);
                     }
                 }
                 function onPlayerPlaylistNameChanged(tab_name)
@@ -253,6 +254,20 @@ TabbedPane {
 	    if(!ret.trackName) ret.trackName = "no track";
 	    if(!ret.nextTrackName) ret.nextTrackName = "no track";
 	    return ret;
+	}
+
+	function playerPlaybackStatusChanged(is_playing)
+	{
+	    // stop playback on other tabs
+        var active_tab = tabbedPane.activeTab;
+        if(active_tab) {
+            for(var i=1; i<tabbedPane.count(); i++) {
+                var tab = tabbedPane.at(i);
+                if(tab !== active_tab) {
+                    tab.player.pause();
+                }
+            }
+        }
 	}
 
     onCreationCompleted: {
