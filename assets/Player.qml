@@ -341,6 +341,7 @@ Page {
         QtObject {
             id: playStatus
             property int playedIndex: 0
+            //property int initialPlaybackPosition: 0
         },
         ComponentDefinition {
             id: filePickerSheetDefinition
@@ -426,22 +427,30 @@ Page {
     }
 
     function playCurrentPlayListItem() {
-        //actPlay.pressed = true;
-        trackLabel.trackName = "";
-        var ix = playStatus.playedIndex;
-        var entry = playListModel.value(ix);
-        console.debug("playCurrentPlayListItem() " + ix + " entry: " + entry);
-        if (entry) {
-            var file_path = entry.path;
-            //file_path = "http://icecast2.play.cz/radio1-64.mp3";
-            audioPlayer.setSourceUrl(file_path);
-            trackLabel.trackName = entry.name;
-            audioPlayer.play();
-            // make sure the current track is visible
-            // don't do it, since user can edit playlist concurently in the different place
-        }
+        setCurrentPlayListItemPlaybackStatus(0, true);
     }
 
+	function setCurrentPlayListItemPlaybackStatus(playback_position, play_on) {
+	    //actPlay.pressed = true;
+	    trackLabel.trackName = "";
+	    var ix = playStatus.playedIndex;
+	    var entry = playListModel.value(ix);
+	    console.debug("playCurrentPlayListItem() " + ix + " entry: " + entry);
+	    if (entry) {
+	        var file_path = entry.path;
+	        //file_path = "http://icecast2.play.cz/radio1-64.mp3";
+	        audioPlayer.setSourceUrl(file_path);
+	        trackLabel.trackName = entry.name;
+            audioPlayer.play();
+            if(playback_position > 0) audioPlayer.seek(1, playback_position);
+            if(!play_on) {
+                audioPlayer.pause();	        
+            }
+	        // make sure the current track is visible
+	        // don't do it, since user can edit playlist concurently in the different place
+	    }
+	}
+	
     function playNextPlayListItem() {
         forward(false);
     }
@@ -534,6 +543,10 @@ Page {
                 playListModel.append(recent_tracks);
             }
             playStatus.playedIndex = settings.value(settinsPath + "/playStatus/playedIndex", 0);
+            var pos = settings.value(settinsPath + "/playStatus/position", 0);
+            if(pos > 0) {
+                setCurrentPlayListItemPlaybackStatus(pos, false);
+            }
         }
     }
 
@@ -545,6 +558,7 @@ Page {
             var dd = playListModel.allData();
             settings.setValue(settinsPath + "/tracks", dd);
             settings.setValue(settinsPath + "/playStatus/playedIndex", playStatus.playedIndex);
+            settings.setValue(settinsPath + "/playStatus/position", audioPlayer.position);
         }
 	}
 

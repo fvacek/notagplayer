@@ -5,6 +5,7 @@ import "../lib/globaldefs.js" as GlobalDefs
 // device: /accounts/1000/shared/music/
 // sdcard: /accounts/1000/removable/sdcard/music/
 Page {
+    id: root
     property variant deviceMusicPath: GlobalDefs.splitPath(GlobalDefs.deviceMusicPath)
     property variant sdcardMusicPath: GlobalDefs.splitPath(GlobalDefs.sdcardMusicPath)
     property variant parentPath: []// sdcardMusicPath.split("/")
@@ -130,6 +131,32 @@ Page {
                 load();
             }
             imageSource: "asset:///images/storage_device.png"
+        },
+        ActionItem {
+            id: actFindFiles
+            title: qsTr("Find files")
+            ActionBar.placement: ActionBarPlacement.InOverflow
+            onTriggered: {
+                sheetFindFiles.findFilesPage.searchRootPath = "/" + parentPath.join("/");
+                sheetFindFiles.open();
+            }
+            imageSource: "asset:///images/ic_search.png"
+            attachedObjects: [
+                Sheet {
+                    id: sheetFindFiles
+                    property alias findFilesPage: findFilesPage
+                    FindFilesPage {
+                        id: findFilesPage
+                        onDone: {
+                            sheetFindFiles.close();
+                        }
+                        onCreationCompleted: {
+                            findFilesPage.pathsChosen.connect(root.pathsChosen);
+                            findFilesPage.dirChosen.connect(root.setParentPath);
+                        }
+                    }
+                }
+            ]
         }
     ]
     function chooseSelection()
@@ -194,6 +221,15 @@ Page {
         }
         console.debug("parentPath inited to: " + parentPath + " of type: " + (typeof parentPath));
         actSDCard.enabled = ApplicationUI.dirExists(sdcardMusicPath);
+    }
+    
+    function setParentPath(parent_path)
+    {
+        var pp = GlobalDefs.splitPath(parent_path);
+        if(ApplicationUI.dirExists(pp)) {
+            parentPath = pp;
+            load();
+        }
     }
     
     onCreationCompleted: {

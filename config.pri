@@ -5,12 +5,16 @@ device {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/cover.cpp) \
+                 $$quote($$BASEDIR/src/findfile.cpp) \
+                 $$quote($$BASEDIR/src/findfilethread.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
                  $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/cover.h) \
+                 $$quote($$BASEDIR/src/findfile.h) \
+                 $$quote($$BASEDIR/src/findfilethread.h) \
                  $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
     }
@@ -18,12 +22,16 @@ device {
     CONFIG(release, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/cover.cpp) \
+                 $$quote($$BASEDIR/src/findfile.cpp) \
+                 $$quote($$BASEDIR/src/findfilethread.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
                  $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/cover.h) \
+                 $$quote($$BASEDIR/src/findfile.h) \
+                 $$quote($$BASEDIR/src/findfilethread.h) \
                  $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
     }
@@ -33,12 +41,16 @@ simulator {
     CONFIG(debug, debug|release) {
         SOURCES +=  $$quote($$BASEDIR/src/applicationui.cpp) \
                  $$quote($$BASEDIR/src/cover.cpp) \
+                 $$quote($$BASEDIR/src/findfile.cpp) \
+                 $$quote($$BASEDIR/src/findfilethread.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
                  $$quote($$BASEDIR/src/applicationui.hpp) \
                  $$quote($$BASEDIR/src/cover.h) \
+                 $$quote($$BASEDIR/src/findfile.h) \
+                 $$quote($$BASEDIR/src/findfilethread.h) \
                  $$quote($$BASEDIR/src/qtmsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h)
     }

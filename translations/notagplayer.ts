@@ -12,138 +12,143 @@
 <context>
     <name>MediaErrorLabel</name>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="10"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="13"/>
         <source>No error has occurred.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="11"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="14"/>
         <source>An unexpected internal error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="12"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="15"/>
         <source>An invalid parameter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="13"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="16"/>
         <source>An illegal operation given the context state.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="14"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="17"/>
         <source>An unrecognized input or output type or an out-of-range speed setting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="15"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="18"/>
         <source>A data format not recognized by any plugin.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="16"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="19"/>
         <source>The file is DRM-protected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="17"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="20"/>
         <source>An illegal operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="18"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="21"/>
         <source>An I/O error at the source.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="19"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="22"/>
         <source>An I/O error at the sink.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="20"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="23"/>
         <source>Cannot open the source.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="21"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="24"/>
         <source>Found corrupt data on the DVD.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="22"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="25"/>
         <source>Cannot open the sink (possibly because no plugin recognizes it).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="23"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="26"/>
         <source>Insufficient memory to perform the requested operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="24"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="27"/>
         <source>A required resource such as an encoder or an output feed is presently unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="25"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="28"/>
         <source>The client has insufficient digital permissions to play the file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="26"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="29"/>
         <source>The DRM data store is corrupted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="27"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="30"/>
         <source>A DRM output protection mismatch on an unspecified output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="28"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="31"/>
         <source>A DRM output protection mismatch on an HDMI output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="29"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="32"/>
         <source>A DRM output protection mismatch on a DISPLAYPORT output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="30"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="33"/>
         <source>A DRM output protection mismatch on a DVI output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="31"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="34"/>
         <source>A DRM output protection mismatch on a video ANALOG output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="32"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="35"/>
         <source>A DRM output protection mismatch on an audio ANALOG output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="33"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="36"/>
         <source>A DRM output protection mismatch on a TOSLINK output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="34"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="37"/>
         <source>A DRM output protection mismatch on an S/PDIF output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="35"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="38"/>
         <source>A DRM output protection mismatch on a BLUETOOTH output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/MediaErrorLabel.qml" line="36"/>
+        <location filename="../assets/MediaErrorLabel.qml" line="39"/>
         <source>A DRM output protection mismatch on a WIRELESSHD output.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/MediaErrorLabel.qml" line="40"/>
+        <source>Invalid error number %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -235,7 +240,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="386"/>
+        <location filename="../assets/Player.qml" line="387"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>

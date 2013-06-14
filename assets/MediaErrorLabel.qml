@@ -1,12 +1,15 @@
 import bb.cascades 1.0
+import bb.multimedia 1.0
+
 Label {
     property int mediaErrorType: 0
-	text: mediaErrorToString(mediaErrorType)
+    text: mediaErrorType + ":" + mediaErrorToString(mediaErrorType)
     multiline: true
     visible: (mediaErrorType != 0)
     textStyle.color: Color.Red
     function mediaErrorToString(error_type)
 	{
+	    var ret;
 		if(error_type == MediaError.None)  { ret = qsTr("No error has occurred."); }
 		else if(error_type == MediaError.Internal)  { ret = qsTr("An unexpected internal error."); }
 		else if(error_type == MediaError.InvalidParameter)  { ret = qsTr("An invalid parameter."); }
@@ -34,6 +37,7 @@ Label {
 		else if(error_type == MediaError.DrmSpdifOutputRestricted)  { ret = qsTr("A DRM output protection mismatch on an S/PDIF output."); }
 		else if(error_type == MediaError.DrmBluetoothOutputRestricted)  { ret = qsTr("A DRM output protection mismatch on a BLUETOOTH output."); }
 		else if(error_type == MediaError.DrmWirelessHdOutputRestricted)  { ret = qsTr("A DRM output protection mismatch on a WIRELESSHD output."); }
+		if(!ret) ret = qsTr("Invalid error number %1").arg(error_type);
 		return ret;
 	}
 }

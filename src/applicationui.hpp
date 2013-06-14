@@ -18,23 +18,6 @@ namespace bb
 
 class QTranslator;
 
-struct FileInfo
-{
-	QString name;
-	QString path;
-	QString type;
-
-	//FileInfo() {}
-	//FileInfo(const QString &n, const QString &p, const QString &t) : name(n), path(p), type(t) {}
-
-	bool operator<(const FileInfo &other) const
-	{
-		if(type < other.type) return true;
-		if(type == other.type) return (name < other.name);
-		return false;
-	}
-};
-
 /*!
  * @brief Application object
  *
@@ -58,8 +41,6 @@ public:
 
 	Q_INVOKABLE QVariant settings();
 private:
-    QVariantList getDirContent(const QString &parent_dir_path, const QStringList &file_filters);
-    QList<FileInfo> getDirContentPosix(const QString &parent_dir_path, const QStringList &file_filters);
     QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
 signals:
 	void fileFound(const QVariant &file_info);

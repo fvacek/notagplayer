@@ -39,7 +39,7 @@ Container {
         }
     }
     Container {
-        topPadding: 30.0
+        topPadding: 20.0
         bottomPadding: 20.0
         horizontalAlignment: HorizontalAlignment.Fill
         Container {

@@ -24,9 +24,9 @@ if(typeof __GLOBALDEFS_JS === "undefined") {
 
 	function decorateSystemPath(path)
 	{
+		//console.debug("decorateSystemPath: " + ret + " path: " + path);
 		if(path) {
 			var ret = path;
-			//console.debug("decorateSystemPath: " + ret + " path: " + path);
 		    if(ret.startsWith(accountsPath)) {
 		    	var schema = ""; 
 		    	ret = ret.slice(accountsPath.length);
@@ -61,6 +61,7 @@ if(typeof __GLOBALDEFS_JS === "undefined") {
 	    	ret = "error";
 	    }
 	    */
+		//console.debug("decorateSystemPath: " + ret + " path: " + path);
 	    return ret;
 	}
 }
