@@ -40,6 +40,7 @@ public:
 	Q_INVOKABLE QVariantMap displayInfo();
 
 	Q_INVOKABLE QVariant settings();
+	Q_INVOKABLE QString buildDate() { return __DATE__; }
 private:
     QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
 signals:

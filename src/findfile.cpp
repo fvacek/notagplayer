@@ -220,16 +220,22 @@ QList<FindFile::FileInfo> FindFile::getDirContentPosix(const QString &parent_dir
 					}
 				}
 				if(fi.name == "." || fi.name == "..") continue;
-				bool is_match = file_filters_ends.isEmpty();
-				if(!is_match) {
-					foreach(QString ff, file_filters_ends) {
-						if(fi.name.endsWith(ff, Qt::CaseInsensitive)) {
-							is_match = true;
-							break;
+				bool is_match = true;
+				if(fi.type != "dir") {
+					is_match = file_filters_ends.isEmpty();
+					if(!is_match) {
+						foreach(QString ff, file_filters_ends) {
+							if(fi.name.endsWith(ff, Qt::CaseInsensitive)) {
+								is_match = true;
+								break;
+							}
 						}
 					}
 				}
-				if(is_match) ret << fi;
+				if(is_match) {
+					//qDebug() << "###############" << fi.type << fi.path;
+					ret << fi;
+				}
 			}
 		}
 		(void) closedir(dp);

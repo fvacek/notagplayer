@@ -4,7 +4,7 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../assets/AboutPage.qml" line="52"/>
+        <location filename="../assets/AboutPage.qml" line="56"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>

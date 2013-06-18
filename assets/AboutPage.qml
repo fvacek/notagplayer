@@ -28,7 +28,11 @@ Page {
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
-            text: "ver. 1.0.9"
+            text: "ver. 1.0.10"
+        }
+        Label {
+            horizontalAlignment: HorizontalAlignment.Center
+            text: ApplicationUI.buildDate();
         }
         Container {
             layoutProperties: StackLayoutProperties {

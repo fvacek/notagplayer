@@ -101,7 +101,7 @@ QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QSt
 	if(fi.isFile()) {
 		QString path = fi.canonicalFilePath();
 		QString name = fi.fileName();
-		qDebug() << name << "+++" << path;
+		qDebug() << "+++" << path;
 		QVariantMap m;
 		m["name"] = name;
 		m["path"] = path;
@@ -110,6 +110,7 @@ QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QSt
 	}
 	else if(fi.isDir()) {
 		QList<FindFile::FileInfo> files = FindFile::getDirContent(path, file_filters);
+		//qDebug() << "+++" << files.count() << path;
 		foreach(const FindFile::FileInfo &fi, files) {
 			//QVariantMap file_m = file_v.toMap();
 			ret << fetchFilesRecursively(fi.path, file_filters);
