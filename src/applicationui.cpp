@@ -11,6 +11,9 @@
 
 #include <bb/multimedia/MediaState>
 
+#include <bb/system/phone/Phone>
+#include <bb/system/phone/CallState>
+
 #include <bb/device/DisplayInfo>
 #include <bbndk.h>
 
@@ -48,6 +51,13 @@ QObject(app)
 	QObject::connect(m_pLocaleHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
 	// initial load
 	onSystemLanguageChanged();
+
+	{
+		bb::system::phone::Phone *phone = new bb::system::phone::Phone(this);
+		//phone.initiateCellularCall("777110277");
+		bool ok = connect(phone, SIGNAL(callUpdated(const bb::system::phone::Call &)), this, SLOT(onPhoneCallUpdated(const bb::system::phone::Call &)));
+		qDebug() << "<<<<<<<<<<<<<<<< connecting phone:" << ok;
+	}
 
 	Cover *cover = new Cover();
 	Application::instance()->setCover(cover);
@@ -160,3 +170,24 @@ QVariantMap ApplicationUI::displayInfo()
 	return ret;
 }
 
+void ApplicationUI::onPhoneCallUpdated(const bb::system::phone::Call &call)
+{
+	qDebug() << "*************** onPhoneCallUpdated valid call:" << call.isValid();
+	bool phone_active = false;
+	if(call.isValid()) {
+		bb::system::phone::CallState::Type call_state = call.callState();
+		qDebug() << "call state:" << call_state;
+		qDebug() << "call type:" << call.callType();
+		switch(call_state) {
+		case bb::system::phone::CallState::Incoming:
+		case bb::system::phone::CallState::Connecting:
+		case bb::system::phone::CallState::RemoteRinging:
+		case bb::system::phone::CallState::Connected:
+				phone_active = true;
+				break;
+			default:
+				break;
+		}
+	}
+	emit phoneActivityChanged(phone_active);
+}

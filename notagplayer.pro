@@ -7,5 +7,7 @@ DEFINES += _FILE_OFFSET_BITS=64
 DEFINES += _LARGEFILE64_SOURCE=1
 
 LIBS += -lbbdevice
+LIBS += -lbbsystem
+#LIBS += -lpng
 
 include(config.pri)

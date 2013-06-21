@@ -341,6 +341,7 @@ Page {
         QtObject {
             id: playStatus
             property int playedIndex: 0
+            property bool pausedForPhoneCall: false;
             //property int initialPlaybackPosition: 0
         },
         ComponentDefinition {
@@ -416,6 +417,8 @@ Page {
 	}
 
     function play(is_stop) {
+        /// every manual playback status change clears pausedForPhoneCall flag
+        playStatus.pausedForPhoneCall = false;
         if (is_stop) {
             audioPlayer.pause();
         } else {
@@ -592,7 +595,25 @@ Page {
 	    return ret;
 	}
 
+    function pauseForPhoneCall(do_pause)
+    {
+        //var info = player.getPlaybackInfo();
+        var is_playing = audioPlayer.isPlaying;
+        if(is_playing && do_pause) {
+            var settings = ApplicationUI.settings();
+            var pause_on_phone_call = settings.boolValue("settings/playBack/pausePlaybackOnPhoneCall", true);
+            //console.debug("+++ pause_on_phone_call:", pause_on_phone_call);
+            if(pause_on_phone_call) {
+                audioPlayer.pause();
+                playStatus.pausedForPhoneCall = true;
+            }
+        }
+        else if(playStatus.pausedForPhoneCall && !do_pause) {
+            playStatus.pausedForPhoneCall = false;
+            audioPlayer.play();
+        }
+    }
+    
 	onCreationCompleted: {
-        //audioPlayer.playbackStatusChanged.connect(trackLabel.animatePlayback);
     }
 }

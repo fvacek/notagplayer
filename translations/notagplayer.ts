@@ -240,7 +240,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="387"/>
+        <location filename="../assets/Player.qml" line="388"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -291,8 +291,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="42"/>
+        <location filename="../assets/SettingsPage.qml" line="41"/>
         <source>Track bar settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="64"/>
+        <source>Playback settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

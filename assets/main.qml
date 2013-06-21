@@ -270,11 +270,25 @@ TabbedPane {
         }
 	}
 
-    onCreationCompleted: {
+    function onPhoneActivityChanged(phone_active)
+    {
+        // stop playback on active tab
+        var active_tab = tabbedPane.activeTab;
+        if(active_tab) {
+            var player = active_tab.player;
+            if(player) {
+                player.pauseForPhoneCall(phone_active);
+            }
+        }
+    }
+
+	onCreationCompleted: {
         //console.debug("************************ onCreationCompleted()");
         tabbedPane.tabRemoved.connect(onTabCountChanged);
         tabbedPane.tabAdded.connect(onTabCountChanged);
         Application.aboutToQuit.connect(saveSettings);
+        ApplicationUI.phoneActivityChanged.connect(tabbedPane.onPhoneActivityChanged);
+
         loadSettings();
     }
 }

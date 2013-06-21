@@ -1,6 +1,8 @@
 #ifndef ApplicationUI_HPP_
 #define ApplicationUI_HPP_
 
+//#include <bb/system/phone/Call>
+
 #include <QObject>
 #include <QVariantList>
 
@@ -13,6 +15,13 @@ namespace bb
     {
         class Application;
         class LocaleHandler;
+    }
+    namespace system
+    {
+		namespace phone
+		{
+			class Call;
+		}
     }
 }
 
@@ -32,6 +41,7 @@ public:
     virtual ~ApplicationUI();
 private slots:
     void onSystemLanguageChanged();
+    void onPhoneCallUpdated(const bb::system::phone::Call &call);
 public:
     Q_INVOKABLE QVariantList fetchFilesRecursively(const QStringList &path_list, const QStringList &file_filters);
     Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path);
@@ -46,6 +56,7 @@ private:
 signals:
 	void fileFound(const QVariant &file_info);
 	//void aboutToQuit();
+	void phoneActivityChanged(bool phone_active);
 private:
     QTranslator* m_pTranslator;
     bb::cascades::LocaleHandler* m_pLocaleHandler;
