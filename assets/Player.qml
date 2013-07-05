@@ -24,14 +24,10 @@ Page {
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
-        /*
-        Label {
-            text: player.parent
-        }
-        */
         TrackLabel {
             id: trackLabel
             animatePlayback: audioPlayer.isPlaying
+            horizontalAlignment: HorizontalAlignment.Fill
         }
         MediaErrorLabel {
             id: errorLabel
@@ -92,16 +88,37 @@ Page {
             listItemComponents: [
                 ListItemComponent {
                     StandardListItem {
-                        title: (ListItem.indexPath[0] + 1) + " - " + ListItemData.name
-                        description: GlobalDefs.decorateSystemPath(ListItemData.path)
-                        imageSource: {
+                        title: itemTitle()
+                        description: itemDescription()
+                        //status: ListItemData.type
+                        imageSource: itemIcon()
+                        function itemTitle() {
+                            var ret = (ListItem.indexPath[0] + 1) + " - " + ListItemData.name;
+                            return ret;
+                        }
+                        function itemDescription() {
+                            var meta_data = ListItemData.metaData;
+                            if(meta_data) {
+                                var ret = "";
+                                if(meta_data.track) ret = ret + meta_data.track + ".";
+                                if(meta_data.title) ret = ret + " " + meta_data.title;
+                                if(meta_data.album) ret = ret + " " + meta_data.album;
+                                if(meta_data.artist) ret = ret + " " + meta_data.artist;
+                            }
+                            else {
+                                var ret = GlobalDefs.decorateSystemPath(ListItemData.path);
+                            }
+                            return ret;
+                        }
+                        function itemIcon() {
                             var ret = "";
                             if(ListItem.indexPath[0] == ListItem.view.playedIndex) {
                                 if(ListItem.view.audioPlayer.isPlaying) ret = "asset:///images/play_uc.png";
                                 else ret = "asset:///images/pause.png";
                             }
-                            ret;
+                            return ret;
                         }
+
                     }
                 }
             ]
@@ -256,7 +273,7 @@ Page {
             	if(sheet) {
             	    if(ok) {
             	        console.debug("add URI: " + sheet.trackSettings.trackName);
-                        appendToPlayList({name: sheet.trackSettings.trackName, path: sheet.trackSettings.trackPath});
+                        appendToPlayList([{name: sheet.trackSettings.trackName, path: sheet.trackSettings.trackPath}]);
             	    }
                     sheet.close();
             	    sheet.destroy();
@@ -336,7 +353,15 @@ Page {
            onIsPlayingChanged: {
                player.playbackStatusChanged(isPlaying);
            }
-
+           /*
+           onMetaDataChanged: {
+               console.debug("============onMetaDataChanged============");
+               //console.debug("artist", metaData[metaData]);
+               for(d in metaData) {
+                   console.debug("========================", d, "->", metaData[d]);
+               }
+           }
+           */
         },
         QtObject {
             id: playStatus
@@ -390,13 +415,23 @@ Page {
 
     ]
 
-    function appendToPlayList(file_info) {
-        playListModel.append(file_info);
+    function appendToPlayList(file_infos) 
+    {        
+        playListModel.append(file_infos);
+        
+        var settings = ApplicationUI.settings();
+        var resolve_meta_data = settings.boolValue("settings/trackMetaData/resolvingEnabled", true);
+        if(resolve_meta_data) {
+            var meta_data_resolver = ApplicationUI.trackMetaDataResolver();
+            meta_data_resolver.abort();
+            //console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@e nqueue()");
+            meta_data_resolver.enqueue(file_infos);
+        }
     }
 
     function pickFiles() {
         console.log("pickFiles()");
-        if (! filePickerSheet) {
+        if (!filePickerSheet) {
             filePickerSheet = filePickerSheetDefinition.createObject(player);
         }
         filePickerSheet.dirPicker.load();
@@ -406,9 +441,10 @@ Page {
     function pathsChosen(path_list) {
         console.debug("pathsChosen: " + path_list.join("\n"));
         if (path_list) {
-            ApplicationUI.fileFound.connect(appendToPlayList);
-            ApplicationUI.fetchFilesRecursively(path_list, [ "*.mp3", "*.m4a", "*.aac", "*.ogg", "*.flac" ]);
-            ApplicationUI.fileFound.disconnect(appendToPlayList);
+            //ApplicationUI.fileFound.connect(appendToPlayList);
+            var file_infos = ApplicationUI.fetchFilesRecursively(path_list, [ "*.mp3", "*.m4a", "*.aac", "*.ogg", "*.flac" ]);
+            //ApplicationUI.fileFound.disconnect(appendToPlayList);
+            appendToPlayList(file_infos);
         }
     }
 
@@ -490,7 +526,7 @@ Page {
     function clearPlayList()
     {
         playListModel.clear();
-        playStatus.playedIndex = 0;
+        playStatus.playedIndex = -1;
     }
 
     function moveTrack(moved_track_ix, after_track_ix)
@@ -543,7 +579,7 @@ Page {
             var settings = ApplicationUI.settings();
             var recent_tracks = settings.value(settinsPath + "/tracks");
             if(recent_tracks) {
-                playListModel.append(recent_tracks);
+                appendToPlayList(recent_tracks)
             }
             playStatus.playedIndex = settings.value(settinsPath + "/playStatus/playedIndex", 0);
             var pos = settings.value(settinsPath + "/playStatus/position", 0);
@@ -614,6 +650,21 @@ Page {
         }
     }
     
+    function onTrackMetaDataResolved(file_index, file_path, meta_data)
+    {
+        var file_info = playListModel.value(file_index);
+        if(file_info && file_info.path == file_path) {
+            if(meta_data) {
+                file_info.metaData = meta_data;
+            }
+            else {
+                delete file_info.metaData;
+            }
+            playListModel.replace(file_index, file_info);
+        }
+    }
+    
 	onCreationCompleted: {
+        ApplicationUI.trackMetaDataResolver().trackMetaDataResolved.connect(player.onTrackMetaDataResolved);
     }
 }

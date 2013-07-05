@@ -176,6 +176,14 @@ Page {
         listModel.clear();
         var files = ApplicationUI.getDirContent(parentPath);
         listModel.append(files);
+        
+        var settings = ApplicationUI.settings();
+        var resolve_meta_data = settings.boolValue("settings/trackMetaData/resolvingEnabled", true);
+        if(resolve_meta_data) {
+            var meta_data_resolver = ApplicationUI.trackMetaDataResolver();
+            meta_data_resolver.abort();
+            meta_data_resolver.enqueue(files);
+        }
     }
     
     function enterSubDir(subdir_name)
@@ -232,11 +240,26 @@ Page {
         }
     }
     
+	function onTrackMetaDataResolved(file_index, file_path, meta_data)
+    {
+        var file_info = listModel.value(file_index);
+        if(file_info && file_info.path == file_path) {
+            if(meta_data) {
+                file_info.metaData = meta_data;
+            }
+            else {
+                delete file_info.metaData;
+            }
+            listModel.replace(file_index, file_info);
+        }
+    }
+    
     onCreationCompleted: {
         loadSettings();
         initParentPath();
         listView.chooseSelection.connect(chooseSelection);
         done.connect(saveSettings);
+        ApplicationUI.trackMetaDataResolver().trackMetaDataResolved.connect(root.onTrackMetaDataResolved);
     }
 }
 

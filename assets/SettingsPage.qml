@@ -83,7 +83,31 @@ Page {
                     }
                 }
             }
-
+            
+            Header {
+                title: qsTr("Track meta data settings")
+            }
+            Container {
+                leftPadding: 20
+                rightPadding: leftPadding
+                topPadding: 10
+                Container {
+                    layout: StackLayout {
+                        orientation: LayoutOrientation.LeftToRight
+                    }
+                    Label {
+                        text: "Resolve track meta data"
+                        layoutProperties: StackLayoutProperties {
+                            spaceQuota: 1.0
+                        }
+                        multiline: true
+                    }
+                    ToggleButton {
+                        id: btResolveTrackMetaData
+                    }
+                }
+            }
+            
         }
     }
 
@@ -92,6 +116,7 @@ Page {
         var settings = ApplicationUI.settings();
         settings.setValue("settings/trackBar/playbackAnimation", btPlaybackAnimation.checked);
         settings.setValue("settings/playBack/pausePlaybackOnPhoneCall", btPausePlaybackOnPhoneCall.checked);
+        settings.setValue("settings/trackMetaData/resolvingEnabled", btResolveTrackMetaData.checked);
     }
 
     function loadSettings()
@@ -99,5 +124,6 @@ Page {
         var settings = ApplicationUI.settings();
         btPlaybackAnimation.checked = settings.boolValue("settings/trackBar/playbackAnimation", true);
         btPausePlaybackOnPhoneCall.checked = settings.boolValue("settings/playBack/pausePlaybackOnPhoneCall", true);
+        btResolveTrackMetaData.checked = settings.boolValue("settings/trackMetaData/resolvingEnabled", true);
     }
 }

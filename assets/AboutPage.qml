@@ -28,7 +28,7 @@ Page {
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
-            text: "ver. 1.0.11"
+            text: "ver. 1.0.12"
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center

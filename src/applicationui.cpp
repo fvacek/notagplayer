@@ -3,13 +3,12 @@
 #include "settings.h"
 #include "cover.h"
 #include "findfile.h"
+#include "trackmetadataresolver.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
-
-#include <bb/multimedia/MediaState>
 
 #include <bb/system/phone/Phone>
 #include <bb/system/phone/CallState>
@@ -19,6 +18,8 @@
 
 #include <QStringBuilder>
 #include <QMetaType>
+#include <QTimer>
+#include <QVariant>
 #include <QDebug>
 
 #if BBNDK_VERSION_AT_LEAST(10,2,0)
@@ -37,6 +38,7 @@ using namespace bb::cascades;
 ApplicationUI::ApplicationUI(bb::cascades::Application *app) :
 QObject(app)
 {
+	m_trackMetaDataResolver = NULL;
 #ifdef BB10_API_LEVEL_10_1
 	/// 10.1 developpers foregot to declare mediastate metatype, fixed in 10.2
 	qRegisterMetaType<bb::multimedia::MediaState::Type>();
@@ -115,7 +117,8 @@ QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QSt
 		QVariantMap m;
 		m["name"] = name;
 		m["path"] = path;
-		emit fileFound(m);
+		m["type"] = "file";
+		//emit fileFound(m);
 		ret << m;
 	}
 	else if(fi.isDir()) {
@@ -145,6 +148,16 @@ QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path_lis
 bool ApplicationUI::dirExists(const QStringList &dir_path)
 {
 	return FindFile::dirExists("/"%dir_path.join("/"));
+}
+
+QVariant ApplicationUI::trackMetaDataResolver()
+{
+	if(!m_trackMetaDataResolver) {
+		m_trackMetaDataResolver = new TrackMetaDataResolver(this);
+	}
+	QObject *o = m_trackMetaDataResolver;
+	QVariant ret = QVariant::fromValue(o);
+	return ret;
 }
 
 QVariant ApplicationUI::settings()
@@ -191,3 +204,4 @@ void ApplicationUI::onPhoneCallUpdated(const bb::system::phone::Call &call)
 	}
 	emit phoneActivityChanged(phone_active);
 }
+

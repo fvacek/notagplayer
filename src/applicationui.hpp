@@ -6,8 +6,9 @@
 #include <QObject>
 #include <QVariantList>
 
-class QDir;
+class TrackMetaDataResolver;
 class Settings;
+class QDir;
 
 namespace bb
 {
@@ -49,18 +50,21 @@ public:
 
 	Q_INVOKABLE QVariantMap displayInfo();
 
+	Q_INVOKABLE QVariant trackMetaDataResolver();
+
 	Q_INVOKABLE QVariant settings();
 	Q_INVOKABLE QString buildDate() { return __DATE__; }
 private:
     QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
+    void resolveTrackMetaDataFinish(const QString &path, const QVariant &meta_data);
 signals:
-	void fileFound(const QVariant &file_info);
-	//void aboutToQuit();
+	//void fileFound(const QVariant &file_info);
 	void phoneActivityChanged(bool phone_active);
 private:
-    QTranslator* m_pTranslator;
-    bb::cascades::LocaleHandler* m_pLocaleHandler;
+    QTranslator *m_pTranslator;
+    bb::cascades::LocaleHandler *m_pLocaleHandler;
     Settings *m_settings;
+    TrackMetaDataResolver *m_trackMetaDataResolver;
 };
 
 #endif /* ApplicationUI_HPP_ */
