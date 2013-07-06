@@ -23,7 +23,7 @@ Page {
 
     titleBar: TitleBar {
         id: sheetSettingsBar
-        title: qsTr("Track Settings")
+        title: qsTr("Track Properties")
 
         dismissAction: ActionItem {
             title: qsTr("Cancel")

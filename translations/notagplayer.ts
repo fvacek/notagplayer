@@ -318,7 +318,7 @@
     <name>TrackProperties</name>
     <message>
         <location filename="../assets/TrackProperties.qml" line="26"/>
-        <source>Track Settings</source>
+        <source>Track Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
