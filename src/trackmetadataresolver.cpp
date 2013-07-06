@@ -6,7 +6,6 @@
  */
 #include "trackmetadataresolver.h"
 
-//#include <bb/multimedia/MediaState>
 #include <bb/multimedia/MediaPlayer>
 
 #include <QTimer>

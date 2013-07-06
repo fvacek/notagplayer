@@ -80,7 +80,9 @@ Page {
                 {
                     var dd = []
                     for(var i=0; i<size(); i++) {
-                        dd.push(value(i));
+                        var v = value(i);
+                        if(v.metaData) delete v.metaData;
+                        dd.push(v);
                     }
                     return dd;
                 }
@@ -101,9 +103,9 @@ Page {
                             if(meta_data) {
                                 var ret = "";
                                 if(meta_data.track) ret = ret + meta_data.track + ".";
-                                if(meta_data.title) ret = ret + " " + meta_data.title;
-                                if(meta_data.album) ret = ret + " " + meta_data.album;
-                                if(meta_data.artist) ret = ret + " " + meta_data.artist;
+                                if(meta_data.title) ret = ret + " - " + meta_data.title;
+                                if(meta_data.album) ret = ret + " - " + meta_data.album;
+                                if(meta_data.artist) ret = ret + " - " + meta_data.artist;
                             }
                             else {
                                 var ret = GlobalDefs.decorateSystemPath(ListItemData.path);

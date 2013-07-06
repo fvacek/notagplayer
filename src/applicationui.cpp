@@ -13,6 +13,8 @@
 #include <bb/system/phone/Phone>
 #include <bb/system/phone/CallState>
 
+#include <bb/multimedia/MediaState>
+
 #include <bb/device/DisplayInfo>
 #include <bbndk.h>
 
@@ -29,8 +31,8 @@
 #endif
 
 #ifdef BB10_API_LEVEL_10_1
-/// 10.1 developpers foregot to declare mediastate metatype, fixed in 10.2
-Q_DECLARE_METATYPE(bb::multimedia::MediaState::Type);
+	/// 10.1 developpers foregot to declare mediastate metatype, fixed in 10.2
+	Q_DECLARE_METATYPE(bb::multimedia::MediaState::Type);
 #endif
 
 using namespace bb::cascades;
