@@ -155,12 +155,12 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/Player.qml" line="230"/>
+        <location filename="../assets/Player.qml" line="229"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="230"/>
+        <location filename="../assets/Player.qml" line="229"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
@@ -175,72 +175,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="180"/>
+        <location filename="../assets/Player.qml" line="179"/>
         <source>Move track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="190"/>
+        <location filename="../assets/Player.qml" line="189"/>
         <source>Shift track after current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="198"/>
+        <location filename="../assets/Player.qml" line="197"/>
         <source>Scroll to the played track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="207"/>
+        <location filename="../assets/Player.qml" line="206"/>
         <source>Remove track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="221"/>
+        <location filename="../assets/Player.qml" line="220"/>
         <source>Backward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="240"/>
+        <location filename="../assets/Player.qml" line="239"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="248"/>
+        <location filename="../assets/Player.qml" line="247"/>
         <source>Shuffle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="256"/>
+        <location filename="../assets/Player.qml" line="255"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="265"/>
+        <location filename="../assets/Player.qml" line="264"/>
         <source>Add URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="287"/>
+        <location filename="../assets/Player.qml" line="286"/>
         <source>Edit playlist properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="309"/>
+        <location filename="../assets/Player.qml" line="308"/>
         <source>Delete playlist tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="321"/>
+        <location filename="../assets/Player.qml" line="320"/>
         <source>Clear play list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="312"/>
+        <location filename="../assets/Player.qml" line="311"/>
         <source>Realy delete current playlist tab?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="415"/>
+        <location filename="../assets/Player.qml" line="414"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -315,40 +315,45 @@
     </message>
 </context>
 <context>
-    <name>TrackSettings</name>
+    <name>TrackProperties</name>
     <message>
-        <location filename="../assets/TrackSettings.qml" line="13"/>
+        <location filename="../assets/TrackProperties.qml" line="26"/>
         <source>Track Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/TrackSettings.qml" line="16"/>
+        <location filename="../assets/TrackProperties.qml" line="29"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/TrackSettings.qml" line="23"/>
+        <location filename="../assets/TrackProperties.qml" line="36"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/TrackSettings.qml" line="39"/>
+        <location filename="../assets/TrackProperties.qml" line="52"/>
         <source>Track name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/TrackSettings.qml" line="47"/>
+        <location filename="../assets/TrackProperties.qml" line="60"/>
         <source>Enter track name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/TrackSettings.qml" line="52"/>
+        <location filename="../assets/TrackProperties.qml" line="64"/>
         <source>Track URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/TrackSettings.qml" line="60"/>
+        <location filename="../assets/TrackProperties.qml" line="72"/>
         <source>Enter track path or URI </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/TrackProperties.qml" line="76"/>
+        <source>Track Meta Data (read only)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

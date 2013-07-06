@@ -154,19 +154,18 @@ Page {
                         property int activeIndex: -1
                         onTriggered: {
                             sheet = editTrackSheetDefinition.createObject();
-                            sheet.trackSettings.done.connect(editTrackDone);
+                            sheet.trackProperties.done.connect(editTrackDone);
                             activeIndex = playList.contextMenuIndex();
                             var file_info = playListModel.value(activeIndex);
-                            if(file_info.name) sheet.trackSettings.trackName = file_info.name;
-                            if(file_info.path) sheet.trackSettings.trackPath = file_info.path;
+                            sheet.trackProperties.setFileInfo(file_info);
                             sheet.open();
                         }
                         imageSource: "asset:///images/ic_edit_label.png"
                         function editTrackDone(ok) {
                             if (sheet) {
                                 if (ok && activeIndex >= 0) {
-                                    //console.debug("add URI: " + sheet.trackSettings.trackName);
-                                    var file_info = {name: sheet.trackSettings.trackName, path: sheet.trackSettings.trackPath};
+                                    //console.debug("add URI: " + sheet.trackProperties.trackName);
+                                    var file_info = {name: sheet.trackProperties.trackName, path: sheet.trackProperties.trackPath};
                                     playListModel.replace(activeIndex, file_info);
                                 }
                                 sheet.close();
@@ -266,7 +265,7 @@ Page {
             property variant sheet: null
             onTriggered: {
                 sheet = editTrackSheetDefinition.createObject();
-                sheet.trackSettings.done.connect(addURIDone);
+                sheet.trackProperties.done.connect(addURIDone);
                 sheet.open();
             }
             imageSource: "asset:///images/add_uri.png"
@@ -274,8 +273,8 @@ Page {
             {
             	if(sheet) {
             	    if(ok) {
-            	        console.debug("add URI: " + sheet.trackSettings.trackName);
-                        appendToPlayList([{name: sheet.trackSettings.trackName, path: sheet.trackSettings.trackPath}]);
+            	        console.debug("add URI: " + sheet.trackProperties.trackName);
+                        appendToPlayList([{name: sheet.trackProperties.trackName, path: sheet.trackProperties.trackPath}]);
             	    }
                     sheet.close();
             	    sheet.destroy();
@@ -390,9 +389,9 @@ Page {
             id: editTrackSheetDefinition
             Sheet {
                 //id: editTrackSheet
-                property alias trackSettings: trackSettings
-                TrackSettings  {
-                    id: trackSettings
+                property alias trackProperties: trackProperties
+                TrackProperties  {
+                    id: trackProperties
                 }
             }
         },
