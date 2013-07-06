@@ -16,6 +16,8 @@
 #include <bb/device/DisplayInfo>
 #include <bbndk.h>
 
+#include <bb/multimedia/MediaState>
+
 #include <QStringBuilder>
 #include <QMetaType>
 #include <QTimer>

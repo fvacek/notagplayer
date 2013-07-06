@@ -12,6 +12,35 @@ Page {
         title: prettyName
     }
     */
+	keyListeners: [
+		KeyListener {
+			onKeyEvent: { 
+				//Perform an action when the signal is emitted
+			}
+			  
+			onKeyPressed: {  
+				//Perform an action when the signal is emitted 
+			}
+  
+			onKeyReleased: {  
+				//Perform an action when the signal is emitted
+				var codeKey = String.fromCharCode(event.key);
+				console.log("main page KeyListener " + event.key + "(" + codeKey + ")"); 
+				switch(codeKey)
+				{
+					// Latest
+					case 'l':
+					case 'L':
+						break; 
+				} // switch
+
+				// Global - quick quit
+				if(codeKey == 'x' || codeKey == 'X') 
+					Application.requestExit(); 
+			} // onKeyReleased 
+		}
+	]
+
     id: player
     signal deletePlaylistTab(int playlist_id);
     signal playbackStatusChanged(bool is_playing);
@@ -222,6 +251,14 @@ Page {
             }
             imageSource: "asset:///images/ic_back.png"
             ActionBar.placement: ActionBarPlacement.OnBar
+			shortcuts: [
+				SystemShortcut {
+					type: SystemShortcuts.PreviousSection
+					onTriggered: {
+						console.log("SystemShortcuts.NextSection --- next page")
+					}
+				}
+			]
         },
         ActionItem {
             id: actPlay
@@ -233,7 +270,15 @@ Page {
                 play(audioPlayer.isPlaying);
             }
             ActionBar.placement: ActionBarPlacement.OnBar
-        },
+			shortcuts: [ 
+				Shortcut {
+					key: "Space"
+					onTriggered: {
+						
+					}
+				}
+			]
+        }, 
         ActionItem {
             title: qsTr("Forward")
             onTriggered: {
@@ -241,6 +286,14 @@ Page {
             }
             imageSource: "asset:///images/ic_next.png"
             ActionBar.placement: ActionBarPlacement.OnBar
+			shortcuts: [
+				SystemShortcut {
+					type: SystemShortcuts.NextSection
+					onTriggered: {
+						console.log("SystemShortcuts.NextSection --- next page")
+					}
+				}
+			]
         },
         ActionItem {
             title: qsTr("Shuffle")
@@ -411,8 +464,31 @@ Page {
         SystemToast {
             id: moveTrackToast
             body: qsTr("Tap on track to move after.")
-        }
-
+        },
+		MediaKeyWatcher {
+			id: keyWatcherUp
+			key: MediaKey.VolumeUp 
+			onLongPress: {
+				console.log("UP onLongPress");
+                forward(true);
+			} 
+        },
+		MediaKeyWatcher {
+			id: keyWatcherDown
+			key: MediaKey.VolumeDown 
+			onLongPress: {
+				console.log("DOWN onLongPress");
+                backward();
+			} 
+        },
+		MediaKeyWatcher {
+			id: keyWatcherPlayPause
+			key: MediaKey.PlayPause 
+			onShortPress: {
+				console.log("PLAY/PAUSE onShortPress");
+                play(audioPlayer.isPlaying);
+			} 
+		} 
     ]
 
     function appendToPlayList(file_infos) 
