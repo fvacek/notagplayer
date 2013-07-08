@@ -12,6 +12,22 @@ Page {
         title: prettyName
     }
     */
+	keyListeners: [
+		KeyListener {
+			onKeyEvent: { 
+			} 
+			onKeyPressed: {  
+			} 
+			onKeyReleased: {  
+				var codeKey = String.fromCharCode(event.key); 
+				// Global - quick quit
+				if(codeKey == qsTr('x')  + Retranslate.onLocaleChanged 
+						|| codeKey == qsTr('X') + Retranslate.onLocaleChanged) 
+					Application.requestExit(); 
+			}
+		}
+	]
+
     id: player
     signal deletePlaylistTab(int playlist_id);
     signal playbackStatusChanged(bool is_playing);
@@ -223,6 +239,13 @@ Page {
             }
             imageSource: "asset:///images/ic_back.png"
             ActionBar.placement: ActionBarPlacement.OnBar
+			shortcuts: [
+				SystemShortcut {
+					type: SystemShortcuts.PreviousSection
+					onTriggered: {
+					}
+				}
+			]
         },
         ActionItem {
             id: actPlay
@@ -234,6 +257,13 @@ Page {
                 play(audioPlayer.isPlaying);
             }
             ActionBar.placement: ActionBarPlacement.OnBar
+			shortcuts: [ 
+				Shortcut {
+					key: "Space"
+					onTriggered: { 
+					}
+				}
+			]
         },
         ActionItem {
             title: qsTr("Forward")
@@ -242,6 +272,13 @@ Page {
             }
             imageSource: "asset:///images/ic_next.png"
             ActionBar.placement: ActionBarPlacement.OnBar
+			shortcuts: [
+				SystemShortcut {
+					type: SystemShortcuts.NextSection
+					onTriggered: {
+					}
+				}
+			]
         },
         ActionItem {
             title: qsTr("Shuffle")
@@ -412,6 +449,27 @@ Page {
         SystemToast {
             id: moveTrackToast
             body: qsTr("Tap on track to move after.")
+        },
+		MediaKeyWatcher {
+			id: keyWatcherUp
+			key: MediaKey.VolumeUp 
+			onLongPress: {
+                forward(true);
+			} 
+        },
+		MediaKeyWatcher {
+			id: keyWatcherDown
+			key: MediaKey.VolumeDown 
+			onLongPress: {
+                backward();
+			} 
+        },
+		MediaKeyWatcher {
+			id: keyWatcherPlayPause
+			key: MediaKey.PlayPause 
+			onShortPress: {
+                play(audioPlayer.isPlaying);
+			} 
         }
 
     ]
@@ -514,7 +572,8 @@ Page {
 
     function backward()
     {
-        if (audioPlayer.position > 500) {
+		// Long press key of Volume Down consumes 600+ ms;
+        if (audioPlayer.position > 1200) {
             audioPlayer.seek(1, 0);
         } else {
             if (playStatus.playedIndex > 0) {
