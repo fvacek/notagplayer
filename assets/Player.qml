@@ -14,16 +14,14 @@ Page {
     */
 	keyListeners: [
 		KeyListener {
-			onKeyEvent: { 
-			} 
-			onKeyPressed: {  
-			} 
 			onKeyReleased: {  
 				var codeKey = String.fromCharCode(event.key); 
 				// Global - quick quit
-				if(codeKey == qsTr('x')  + Retranslate.onLocaleChanged 
+				if(codeKey == qsTr('x')  + Retranslate.onLocaleChanged /// do we need to localize this shortcut? 
 						|| codeKey == qsTr('X') + Retranslate.onLocaleChanged) 
-					Application.requestExit(); 
+				{
+                    Application.requestExit(); 
+				} 
 			}
 		}
 	]
@@ -260,8 +258,6 @@ Page {
 			shortcuts: [ 
 				Shortcut {
 					key: "Space"
-					onTriggered: { 
-					}
 				}
 			]
         },
@@ -275,8 +271,6 @@ Page {
 			shortcuts: [
 				SystemShortcut {
 					type: SystemShortcuts.NextSection
-					onTriggered: {
-					}
 				}
 			]
         },
