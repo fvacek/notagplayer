@@ -54,6 +54,9 @@ public:
 
 	Q_INVOKABLE QVariant settings();
 	Q_INVOKABLE QString buildDate() { return __DATE__; }
+
+	Q_INVOKABLE bool exportM3uFile(const QVariantList &list, const QString &listname);
+
 private:
     QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
     void resolveTrackMetaDataFinish(const QString &path, const QVariant &meta_data);
