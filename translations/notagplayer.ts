@@ -250,6 +250,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../assets/Player.qml" line="461"/>
+        <source>Failed to save native M3U music playlist!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../assets/Player.qml" line="342"/>
         <source>Realy delete current playlist tab?</source>
         <translation type="unfinished"></translation>

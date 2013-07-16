@@ -210,10 +210,13 @@ void ApplicationUI::onPhoneCallUpdated(const bb::system::phone::Call &call)
 
 bool ApplicationUI::exportM3uFile(const QVariantList &list, const QString &listname)
 {
+	if(listname.isEmpty() || list.size() == 0)
+		return false;
+
 	// Store M3U list in music folder of device.
 	QString fileName = "/accounts/1000/shared/music/" + listname + ".m3u";
 	QFile file(fileName);  
-	if(!file.open(QIODevice::ReadWrite | QIODevice::Text))  
+	if(!file.open(QIODevice::ReadWrite))  
 		return false;
 
 	QTextStream in(&file);  

@@ -456,6 +456,10 @@ Page {
             id: createM3uFileDone
             body: qsTr("Native M3U music playlist created!")
         },
+        SystemToast {
+            id: createM3uFileFailed
+            body: qsTr("Failed to save native M3U music playlist!")
+        },
 		MediaKeyWatcher {
 			id: keyWatcherUp
 			key: MediaKey.VolumeUp 
@@ -633,12 +637,11 @@ Page {
     function exportM3U()
     {
         var dd = playListModel.allData();
-        for(var i=0; i<dd.length; i++) {
-			var entry = playListModel.value(i);
-		} 
 
 		if(ApplicationUI.exportM3uFile(dd, player.tab.title))
 			createM3uFileDone.show();
+		else
+			createM3uFileFailed.show();
     }
     
 
