@@ -347,6 +347,14 @@ Page {
             }
             imageSource: "asset:///images/delete_playlist.png"
         },
+        ActionItem {
+            id: actExportMusicList
+            title: qsTr("Export for native player")
+            onTriggered: {
+				exportM3U();
+            }
+            imageSource: "asset:///images/m3u_list.png"
+        },        
         DeleteActionItem {
             title: qsTr("Clear play list")
             onTriggered: {
@@ -443,6 +451,14 @@ Page {
         SystemToast {
             id: moveTrackToast
             body: qsTr("Tap on track to move after.")
+        },
+        SystemToast {
+            id: createM3uFileDone
+            body: qsTr("Native M3U music playlist created!")
+        },
+        SystemToast {
+            id: createM3uFileFailed
+            body: qsTr("Failed to save native M3U music playlist!")
         },
 		MediaKeyWatcher {
 			id: keyWatcherUp
@@ -617,6 +633,17 @@ Page {
         playListModel.clear();
         playListModel.append(dd);
 	}
+
+    function exportM3U()
+    {
+        var dd = playListModel.allData();
+
+		if(ApplicationUI.exportM3uFile(dd, player.tab.title))
+			createM3uFileDone.show();
+		else
+			createM3uFileFailed.show();
+    }
+    
 
 	function init()
 	{

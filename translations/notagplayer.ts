@@ -240,8 +240,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="351"/>
+        <location filename="../assets/Player.qml" line="359"/>
         <source>Clear play list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/Player.qml" line="457"/>
+        <source>Native M3U music playlist created!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/Player.qml" line="461"/>
+        <source>Failed to save native M3U music playlist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -250,7 +260,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="445"/>
+        <location filename="../assets/Player.qml" line="352"/>
+        <source>Export for native player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/Player.qml" line="453"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>
