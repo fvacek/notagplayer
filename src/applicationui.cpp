@@ -211,26 +211,27 @@ void ApplicationUI::onPhoneCallUpdated(const bb::system::phone::Call &call)
 }
 
 
-bool ApplicationUI::exportM3uFile(const QVariantList &list, const QString &listname)
+bool ApplicationUI::exportM3uFile(const QVariantList &list, const QString &file_path)
 {
-	if(listname.isEmpty() || list.size() == 0)
+	if(file_path.isEmpty() || list.isEmpty()) {
 		return false;
-
-	// Store M3U list in music folder of device.
-	QString fileName = "/accounts/1000/shared/music/" + listname + ".m3u";
-	QFile file(fileName);
-	if(!file.open(QIODevice::ReadWrite))
-		return false;
-
-	QTextStream in(&file);
-	int size = list.size();
-	for ( int i = 0; i < size; i++)
-	{
-		QVariantMap item = list.at(i).toMap();
-		in << item["path"].toString() << "\n";
 	}
 
-	file.close();
+	// Store M3U list in music folder of device.
+	//QString fileName = "/accounts/1000/shared/music/" + listname + ".m3u";
+	QFile file(file_path);
+	if(!file.open(QIODevice::ReadWrite)) {
+		return false;
+	}
+
+	QTextStream in(&file);
+	foreach(QVariant v, list) {
+		QVariantMap item = v.toMap();
+		QString path = item.value("path").toString().trimmed();
+		if(!path.isEmpty()) {
+			in << path << "\n";
+		}
+	}
 	return true;
 }
 

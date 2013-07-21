@@ -240,28 +240,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="360"/>
+        <location filename="../assets/Player.qml" line="352"/>
+        <source>Export playlist to m3u</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/Player.qml" line="389"/>
+        <source>Import playlist from m3u</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/Player.qml" line="391"/>
+        <source>Not implemented yet!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/Player.qml" line="397"/>
         <source>Clear play list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="646"/>
+        <location filename="../assets/Player.qml" line="376"/>
         <source>m3u music playlist &apos;%1&apos; created!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="649"/>
+        <location filename="../assets/Player.qml" line="379"/>
         <source>Failed to save native m3u music playlist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../assets/Player.qml" line="343"/>
         <source>Realy delete current playlist tab?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/Player.qml" line="353"/>
-        <source>Export for native player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

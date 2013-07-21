@@ -1,8 +1,8 @@
 import bb.cascades 1.0
 import bb.multimedia 1.0
 import bb.system 1.0
-//import CascadesPickers 1.0
 import "picker/playlist" as PlayListPicker
+import "picker/savefile" as SaveFilePicker
 //import "dialogs"
 //import "lib/string.js" as StringExt
 import "lib/globaldefs.js" as GlobalDefs
@@ -334,7 +334,7 @@ Page {
                     sheet = null;
                 }
             }
-       },
+        },
         ActionItem {
             id: actDeletePlaylistTab
             title: qsTr("Delete playlist tab")
@@ -349,10 +349,47 @@ Page {
             imageSource: "asset:///images/delete_playlist.png"
         },
         ActionItem {
-            id: actExportMusicList
-            title: qsTr("Export for native player")
+            title: qsTr("Export playlist to m3u")
             onTriggered: {
-				exportM3U();
+                exportM3U();
+            }
+            imageSource: "asset:///images/m3u_list.png"
+            function exportM3U() {
+                var file_name = player.tab.title.replace(" ", "_");
+                sheetSaveFile.saveFilePage.fileName = file_name;
+                sheetSaveFile.saveFilePage.defaultExtension = "m3u";
+                sheetSaveFile.open();
+            }
+            attachedObjects: [
+                Sheet {
+                    id: sheetSaveFile
+                    property alias saveFilePage: saveFilePage
+                    SaveFilePicker.Picker {
+                        id: saveFilePage
+                        onDone: {
+                            sheetSaveFile.close();
+                            if(ok) {
+                                console.debug("################### save file picker closed ###########"); 
+                                var file_name = fullFilePath();
+                                var dd = playListModel.allData();
+                                if(ApplicationUI.exportM3uFile(dd, file_name)) {
+                                    systemToast.body = qsTr("m3u music playlist '%1' created!").arg(file_name);
+                                }
+                                else {
+                                    systemToast.body = qsTr("Failed to save native m3u music playlist!")
+                                }
+                                systemToast.exec();
+                            }
+                        }
+                    }
+                }
+            ]
+        },        
+        ActionItem {
+            title: qsTr("Import playlist from m3u")
+            onTriggered: {
+                systemToast.body = qsTr("Not implemented yet!")
+                systemToast.exec();
             }
             imageSource: "asset:///images/m3u_list.png"
         },        
@@ -634,23 +671,6 @@ Page {
         playListModel.clear();
         playListModel.append(dd);
 	}
-
-    function exportM3U()
-    {
-        var dd = playListModel.allData();
-        var file_name = player.tab.title.replace(" ", "_") + ".m3u";
-        filePicker.defaultSaveFileNames = [file_name];
-        filePicker.open();
-        console.debug("################### file picker closed ###########"); 
-		if(ApplicationUI.exportM3uFile(dd, file_name)) {
-            systemToast.body = qsTr("m3u music playlist '%1' created!").arg(file_name);
-		}
-		else {
-            systemToast.body = qsTr("Failed to save native m3u music playlist!")
-		}
-        systemToast.show();
-    }
-    
 
 	function init()
 	{
