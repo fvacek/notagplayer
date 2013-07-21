@@ -9,6 +9,7 @@ DEFINES += _LARGEFILE64_SOURCE=1
 LIBS += -lbbdevice
 LIBS += -lbbsystem
 LIBS += -lbbmultimedia
+#LIBS += -lbbcascadespickers
 #LIBS += -lpng
 
 include(config.pri)

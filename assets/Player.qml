@@ -1,7 +1,8 @@
 import bb.cascades 1.0
 import bb.multimedia 1.0
 import bb.system 1.0
-import "picker"
+//import CascadesPickers 1.0
+import "picker/playlist" as PlayListPicker
 //import "dialogs"
 //import "lib/string.js" as StringExt
 import "lib/globaldefs.js" as GlobalDefs
@@ -29,7 +30,6 @@ Page {
     id: player
     signal deletePlaylistTab(int playlist_id);
     signal playbackStatusChanged(bool is_playing);
-    //signal playlistNameChanged(string playlist_name)
     property int playlistId: -1
     property bool isInitialized: false
     property string settinsPath: "playlists/" + playlistId
@@ -194,7 +194,8 @@ Page {
                         onTriggered: {
                             if(playList.contextMenuIndex() >= 0) {
                                 playList.movedTrackIndex = playList.contextMenuIndex();
-                                moveTrackToast.show();
+                                systemToast.body = qsTr("Tap on track to move after.");
+                                systemToast.show();
                             }
                         }
                         imageSource: "asset:///images/ic_move.png"
@@ -415,7 +416,7 @@ Page {
             Sheet {
                 //id: filePickerSheet
                 property alias dirPicker: dirPicker
-                DirPicker {
+                PlayListPicker.Picker {
                     id: dirPicker
                 }
                 onCreationCompleted: {
@@ -449,16 +450,7 @@ Page {
             title: "Confirm Dialog"
         },
         SystemToast {
-            id: moveTrackToast
-            body: qsTr("Tap on track to move after.")
-        },
-        SystemToast {
-            id: createM3uFileDone
-            body: qsTr("Native M3U music playlist created!")
-        },
-        SystemToast {
-            id: createM3uFileFailed
-            body: qsTr("Failed to save native M3U music playlist!")
+            id: systemToast
         },
 		MediaKeyWatcher {
 			id: keyWatcherUp
@@ -481,7 +473,6 @@ Page {
                 play(audioPlayer.isPlaying);
 			} 
         }
-
     ]
 
     function appendToPlayList(file_infos) 
@@ -603,7 +594,17 @@ Page {
     {
         if(moved_track_ix == after_track_ix) return;
         var insert_ix = after_track_ix;
-        if(after_track_ix < moved_track_ix) insert_ix++;
+        if(after_track_ix > moved_track_ix) {
+            if(playStatus.playedIndex >= 0) {
+                // update also currently played index, which can change after track move
+                if(moved_track_ix < playStatus.playedIndex && after_track_ix >= playStatus.playedIndex) {
+                    playStatus.playedIndex--;
+                }
+            }
+        }
+        else {
+            insert_ix++;
+        }
         var d = playListModel.data([moved_track_ix]);
         playListModel.removeAt(moved_track_ix);
         playListModel.insert(insert_ix, d);
@@ -637,11 +638,17 @@ Page {
     function exportM3U()
     {
         var dd = playListModel.allData();
-
-		if(ApplicationUI.exportM3uFile(dd, player.tab.title))
-			createM3uFileDone.show();
-		else
-			createM3uFileFailed.show();
+        var file_name = player.tab.title.replace(" ", "_") + ".m3u";
+        filePicker.defaultSaveFileNames = [file_name];
+        filePicker.open();
+        console.debug("################### file picker closed ###########"); 
+		if(ApplicationUI.exportM3uFile(dd, file_name)) {
+            systemToast.body = qsTr("m3u music playlist '%1' created!").arg(file_name);
+		}
+		else {
+            systemToast.body = qsTr("Failed to save native m3u music playlist!")
+		}
+        systemToast.show();
     }
     
 

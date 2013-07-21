@@ -10,6 +10,8 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
 
+//#include <bb/cascades/pickers/FilePicker>
+
 #include <bb/system/phone/Phone>
 #include <bb/system/phone/CallState>
 
@@ -47,6 +49,7 @@ QObject(app)
 #endif
 
 	qmlRegisterType<FindFile>("app.lib", 1, 0, "FindFile");
+	//qmlRegisterType<bb::cascades::pickers::FilePicker>("CascadesPickers", 1, 0,"FilePicker");
 
 	m_settings = new Settings(this);
 	// prepare the localization
@@ -215,19 +218,19 @@ bool ApplicationUI::exportM3uFile(const QVariantList &list, const QString &listn
 
 	// Store M3U list in music folder of device.
 	QString fileName = "/accounts/1000/shared/music/" + listname + ".m3u";
-	QFile file(fileName);  
-	if(!file.open(QIODevice::ReadWrite))  
+	QFile file(fileName);
+	if(!file.open(QIODevice::ReadWrite))
 		return false;
 
-	QTextStream in(&file);  
+	QTextStream in(&file);
 	int size = list.size();
 	for ( int i = 0; i < size; i++)
 	{
 		QVariantMap item = list.at(i).toMap();
-		in << item["path"].toString() << "\n"; 
-	} 
+		in << item["path"].toString() << "\n";
+	}
 
-	file.close(); 
+	file.close();
 	return true;
 }
 

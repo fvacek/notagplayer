@@ -1,7 +1,7 @@
 import bb.cascades 1.0
 
 import app.lib 1.0
-import "../lib/globaldefs.js" as GlobalDefs
+import "../../lib/globaldefs.js" as GlobalDefs
 
 Page {
     property string searchRootPath
@@ -77,29 +77,12 @@ Page {
             }
             listItemComponents: [
                 ListItemComponent {
-                    PickerListItem {
+                    AListItem {
 
                     }
                 }
             ]
-            onSelectionChanged: {
-                // Call a function to update the number of selected items in the multi-select view.
-                updateMultiStatus();0
-            }
-            function updateMultiStatus() {
-
-                // The status text of the multi-select handler is updated to show how
-                // many items are currently selected.
-                if (selectionList().length > 1) {
-                    multiSelectHandler.status = selectionList().length + " items selected";
-                } else if (selectionList().length == 1) {
-                    multiSelectHandler.status = "1 item selected";
-                } else {
-                    multiSelectHandler.status = "None selected";
-                }
-            }
-            multiSelectAction: MultiSelectActionItem {
-            }
+            multiSelectAction: MultiSelectActionItem { }
             multiSelectHandler {
                 actions: [
                     ActionItem {
@@ -110,19 +93,21 @@ Page {
                         }
                     }
                 ]
-
-                status: "None selected"
-
-                onActiveChanged: {
-                    if (active == true) {
-                        console.log("Multiple selection is activated");
-                    } else {
-                        console.log("Multiple selection is deactivated");
-                    }
-                }
-
-                onCanceled: {
-                    console.log("Multi selection canceled!");
+            }
+            onSelectionChanged: {
+                // Call a function to update the number of selected items in the multi-select view.
+                updateMultiStatus();
+            }
+            function updateMultiStatus() {
+                
+                // The status text of the multi-select handler is updated to show how
+                // many items are currently selected.
+                if (selectionList().length > 1) {
+                    multiSelectHandler.status = selectionList().length + " items selected";
+                } else if (selectionList().length == 1) {
+                    multiSelectHandler.status = "1 item selected";
+                } else {
+                    multiSelectHandler.status = "None selected";
                 }
             }
         }
