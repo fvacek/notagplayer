@@ -3,6 +3,7 @@ import bb.multimedia 1.0
 import bb.system 1.0
 import "picker/playlist" as PlayListPicker
 import "picker/savefile" as SaveFilePicker
+import "picker/openfile" as OpenFilePicker
 //import "dialogs"
 //import "lib/string.js" as StringExt
 import "lib/globaldefs.js" as GlobalDefs
@@ -349,15 +350,16 @@ Page {
             imageSource: "asset:///images/delete_playlist.png"
         },
         ActionItem {
-            title: qsTr("Export playlist to m3u")
+            title: qsTr("Export playlist to file")
             onTriggered: {
                 exportM3U();
             }
-            imageSource: "asset:///images/m3u_list.png"
+            imageSource: "asset:///images/m3u_save.png"
             function exportM3U() {
                 var file_name = player.tab.title.replace(" ", "_");
                 sheetSaveFile.saveFilePage.fileName = file_name;
                 sheetSaveFile.saveFilePage.defaultExtension = "m3u";
+                sheetSaveFile.saveFilePage.load();
                 sheetSaveFile.open();
             }
             attachedObjects: [
@@ -369,7 +371,6 @@ Page {
                         onDone: {
                             sheetSaveFile.close();
                             if(ok) {
-                                console.debug("################### save file picker closed ###########"); 
                                 var file_name = fullFilePath();
                                 var dd = playListModel.allData();
                                 if(ApplicationUI.exportM3uFile(dd, file_name)) {
@@ -386,12 +387,48 @@ Page {
             ]
         },        
         ActionItem {
-            title: qsTr("Import playlist from m3u")
+            title: qsTr("Import playlist from file")
             onTriggered: {
-                systemToast.body = qsTr("Not implemented yet!")
-                systemToast.exec();
+                var file_name = player.tab.title;//.replace(" ", "_");
+                sheetOpenFile.openFilePage.fileName = file_name;
+                sheetOpenFile.openFilePage.defaultExtension = "m3u";
+                sheetOpenFile.openFilePage.load();
+                sheetOpenFile.open();
             }
-            imageSource: "asset:///images/m3u_list.png"
+            imageSource: "asset:///images/m3u_load.png"
+            attachedObjects: [
+                Sheet {
+                    id: sheetOpenFile
+                    property alias openFilePage: openFilePage
+                    OpenFilePicker.Picker {
+                        id: openFilePage
+                        onDone: {
+                            sheetOpenFile.close();
+                            if(ok) {
+                                var file_name = fullFilePath();
+                                var file_infos = ApplicationUI.importM3uFile(file_name);
+                                if(file_infos instanceof Array) {
+                                    setPlayList(file_infos);
+                                    {
+                                        var playlist_name = file_name.split("/");
+                                        playlist_name = playlist_name[playlist_name.length - 1];
+                                        if(playlist_name) {
+                                            if(playlist_name.endsWith(".m3u")) playlist_name = playlist_name.slice(0, -4);
+                                            //playlist_name = playlist_name.replace("_", " ");
+                                            player.tab.playlistName = playlist_name;
+                                        }
+                                    }
+                                    systemToast.body = qsTr("Playlist successfully loaded from %1 !").arg(file_name);
+                                }
+                                else {
+                                    systemToast.body = qsTr("Failed to load playlist from file %1").arg(file_name);
+                                }
+                                systemToast.exec();
+                            }
+                        }
+                    }
+                }
+            ]
         },        
         DeleteActionItem {
             title: qsTr("Clear play list")
@@ -525,7 +562,15 @@ Page {
             meta_data_resolver.enqueue(file_infos);
         }
     }
-
+    
+    function setPlayList(file_infos) 
+    {        
+        playListModel.clear();
+        appendToPlayList(file_infos);
+        playStatus.playedIndex = 0;
+        setCurrentPlayListItemPlaybackStatus(0, false);
+    }
+    
     function pickFiles() {
         console.log("pickFiles()");
         if (!filePickerSheet) {

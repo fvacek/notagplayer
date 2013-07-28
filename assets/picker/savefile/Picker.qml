@@ -22,22 +22,31 @@ Page {
     }
     property string defaultExtension: "m3u"
     property alias fileName: edFileName.text
+    property alias fileLabel: lblFileName.text
     function fullFilePath() {
         var ret;
         var file_name = fileName.trim();
         if(file_name) {
             ret = "/" + listView.parentPath.join("/") + "/" + file_name;
-            if(defaultExtension) ret += "." + defaultExtension;
+            if(defaultExtension && !ret.endsWith("." + defaultExtension)) ret += "." + defaultExtension;
         }
         return ret;
     }
     Container {
+        Label {
+            id: lblPath            
+            text: {
+                console.debug("path update, parentPath: " + listView.parentPath + "of type: " + (typeof listView.parentPath));
+                GlobalDefs.decorateSystemPath("/" + listView.parentPath.join('/'))
+            }
+        }
         Container {
             layout: StackLayout {
                 orientation: LayoutOrientation.LeftToRight
             }
             Label {
-                text: tr("Save as")
+                id: lblFileName
+                text: qsTr("Save as")
             }
             TextField {
                 id: edFileName
@@ -53,47 +62,27 @@ Page {
         PickerListView {
             id: listView
             onPathsChosen: {
-                root.pathsChosen(path_list);
-                done();
+                if(paths_triggered) {
+                    var file_name = path_list[0];
+                    if(file_name) {
+                        var paths = file_name.split("/");
+                        file_name = paths[paths.length - 1];
+                        var ext = "." + defaultExtension;
+                        if(file_name.endsWith(ext)) file_name = file_name.slice(0, -ext.length);
+                        edFileName.text = file_name;
+                    }
+                }
+            }
+            function fileFilters() {
+                if(defaultExtension) return ["*." + defaultExtension];
+                return null;
             }
         }
     }
     actions: [
-        ActionItem {
-            title: qsTr("Up")
-            ActionBar.placement: ActionBarPlacement.OnBar
-            onTriggered: {
-                listView.upDir();
-            }
-            imageSource: "asset:///images/dir_up.png"
-        
-        },
-        ActionItem {
-            title: qsTr("Close")
-            ActionBar.placement: ActionBarPlacement.OnBar
-            onTriggered: {
-                done();
-            }
-            imageSource: "asset:///images/cs_close.png"
-        },
-        ActionItem {
-            id: actSDCard
-            title: qsTr("Media card")
-            ActionBar.placement: ActionBarPlacement.InOverflow
-            onTriggered: {
-                listView.setParentPath(listView.sdcardMusicPath);
-            }
-            imageSource: "asset:///images/storage_mediacard.png"
-        },
-        ActionItem {
-            id: actDevice
-            title: qsTr("Device media")
-            ActionBar.placement: ActionBarPlacement.InOverflow
-            onTriggered: {
-                listView.setParentPath(listView.deviceMusicPath);
-            }
-            imageSource: "asset:///images/storage_device.png"
-        }
+        listView.actionDirUp,
+        listView.actionDeviceMedia,
+        listView.actionSDCard
     ]
     function load() {
         listView.load();

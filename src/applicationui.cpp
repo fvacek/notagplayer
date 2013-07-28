@@ -138,11 +138,11 @@ QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QSt
 	return ret;
 }
 
-QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path_list)
+QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path_list, const QStringList &file_filters)
 {
 	QVariantList ret;
 	QString parent_dir_path = "/"%parent_dir_path_list.join("/");
-	QList<FindFile::FileInfo> files = FindFile::getDirContent(parent_dir_path);
+	QList<FindFile::FileInfo> files = FindFile::getDirContent(parent_dir_path, file_filters);
 	foreach(const FindFile::FileInfo &fi, files) {
 		//QVariantMap file_m = file_v.toMap();
 		ret << fi.toVariant();
@@ -220,20 +220,45 @@ bool ApplicationUI::exportM3uFile(const QVariantList &list, const QString &file_
 	// Store M3U list in music folder of device.
 	//QString fileName = "/accounts/1000/shared/music/" + listname + ".m3u";
 	QFile file(file_path);
-	if(!file.open(QIODevice::ReadWrite)) {
+	if(!file.open(QIODevice::WriteOnly)) {
 		return false;
 	}
 
-	QTextStream in(&file);
+	QTextStream out(&file);
+	out.setCodec("UTF-8");
 	foreach(QVariant v, list) {
 		QVariantMap item = v.toMap();
 		QString path = item.value("path").toString().trimmed();
 		if(!path.isEmpty()) {
-			in << path << "\n";
+			out << path << "\n";
 		}
 	}
 	return true;
 }
 
+QVariant ApplicationUI::importM3uFile(const QString &file_path)
+{
+	QVariant ret = false;
+	QFile file(file_path);
+	if(file.open(QIODevice::ReadOnly)) {
+		QTextStream in(&file);
+		in.setCodec("UTF-8");
+		QVariantList file_infos;
+		while(true) {
+			QString path = in.readLine().trimmed();
+			if(path.isNull()) break;
+			if(path.isEmpty()) continue;
+			if(path[0] == '#') continue;
+			QString name = path.section('/', -1);
+			FindFile::FileInfo fi;
+			fi.name = name;
+			fi.path = path;
+			fi.type = "file";
+			file_infos << fi.toVariant();
+		}
+		ret = file_infos;
+	}
+	return ret;
+}
 
 

@@ -2,8 +2,32 @@ console.debug("importing globaldefs.js");
 if(typeof __GLOBALDEFS_JS === "undefined") {
 	var __GLOBALDEFS_JS = true;
 
+	function stringext_init()
+	{
+		console.debug("stringext_init()");
+		if (typeof String.prototype.startsWith !== 'function') {
+			console.debug("creating stringext.startsWith");
+		    String.prototype.startsWith = function(prefix) {
+		        return this.lastIndexOf(prefix, 0) === 0;
+		    }
+		}
+
+		if (typeof String.prototype.endsWith !== 'function') {
+		    String.prototype.endsWith = function(suffix) {
+		        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+		    }
+		}
+
+		if(!String.prototype.trim) {
+			String.prototype.trim = function () {
+			    return this.replace(/^\s+|\s+$/g,'');
+			}
+		}
+	}
+	
 	console.debug("creating globaldefs.js");
-	Qt.include("stringext.js");
+	//Qt.include("stringext.js"); do not work, don't know why
+	stringext_init();
 
 	function splitPath(path)
 	{
@@ -17,8 +41,8 @@ if(typeof __GLOBALDEFS_JS === "undefined") {
 	var accountsPath = "/accounts/1000/";
 	var deviceSubPath = "shared/";
 	var sdcardSubPath = "removable/sdcard/";
-	var boxSubPath = "shared/Box";
-	var dropboxSubPath = "shared/Dropbox";
+	var boxSubPath = "shared/Box/";
+	var dropboxSubPath = "shared/Dropbox/";
 	var deviceMusicPath = accountsPath + deviceSubPath + "music/";
 	var sdcardMusicPath = accountsPath + sdcardSubPath + "music/";
 

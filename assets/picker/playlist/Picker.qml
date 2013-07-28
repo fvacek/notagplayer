@@ -18,45 +18,24 @@ Page {
             id: listView
             onPathsChosen: {
                 root.pathsChosen(path_list);
-                done();
+                if(paths_triggered) done();
             }
         }
     }
     actions: [
+        listView.actionDirUp,
+        actClose,
+        actFindFiles
+    ]
+    attachedObjects: [
         ActionItem {
-            title: qsTr("Up")
-            ActionBar.placement: ActionBarPlacement.OnBar
-            onTriggered: {
-                listView.upDir();
-            }
-            imageSource: "asset:///images/dir_up.png"
-        
-        },
-        ActionItem {
+            id: actClose
             title: qsTr("Close")
             ActionBar.placement: ActionBarPlacement.OnBar
             onTriggered: {
                 done();
             }
             imageSource: "asset:///images/cs_close.png"
-        },
-        ActionItem {
-            id: actSDCard
-            title: qsTr("Media card")
-            ActionBar.placement: ActionBarPlacement.InOverflow
-            onTriggered: {
-                listView.setParentPath(listView.sdcardMusicPath);
-            }
-            imageSource: "asset:///images/storage_mediacard.png"
-        },
-        ActionItem {
-            id: actDevice
-            title: qsTr("Device media")
-            ActionBar.placement: ActionBarPlacement.InOverflow
-            onTriggered: {
-                listView.setParentPath(listView.deviceMusicPath);
-            }
-            imageSource: "asset:///images/storage_device.png"
         },
         ActionItem {
             id: actFindFiles

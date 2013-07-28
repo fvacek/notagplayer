@@ -10,11 +10,14 @@ ListView {
     property variant sdcardMusicPath: GlobalDefs.splitPath(GlobalDefs.sdcardMusicPath)
     property variant parentPath: [] // sdcardMusicPath.split("/")
 
-    //property alias listView: listView
+    property alias actionDirUp: actDirUp 
+    property alias actionSDCard: actSDCard
+    property alias actionDeviceMedia: actDeviceMedia
+
     property alias listModel: listModel
     property list<ActionItem> multiSelectActions
     //signal itemTriggered();
-    signal pathsChosen(variant path_list);
+    signal pathsChosen(variant path_list, bool paths_triggered);
 
     //signal chooseSelection()
     dataModel: ArrayDataModel {
@@ -28,8 +31,11 @@ ListView {
             var subdir_name = file_info.name;
             enterSubDir(subdir_name);
         } else {
-            pathsChosen([ file_info.path ]);
+            fileTriggered(file_info.path);
         }
+    }
+    function fileTriggered(file_path) {
+        pathsChosen([ file_path ], true);
     }
     listItemComponents: [
         ListItemComponent {
@@ -43,7 +49,35 @@ ListView {
         // Call a function to update the number of selected items in the multi-select view.
         updateMultiStatus();
     }
-
+	attachedObjects: [
+        ActionItem {
+            id: actDirUp
+            title: qsTr("Up")
+            ActionBar.placement: ActionBarPlacement.OnBar
+            onTriggered: {
+                root.upDir();
+            }
+            imageSource: "asset:///images/dir_up.png"
+        },
+	    ActionItem {
+	        id: actSDCard
+	        title: qsTr("Media card")
+	        ActionBar.placement: ActionBarPlacement.InOverflow
+	        onTriggered: {
+                root.setParentPath(root.sdcardMusicPath);
+	        }
+	        imageSource: "asset:///images/storage_mediacard.png"
+	    },
+	    ActionItem {
+	        id: actDeviceMedia
+	        title: qsTr("Device media")
+	        ActionBar.placement: ActionBarPlacement.InOverflow
+	        onTriggered: {
+                root.setParentPath(root.deviceMusicPath);
+	        }
+	        imageSource: "asset:///images/storage_device.png"
+	    }
+	]
     function updateMultiStatus() {
 
         // The status text of the multi-select handler is updated to show how
@@ -65,16 +99,21 @@ ListView {
             selected_paths.push(listModel.data(selected_indexes[i]).path);
         }
         if(selected_paths) {
-            pathsChosen(selected_paths);
+            pathsChosen(selected_paths, false);
             clearSelection();   
         }
     }
     function resolveMetaData(file_list) {
         // do nothing in the base implementation
     }
+    function fileFilters() {
+        return null;
+    }
     function load() {
         listModel.clear();
-        var files = ApplicationUI.getDirContent(parentPath);
+        var file_filters = fileFilters();
+        if(file_filters) var files = ApplicationUI.getDirContent(parentPath, file_filters);
+        else var files = ApplicationUI.getDirContent(parentPath);
         listModel.append(files);
         resolveMetaData(files);
     }

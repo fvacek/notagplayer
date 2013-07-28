@@ -1,10 +1,9 @@
 #ifndef ApplicationUI_HPP_
 #define ApplicationUI_HPP_
 
-//#include <bb/system/phone/Call>
-
 #include <QObject>
 #include <QVariantList>
+#include <QStringList>
 
 class TrackMetaDataResolver;
 class Settings;
@@ -45,7 +44,7 @@ private slots:
     void onPhoneCallUpdated(const bb::system::phone::Call &call);
 public:
     Q_INVOKABLE QVariantList fetchFilesRecursively(const QStringList &path_list, const QStringList &file_filters);
-    Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path);
+    Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path, const QStringList &file_filters = QStringList());
     Q_INVOKABLE bool dirExists(const QStringList &dir_path);
 
 	Q_INVOKABLE QVariantMap displayInfo();
@@ -56,6 +55,7 @@ public:
 	Q_INVOKABLE QString buildDate() { return __DATE__; }
 
 	Q_INVOKABLE bool exportM3uFile(const QVariantList &list, const QString &listname);
+	Q_INVOKABLE QVariant importM3uFile(const QString &file_name);
 
 private:
     QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
