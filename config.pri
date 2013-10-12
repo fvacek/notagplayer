@@ -76,7 +76,34 @@ lupdate_inclusion {
              $$quote($$BASEDIR/../src/*.cxx) \
              $$quote($$BASEDIR/../assets/*.qml) \
              $$quote($$BASEDIR/../assets/*.js) \
-             $$quote($$BASEDIR/../assets/*.qs)
+             $$quote($$BASEDIR/../assets/*.qs) \
+             $$quote($$BASEDIR/../assets/dialogs/*.qml) \
+             $$quote($$BASEDIR/../assets/dialogs/*.js) \
+             $$quote($$BASEDIR/../assets/dialogs/*.qs) \
+             $$quote($$BASEDIR/../assets/images/*.qml) \
+             $$quote($$BASEDIR/../assets/images/*.js) \
+             $$quote($$BASEDIR/../assets/images/*.qs) \
+             $$quote($$BASEDIR/../assets/lib/*.qml) \
+             $$quote($$BASEDIR/../assets/lib/*.js) \
+             $$quote($$BASEDIR/../assets/lib/*.qs) \
+             $$quote($$BASEDIR/../assets/picker/*.qml) \
+             $$quote($$BASEDIR/../assets/picker/*.js) \
+             $$quote($$BASEDIR/../assets/picker/*.qs) \
+             $$quote($$BASEDIR/../assets/picker/findfiles/*.qml) \
+             $$quote($$BASEDIR/../assets/picker/findfiles/*.js) \
+             $$quote($$BASEDIR/../assets/picker/findfiles/*.qs) \
+             $$quote($$BASEDIR/../assets/picker/openfile/*.qml) \
+             $$quote($$BASEDIR/../assets/picker/openfile/*.js) \
+             $$quote($$BASEDIR/../assets/picker/openfile/*.qs) \
+             $$quote($$BASEDIR/../assets/picker/playlist/*.qml) \
+             $$quote($$BASEDIR/../assets/picker/playlist/*.js) \
+             $$quote($$BASEDIR/../assets/picker/playlist/*.qs) \
+             $$quote($$BASEDIR/../assets/picker/savefile/*.qml) \
+             $$quote($$BASEDIR/../assets/picker/savefile/*.js) \
+             $$quote($$BASEDIR/../assets/picker/savefile/*.qs) \
+             $$quote($$BASEDIR/../assets/picker/trash/*.qml) \
+             $$quote($$BASEDIR/../assets/picker/trash/*.js) \
+             $$quote($$BASEDIR/../assets/picker/trash/*.qs)
 
     HEADERS +=  $$quote($$BASEDIR/../src/*.h) \
              $$quote($$BASEDIR/../src/*.h++) \

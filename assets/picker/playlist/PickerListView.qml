@@ -73,7 +73,7 @@ FSListView {
             }
         }
         console.debug("parentPath inited to: " + parentPath + " of type: " + (typeof parentPath));
-        actSDCard.enabled = ApplicationUI.dirExists(sdcardMusicPath);
+        actionSDCard.enabled = ApplicationUI.dirExists(sdcardMusicPath);
     }
     
     onCreationCompleted: {

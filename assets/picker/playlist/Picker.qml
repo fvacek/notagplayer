@@ -8,7 +8,7 @@ Page {
     signal pathsChosen(variant path_list)
     Container {
         Label {
-            id: lblPath            
+            id: lblPath
             text: {
                 console.debug("path update, parentPath: " + listView.parentPath + "of type: " + (typeof listView.parentPath));
                 GlobalDefs.decorateSystemPath("/" + listView.parentPath.join('/'))
@@ -25,7 +25,9 @@ Page {
     actions: [
         listView.actionDirUp,
         actClose,
-        actFindFiles
+        actFindFiles,
+        listView.actionSDCard,
+        listView.actionDeviceMedia
     ]
     attachedObjects: [
         ActionItem {

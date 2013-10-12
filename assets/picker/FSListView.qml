@@ -136,9 +136,8 @@ ListView {
     }
 
     function setParentPath(parent_path) {
-        var pp = GlobalDefs.splitPath(parent_path);
-        if (ApplicationUI.dirExists(pp)) {
-            parentPath = pp;
+        if (ApplicationUI.dirExists(parent_path)) {
+            parentPath = parent_path;
             load();
         }
     }

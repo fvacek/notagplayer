@@ -10,6 +10,85 @@
     </message>
 </context>
 <context>
+    <name>DirPicker</name>
+    <message>
+        <location filename="../assets/picker/trash/DirPicker.qml" line="71"/>
+        <source>Add to play list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/DirPicker.qml" line="99"/>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/DirPicker.qml" line="108"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/DirPicker.qml" line="117"/>
+        <source>Media card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/DirPicker.qml" line="127"/>
+        <source>Device media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/DirPicker.qml" line="137"/>
+        <source>Find files</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FSListView</name>
+    <message>
+        <location filename="../assets/picker/FSListView.qml" line="55"/>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/FSListView.qml" line="64"/>
+        <source>Media card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/FSListView.qml" line="73"/>
+        <source>Device media</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FSPickerBase</name>
+    <message>
+        <location filename="../assets/picker/trash/FSPickerBase.qml" line="95"/>
+        <source>Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/FSPickerBase.qml" line="104"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/FSPickerBase.qml" line="113"/>
+        <source>Media card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/FSPickerBase.qml" line="123"/>
+        <source>Device media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/trash/FSPickerBase.qml" line="133"/>
+        <source>Find files</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MediaErrorLabel</name>
     <message>
         <location filename="../assets/MediaErrorLabel.qml" line="13"/>
@@ -149,6 +228,76 @@
     <message>
         <location filename="../assets/MediaErrorLabel.qml" line="40"/>
         <source>Invalid error number %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Page</name>
+    <message>
+        <location filename="../assets/picker/findfiles/Page.qml" line="34"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/findfiles/Page.qml" line="89"/>
+        <source>Add to play list</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Picker</name>
+    <message>
+        <location filename="../assets/picker/openfile/Picker.qml" line="7"/>
+        <source>Open file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/openfile/Picker.qml" line="10"/>
+        <location filename="../assets/picker/savefile/Picker.qml" line="11"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/openfile/Picker.qml" line="16"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/openfile/Picker.qml" line="22"/>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/playlist/Picker.qml" line="35"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/playlist/Picker.qml" line="44"/>
+        <source>Find files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/savefile/Picker.qml" line="8"/>
+        <source>Save file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/savefile/Picker.qml" line="17"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/savefile/Picker.qml" line="49"/>
+        <source>Save as</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PickerListView</name>
+    <message>
+        <location filename="../assets/picker/playlist/PickerListView.qml" line="17"/>
+        <source>Add to play list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
