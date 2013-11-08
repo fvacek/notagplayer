@@ -39,6 +39,7 @@ Page {
     Container {
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
+        Divider { }
         TrackLabel {
             id: trackLabel
             animatePlayback: audioPlayer.isPlaying
@@ -84,6 +85,8 @@ Page {
                 textStyle.color: Color.Yellow
             }
         }
+        Divider { }
+
         ListView {
             id: playList
             property int movedTrackIndex: -1
@@ -621,7 +624,7 @@ Page {
 	        var file_path = entry.path;
 	        //file_path = "http://icecast2.play.cz/radio1-64.mp3";
 	        audioPlayer.setSourceUrl(file_path);
-	        trackLabel.trackName = entry.name;
+	        trackLabel.setTrackData(entry);
             audioPlayer.play();
             if(playback_position > 0) audioPlayer.seek(1, playback_position);
             if(!play_on) {

@@ -81,21 +81,24 @@
     
     <!--  The category where the application appears. Either core.games or core.media. -->
     <name>No Tag Player</name>
+    <icon>
+       <image>icon-94.png</image>
+       <image>icon-114.png</image>
+    </icon>
     <category>core.games</category>
     
     <!--  The icon for the application, which should be 114x114. -->
-    <icon>
-        <image>icon.png</image>
-    </icon>
 
-    <asset path="icon.png">icon.png</asset>
     <asset path="assets">assets</asset>
     
     <!-- Locale support -->
     <asset path="translations" dest="qm">
         <include name="*.qm"/>
     </asset>
-
+    <asset path="icon-114.png">icon-114.png</asset>
+    <asset path="icon-94.png">icon-94.png</asset>
+    <!--
+	-->
     <cascadesTheme>dark</cascadesTheme>
     <authorId>gYAAgHtKsBiRyohB3lnBRIKt5OU</authorId>
 	

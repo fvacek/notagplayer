@@ -4,7 +4,7 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../assets/AboutPage.qml" line="56"/>
+        <location filename="../assets/AboutPage.qml" line="55"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -304,17 +304,17 @@
 <context>
     <name>Player</name>
     <message>
-        <location filename="../assets/Player.qml" line="252"/>
+        <location filename="../assets/Player.qml" line="255"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="252"/>
+        <location filename="../assets/Player.qml" line="255"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="165"/>
+        <location filename="../assets/Player.qml" line="168"/>
         <source>Playlist actions</source>
         <translation type="unfinished"></translation>
     </message>
@@ -329,107 +329,107 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="167"/>
+        <location filename="../assets/Player.qml" line="170"/>
         <source>Edit track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="194"/>
+        <location filename="../assets/Player.qml" line="197"/>
         <source>Move track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="205"/>
+        <location filename="../assets/Player.qml" line="208"/>
         <source>Shift track after current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="213"/>
+        <location filename="../assets/Player.qml" line="216"/>
         <source>Scroll to the played track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="222"/>
+        <location filename="../assets/Player.qml" line="225"/>
         <source>Remove track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="236"/>
+        <location filename="../assets/Player.qml" line="239"/>
         <source>Backward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="267"/>
+        <location filename="../assets/Player.qml" line="270"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="280"/>
+        <location filename="../assets/Player.qml" line="283"/>
         <source>Shuffle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="288"/>
+        <location filename="../assets/Player.qml" line="291"/>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="297"/>
+        <location filename="../assets/Player.qml" line="300"/>
         <source>Add URI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="319"/>
+        <location filename="../assets/Player.qml" line="322"/>
         <source>Edit playlist properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="341"/>
+        <location filename="../assets/Player.qml" line="344"/>
         <source>Delete playlist tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="390"/>
+        <location filename="../assets/Player.qml" line="393"/>
         <source>Import playlist from file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="421"/>
+        <location filename="../assets/Player.qml" line="424"/>
         <source>Playlist successfully loaded from %1 !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="424"/>
+        <location filename="../assets/Player.qml" line="427"/>
         <source>Failed to load playlist from file %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="434"/>
+        <location filename="../assets/Player.qml" line="437"/>
         <source>Clear play list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="377"/>
+        <location filename="../assets/Player.qml" line="380"/>
         <source>m3u music playlist &apos;%1&apos; created!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="353"/>
+        <location filename="../assets/Player.qml" line="356"/>
         <source>Export playlist to file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="380"/>
+        <location filename="../assets/Player.qml" line="383"/>
         <source>Failed to save native m3u music playlist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="344"/>
+        <location filename="../assets/Player.qml" line="347"/>
         <source>Realy delete current playlist tab?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Player.qml" line="198"/>
+        <location filename="../assets/Player.qml" line="201"/>
         <source>Tap on track to move after.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -498,7 +498,7 @@
 <context>
     <name>TrackLabel</name>
     <message>
-        <location filename="../assets/TrackLabel.qml" line="13"/>
+        <location filename="../assets/TrackLabel.qml" line="19"/>
         <source>No track played ...</source>
         <translation type="unfinished"></translation>
     </message>

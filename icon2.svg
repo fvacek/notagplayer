@@ -127,13 +127,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.65701686"
-     inkscape:cx="-292.36277"
+     inkscape:cx="-556.43514"
      inkscape:cy="89.101522"
      inkscape:current-layer="layer1"
      height="302.36px"
      width="744.09448px"
-     inkscape:window-width="1680"
-     inkscape:window-height="995"
+     inkscape:window-width="1920"
+     inkscape:window-height="1025"
      inkscape:window-x="-3"
      inkscape:window-y="-3"
      showgrid="false"
@@ -144,13 +144,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-0.98007,247.67779)">
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#01a0d4;stroke-width:1.42231536000000003;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       id="rect6025"
-       width="368.57767"
-       height="308.5777"
-       x="1.6912276"
-       y="-246.96664" />
     <rect
        style="fill:#000000;stroke:#01a0d4;stroke-width:1.77165353000000003;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect5891"
@@ -1958,7 +1951,8 @@
     <g
        id="g3067"
        transform="matrix(0.93575558,0,0,0.93575558,428.06192,7.7833722)"
-       style="filter:url(#filter6013)">
+       style="filter:url(#filter6013)"
+       sodipodi:insensitive="true">
       <rect
          style="fill:#01a0d4;fill-opacity:1;stroke:none"
          id="rect3059"
@@ -1982,14 +1976,15 @@
     </g>
     <path
        sodipodi:type="arc"
-       style="fill:none;stroke:#01a0d4;stroke-width:14.17322826000000013;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter6001)"
+       style="fill:none;stroke:#01a0d4;stroke-width:14.17322826;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter6001)"
        id="path3356"
        sodipodi:cx="210.94273"
        sodipodi:cy="203.45239"
        sodipodi:rx="154.97833"
        sodipodi:ry="154.97833"
        d="m 365.92107,203.45239 a 154.97833,154.97833 0 1 1 -309.956669,0 154.97833,154.97833 0 1 1 309.956669,0 z"
-       transform="matrix(0.88914945,0,0,0.88914945,7.8885489,-272.25657)" />
+       transform="matrix(0.88914945,0,0,0.88914945,7.8885489,-272.25657)"
+       sodipodi:insensitive="true" />
     <rect
        style="fill:none;stroke:#01a0d4;stroke-width:1.50050104;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect5889"
@@ -1997,6 +1992,16 @@
        height="141.72121"
        x="-121.00056"
        y="9.403738" />
+    <rect
+       style="opacity:0.32644628999999997;fill:#a6a6a6;stroke:none;fill-opacity:1"
+       id="rect5392"
+       width="371.37558"
+       height="371.37558"
+       x="7.2817917"
+       y="-287.26694"
+       inkscape:export-filename="/home/fvacek/rim/github/notagplayer/icon94.png"
+       inkscape:export-xdpi="22.780174"
+       inkscape:export-ydpi="22.780174" />
   </g>
   <metadata
      id="metadata3073">

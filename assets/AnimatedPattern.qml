@@ -4,9 +4,7 @@ Container {
     property string trackName
     property bool animatePlayback: false
     property int patternHeight: 20
-    layout: DockLayout {
-
-    }
+    layout: DockLayout { }
     Container {
         id: uc
         property int patternWidth: 64
@@ -35,9 +33,6 @@ Container {
                 easingCurve: StockCurve.Linear
             }
         ]
-        onCreationCompleted: {
-            //translateAnimation.play();
-        }
     }
     onAnimatePlaybackChanged: {
         if (animatePlayback) {
@@ -56,4 +51,5 @@ Container {
     }
     minHeight: root.patternHeight
     maxHeight: root.patternHeight
+    horizontalAlignment: HorizontalAlignment.Fill
 }

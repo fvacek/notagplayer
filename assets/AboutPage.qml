@@ -2,22 +2,21 @@ import bb.cascades 1.0
 
 Page {
 	id: aboutPage
-
     signal aboutPageClose() 
-    
+
     Container {
-    	leftPadding: 100.0
-    	rightPadding: leftPadding
+        leftPadding: 100.0
+        rightPadding: leftPadding
         topPadding: leftPadding
         bottomPadding: leftPadding
 
-		Container {
-		    layoutProperties: StackLayoutProperties {
-		        spaceQuota: 1.0
-		    }
-		}
+        Container {
+            layoutProperties: StackLayoutProperties {
+                spaceQuota: 1.0
+            }
+        }
         ImageView {
-        	horizontalAlignment: HorizontalAlignment.Center
+            horizontalAlignment: HorizontalAlignment.Center
             imageSource: "asset:///images/icon.png"
             scalingMethod: ScalingMethod.AspectFit
         }
@@ -28,7 +27,7 @@ Page {
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
-            text: "ver. 1.0.15"
+            text: "ver. 1.0.16"
         }
         Label {
             horizontalAlignment: HorizontalAlignment.Center
