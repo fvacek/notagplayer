@@ -130,18 +130,8 @@ void TrackMetaDataResolver::resolveFirst()
 	if(err == bb::multimedia::MediaError::None) {
 		err = m_metaDataResolver->prepare();
 		if(err == bb::multimedia::MediaError::None) {
-			//qDebug() << "============================= prepared ============================";
 			m_metaDataResolverWatchDog->start();
 			ok = true;
-			/*
-			QVariantMap m = m_metaDataResolver->metaData();
-			qDebug() << m.count() << "************* got metadata for:" << m_metaDataResolver->sourceUrl().toString();
-			QMapIterator<QString, QVariant> it(m);
-			while(it.hasNext()) {
-			    it.next();
-			    qDebug() << it.key() << ": " << it.value().toString();
-			}
-			*/
 		}
 		else qDebug() << "prepare error:" << err;
 	}

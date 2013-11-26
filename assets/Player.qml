@@ -138,7 +138,6 @@ Page {
                             }
                             return ret;
                         }
-
                     }
                 }
             ]
@@ -220,6 +219,25 @@ Page {
                             }
                         }
                         imageSource: "asset:///images/scroll_to_current.png"
+                    }
+                    ActionItem {
+                        title: qsTr("Share")
+                        /*
+                        query {
+                            //mimeType: "application/mpeg3"
+                            invokeActionId: "bb.action.SHARE"
+                            invokeTargetId: "sys.invokeTargetSelection"
+                        }
+                        */
+                        onTriggered: {
+                            var ix = playList.contextMenuIndex();
+                            var file_info = playListModel.value(ix);
+                            // query is read-only, all changes after creation are silently ignored
+                            // we have to solve it in C++
+                            //query.uri = file_info.path
+                            ApplicationUI.shareFile(file_info.path);
+                        }
+                        imageSource: "asset:///images/ic_share.png"
                     }
                     DeleteActionItem {
                         title: qsTr("Remove track")

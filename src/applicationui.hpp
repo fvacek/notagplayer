@@ -42,6 +42,8 @@ public:
 private slots:
     void onSystemLanguageChanged();
     void onPhoneCallUpdated(const bb::system::phone::Call &call);
+    void onShareFileArmed();
+    void onShareFileFinished();
 public:
     Q_INVOKABLE QVariantList fetchFilesRecursively(const QStringList &path_list, const QStringList &file_filters);
     Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path, const QStringList &file_filters = QStringList());
@@ -57,6 +59,7 @@ public:
 	Q_INVOKABLE bool exportM3uFile(const QVariantList &list, const QString &listname);
 	Q_INVOKABLE QVariant importM3uFile(const QString &file_name);
 
+	Q_INVOKABLE void shareFile(const QString &file_name);
 private:
     QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
     void resolveTrackMetaDataFinish(const QString &path, const QVariant &meta_data);

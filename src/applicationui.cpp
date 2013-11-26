@@ -10,7 +10,8 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
 
-//#include <bb/cascades/pickers/FilePicker>
+#include <bb/cascades/InvokeQuery>
+#include <bb/cascades/Invocation>
 
 #include <bb/system/phone/Phone>
 #include <bb/system/phone/CallState>
@@ -259,6 +260,43 @@ QVariant ApplicationUI::importM3uFile(const QString &file_path)
 		ret = file_infos;
 	}
 	return ret;
+}
+
+namespace
+{
+	bb::cascades::Invocation *currentFileShareInvocation = NULL;
+}
+
+void ApplicationUI::shareFile(const QString &file_path)
+{
+	using namespace bb::cascades;
+
+	if(currentFileShareInvocation) {
+		qWarning() << "Invocation in process !!!";
+		return;
+	}
+
+	QUrl url = QUrl::fromLocalFile(file_path);
+	qDebug() << "Creating share file invocation for:" << url.toString();
+	currentFileShareInvocation = Invocation::create(InvokeQuery::create()
+		.parent(this)
+		.uri(url)
+		//.invokeTargetId("sys.invokeTargetSelection")
+	);
+
+	connect(currentFileShareInvocation, SIGNAL(armed()), this, SLOT(onShareFileArmed()));
+	connect(currentFileShareInvocation, SIGNAL(finished()), this, SLOT(onShareFileFinished()));
+}
+
+void ApplicationUI::onShareFileArmed()
+{
+	currentFileShareInvocation->trigger("bb.action.SHARE");
+}
+
+void ApplicationUI::onShareFileFinished()
+{
+	currentFileShareInvocation->deleteLater();
+	currentFileShareInvocation = NULL;
 }
 
 
