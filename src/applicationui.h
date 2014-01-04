@@ -1,5 +1,5 @@
-#ifndef ApplicationUI_HPP_
-#define ApplicationUI_HPP_
+#ifndef ApplicationUI_H_
+#define ApplicationUI_H_
 
 #include <QObject>
 #include <QVariantList>
@@ -26,18 +26,13 @@ namespace bb
 }
 
 class QTranslator;
-
-/*!
- * @brief Application object
- *
- *
- */
+class TheApp;
 
 class ApplicationUI : public QObject
 {
     Q_OBJECT
 public:
-    ApplicationUI(bb::cascades::Application *app);
+    ApplicationUI(TheApp *app);
     virtual ~ApplicationUI();
 private slots:
     void onSystemLanguageChanged();
@@ -59,7 +54,8 @@ public:
 	Q_INVOKABLE bool exportM3uFile(const QVariantList &list, const QString &listname);
 	Q_INVOKABLE QVariant importM3uFile(const QString &file_name);
 
-	Q_INVOKABLE void shareFile(const QString &file_name);
+	Q_INVOKABLE void shareFile(const QString &file_name, const QString &mime_type = QString(), const QString &action_id = QString(), const QString &target_id = QString());
+	Q_INVOKABLE void shareLogFile();
 private:
     QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
     void resolveTrackMetaDataFinish(const QString &path, const QVariant &meta_data);
@@ -69,8 +65,7 @@ signals:
 private:
     QTranslator *m_pTranslator;
     bb::cascades::LocaleHandler *m_pLocaleHandler;
-    Settings *m_settings;
     TrackMetaDataResolver *m_trackMetaDataResolver;
 };
 
-#endif /* ApplicationUI_HPP_ */
+#endif /* ApplicationUI_H_ */

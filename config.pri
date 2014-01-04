@@ -9,15 +9,17 @@ device {
                  $$quote($$BASEDIR/src/findfilethread.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp) \
+                 $$quote($$BASEDIR/src/theapp.cpp) \
                  $$quote($$BASEDIR/src/trackmetadataresolver.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
-                 $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/applicationui.h) \
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/findfile.h) \
                  $$quote($$BASEDIR/src/findfilethread.h) \
-                 $$quote($$BASEDIR/src/qtmsghandler.h) \
+                 $$quote($$BASEDIR/src/mymsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h) \
+                 $$quote($$BASEDIR/src/theapp.h) \
                  $$quote($$BASEDIR/src/trackmetadataresolver.h)
     }
 
@@ -28,15 +30,17 @@ device {
                  $$quote($$BASEDIR/src/findfilethread.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp) \
+                 $$quote($$BASEDIR/src/theapp.cpp) \
                  $$quote($$BASEDIR/src/trackmetadataresolver.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
-                 $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/applicationui.h) \
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/findfile.h) \
                  $$quote($$BASEDIR/src/findfilethread.h) \
-                 $$quote($$BASEDIR/src/qtmsghandler.h) \
+                 $$quote($$BASEDIR/src/mymsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h) \
+                 $$quote($$BASEDIR/src/theapp.h) \
                  $$quote($$BASEDIR/src/trackmetadataresolver.h)
     }
 }
@@ -49,15 +53,17 @@ simulator {
                  $$quote($$BASEDIR/src/findfilethread.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp) \
+                 $$quote($$BASEDIR/src/theapp.cpp) \
                  $$quote($$BASEDIR/src/trackmetadataresolver.cpp)
 
         HEADERS +=  $$quote($$BASEDIR/src/appglobals.h) \
-                 $$quote($$BASEDIR/src/applicationui.hpp) \
+                 $$quote($$BASEDIR/src/applicationui.h) \
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/findfile.h) \
                  $$quote($$BASEDIR/src/findfilethread.h) \
-                 $$quote($$BASEDIR/src/qtmsghandler.h) \
+                 $$quote($$BASEDIR/src/mymsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h) \
+                 $$quote($$BASEDIR/src/theapp.h) \
                  $$quote($$BASEDIR/src/trackmetadataresolver.h)
     }
 }

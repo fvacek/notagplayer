@@ -1,5 +1,5 @@
-#include "applicationui.hpp"
-#include "appglobals.h"
+#include "applicationui.h"
+#include "theapp.h"
 #include "settings.h"
 #include "cover.h"
 #include "findfile.h"
@@ -40,7 +40,7 @@
 
 using namespace bb::cascades;
 
-ApplicationUI::ApplicationUI(bb::cascades::Application *app) :
+ApplicationUI::ApplicationUI(TheApp *app) :
 QObject(app)
 {
 	m_trackMetaDataResolver = NULL;
@@ -52,7 +52,6 @@ QObject(app)
 	qmlRegisterType<FindFile>("app.lib", 1, 0, "FindFile");
 	//qmlRegisterType<bb::cascades::pickers::FilePicker>("CascadesPickers", 1, 0,"FilePicker");
 
-	m_settings = new Settings(this);
 	// prepare the localization
 	m_pTranslator = new QTranslator(this);
 	m_pLocaleHandler = new LocaleHandler(this);
@@ -168,7 +167,7 @@ QVariant ApplicationUI::trackMetaDataResolver()
 
 QVariant ApplicationUI::settings()
 {
-	QObject *o = m_settings;
+	QObject *o = theApp()->settings();
 	QVariant ret = QVariant::fromValue(o);
 	return ret;
 }
@@ -267,7 +266,7 @@ namespace
 	bb::cascades::Invocation *currentFileShareInvocation = NULL;
 }
 
-void ApplicationUI::shareFile(const QString &file_path)
+void ApplicationUI::shareFile(const QString &file_path, const QString &mime_type, const QString &action_id, const QString &target_id)
 {
 	using namespace bb::cascades;
 
@@ -277,11 +276,13 @@ void ApplicationUI::shareFile(const QString &file_path)
 	}
 
 	QUrl url = QUrl::fromLocalFile(file_path);
-	qDebug() << "Creating share file invocation for:" << url.toString();
+	qDebug() << "Creating share file invocation for:" << url.toString() << mime_type << action_id << target_id;
 	currentFileShareInvocation = Invocation::create(InvokeQuery::create()
 		.parent(this)
 		.uri(url)
-		//.invokeTargetId("sys.invokeTargetSelection")
+		.mimeType(mime_type)
+		.invokeActionId(action_id)
+		.invokeTargetId(target_id) //"sys.invokeTargetSelection"
 	);
 
 	connect(currentFileShareInvocation, SIGNAL(armed()), this, SLOT(onShareFileArmed()));
@@ -299,4 +300,20 @@ void ApplicationUI::onShareFileFinished()
 	currentFileShareInvocation = NULL;
 }
 
+void ApplicationUI::shareLogFile()
+{
+	QString working_dir = QDir::currentPath();
+	QString log_file = working_dir + "/logs/log";
+	// make copy with txt extension
+	QString log_file2 = working_dir + "/tmp/log.txt";
+	if(QFile::copy(log_file, log_file2)) {
+		shareFile(log_file2, "text/plain");
+        //shareFile(log_file2, "text/plain", "bb.action.VIEW", "sys.wordtogo.previewer");
+        //ApplicationUI.shareFile(log_file_name, "text/plain", "bb.action.OPEN", "sys.dxtg.stg");
+	}
+	else {
+		// should never happen
+		shareFile(log_file, "text/plain");
+	}
+}
 

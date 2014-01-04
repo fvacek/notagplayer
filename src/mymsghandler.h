@@ -24,16 +24,5 @@ namespace {
                 break;
         }
     }
-
-    class MyMsgHandlerHelper
-    {
-    public:
-        MyMsgHandlerHelper() {
-            qInstallMsgHandler(myMsgHandler);
-        }
-    };
-
-    MyMsgHandlerHelper hlp;
-
 }
 

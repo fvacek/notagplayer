@@ -470,33 +470,43 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="7"/>
+        <location filename="../assets/SettingsPage.qml" line="8"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="11"/>
+        <location filename="../assets/SettingsPage.qml" line="12"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="21"/>
+        <location filename="../assets/SettingsPage.qml" line="23"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="41"/>
+        <location filename="../assets/SettingsPage.qml" line="44"/>
         <source>Track bar settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="64"/>
+        <location filename="../assets/SettingsPage.qml" line="67"/>
         <source>Playback settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="88"/>
+        <location filename="../assets/SettingsPage.qml" line="91"/>
         <source>Track meta data settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="114"/>
+        <source>Developer settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/SettingsPage.qml" line="169"/>
+        <source>Application restart required.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
