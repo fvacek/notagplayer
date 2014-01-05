@@ -7,6 +7,7 @@ device {
                  $$quote($$BASEDIR/src/cover.cpp) \
                  $$quote($$BASEDIR/src/findfile.cpp) \
                  $$quote($$BASEDIR/src/findfilethread.cpp) \
+                 $$quote($$BASEDIR/src/logcollector.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp) \
                  $$quote($$BASEDIR/src/theapp.cpp) \
@@ -17,6 +18,7 @@ device {
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/findfile.h) \
                  $$quote($$BASEDIR/src/findfilethread.h) \
+                 $$quote($$BASEDIR/src/logcollector.h) \
                  $$quote($$BASEDIR/src/mymsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h) \
                  $$quote($$BASEDIR/src/theapp.h) \
@@ -28,6 +30,7 @@ device {
                  $$quote($$BASEDIR/src/cover.cpp) \
                  $$quote($$BASEDIR/src/findfile.cpp) \
                  $$quote($$BASEDIR/src/findfilethread.cpp) \
+                 $$quote($$BASEDIR/src/logcollector.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp) \
                  $$quote($$BASEDIR/src/theapp.cpp) \
@@ -38,6 +41,7 @@ device {
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/findfile.h) \
                  $$quote($$BASEDIR/src/findfilethread.h) \
+                 $$quote($$BASEDIR/src/logcollector.h) \
                  $$quote($$BASEDIR/src/mymsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h) \
                  $$quote($$BASEDIR/src/theapp.h) \
@@ -51,6 +55,7 @@ simulator {
                  $$quote($$BASEDIR/src/cover.cpp) \
                  $$quote($$BASEDIR/src/findfile.cpp) \
                  $$quote($$BASEDIR/src/findfilethread.cpp) \
+                 $$quote($$BASEDIR/src/logcollector.cpp) \
                  $$quote($$BASEDIR/src/main.cpp) \
                  $$quote($$BASEDIR/src/settings.cpp) \
                  $$quote($$BASEDIR/src/theapp.cpp) \
@@ -61,6 +66,7 @@ simulator {
                  $$quote($$BASEDIR/src/cover.h) \
                  $$quote($$BASEDIR/src/findfile.h) \
                  $$quote($$BASEDIR/src/findfilethread.h) \
+                 $$quote($$BASEDIR/src/logcollector.h) \
                  $$quote($$BASEDIR/src/mymsghandler.h) \
                  $$quote($$BASEDIR/src/settings.h) \
                  $$quote($$BASEDIR/src/theapp.h) \

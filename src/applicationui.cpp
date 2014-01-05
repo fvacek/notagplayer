@@ -4,6 +4,7 @@
 #include "cover.h"
 #include "findfile.h"
 #include "trackmetadataresolver.h"
+#include "logcollector.h"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -303,16 +304,13 @@ void ApplicationUI::onShareFileFinished()
 void ApplicationUI::shareLogFile()
 {
 	QString working_dir = QDir::currentPath();
-	QString log_file = working_dir + "/logs/log";
-	// make copy with txt extension
-	QString log_file2 = working_dir + "/tmp/log.txt";
-	if(QFile::copy(log_file, log_file2)) {
-		shareFile(log_file2, "text/plain");
-        //shareFile(log_file2, "text/plain", "bb.action.VIEW", "sys.wordtogo.previewer");
-        //ApplicationUI.shareFile(log_file_name, "text/plain", "bb.action.OPEN", "sys.dxtg.stg");
-	}
-	else {
-		// should never happen
+	QString log_file = working_dir + "/tmp/log.txt";
+	QFile f(log_file);
+	if(f.open(QFile::WriteOnly)) {
+		LogCollector lc;
+		QByteArray log = lc.collectLog();
+		f.write(log);
+		f.close();
 		shareFile(log_file, "text/plain");
 	}
 }

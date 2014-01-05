@@ -1,5 +1,5 @@
 import bb.cascades 1.0
-import bb.system 1.0
+//import bb.system 1.0
 
 Page {
     id: settingsPage
@@ -11,9 +11,7 @@ Page {
             id: cancelAction
             title: qsTr("Cancel")
 
-            //Connect titlebar dismiss action.
             onTriggered: {
-                //systemToast.cancel();
                 done(false);
             }
         }
@@ -22,9 +20,7 @@ Page {
             id: saveAction
             title: qsTr("Save")
 
-            //Connect titlebar accet action
             onTriggered: {
-                //systemToast.cancel();
                 saveSettings();
                 done(true);
             }
@@ -94,6 +90,7 @@ Page {
                 leftPadding: 20
                 rightPadding: leftPadding
                 topPadding: 10
+
                 Container {
                     layout: StackLayout {
                         orientation: LayoutOrientation.LeftToRight
@@ -117,21 +114,7 @@ Page {
                 leftPadding: 20
                 rightPadding: leftPadding
                 topPadding: 10
-                Container {
-                    layout: StackLayout {
-                        orientation: LayoutOrientation.LeftToRight
-                    }
-                    Label {
-                        text: "Log debug info"
-                        layoutProperties: StackLayoutProperties {
-                            spaceQuota: 1.0
-                        }
-                        multiline: true
-                    }
-                    ToggleButton {
-                        id: btLogDebugInfo
-                    }
-                }
+                horizontalAlignment: HorizontalAlignment.Fill
                 Button {
                     //id: btSendDebugLog
                     text: "Send current log"
@@ -150,25 +133,27 @@ Page {
         }
     }
 
-	attachedObjects: [
-        SystemToast {
-            id: systemToast
-        }    
-	]
-	
-    function saveSettings()
-    {
+    attachedObjects: [
+    /*
+     * SystemToast {
+     * id: systemToast
+     * }
+     */
+    ]
+
+    function saveSettings() {
         var settings = ApplicationUI.settings();
         settings.setValue("settings/trackBar/playbackAnimation", btPlaybackAnimation.checked);
         settings.setValue("settings/playBack/pausePlaybackOnPhoneCall", btPausePlaybackOnPhoneCall.checked);
         settings.setValue("settings/trackMetaData/resolvingEnabled", btResolveTrackMetaData.checked);
-
-        var orig_log_info = settings.boolValue("settings/application/developerSettings/logDebugInfo");
-        settings.setValue("settings/application/developerSettings/logDebugInfo", btLogDebugInfo.checked);
+        /*
+         var orig_log_info = settings.boolValue("settings/application/developerSettings/logDebugInfo");
+         settings.setValue("settings/application/developerSettings/logDebugInfo", btLogDebugInfo.checked);
         if(orig_log_info != btLogDebugInfo.checked) {
             systemToast.body = qsTr("Application restart required.");
             systemToast.exec();
         }
+        */
     }
 
     function loadSettings()
@@ -177,6 +162,6 @@ Page {
         btPlaybackAnimation.checked = settings.boolValue("settings/trackBar/playbackAnimation", true);
         btPausePlaybackOnPhoneCall.checked = settings.boolValue("settings/playBack/pausePlaybackOnPhoneCall", true);
         btResolveTrackMetaData.checked = settings.boolValue("settings/trackMetaData/resolvingEnabled", true);
-        btLogDebugInfo.checked = settings.boolValue("settings/application/developerSettings/logDebugInfo", false);
+        //btLogDebugInfo.checked = settings.boolValue("settings/application/developerSettings/logDebugInfo", false);
     }
 }

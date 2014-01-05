@@ -62,7 +62,7 @@
 
     <!-- Description, displayed in the BlackBerry 10 application installer.
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <description>Audio player using file system insteat of MP3 tags</description>
+    <description>The audio player using file system instead of MP3 tags</description>
 
     <!-- Copyright information. Optional. -->
     <!-- <copyright></copyright> -->
@@ -85,7 +85,7 @@
        <image>icon-94.png</image>
        <image>icon-114.png</image>
     </icon>
-    <category>core.games</category>
+    <category>core.media</category>
     
     <!--  The icon for the application, which should be 114x114. -->
 

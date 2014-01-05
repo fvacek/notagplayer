@@ -480,33 +480,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="23"/>
+        <location filename="../assets/SettingsPage.qml" line="21"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="44"/>
+        <location filename="../assets/SettingsPage.qml" line="40"/>
         <source>Track bar settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="67"/>
+        <location filename="../assets/SettingsPage.qml" line="63"/>
         <source>Playback settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="91"/>
+        <location filename="../assets/SettingsPage.qml" line="87"/>
         <source>Track meta data settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="114"/>
+        <location filename="../assets/SettingsPage.qml" line="111"/>
         <source>Developer settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/SettingsPage.qml" line="169"/>
-        <source>Application restart required.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
