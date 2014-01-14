@@ -39,6 +39,9 @@
 	Q_DECLARE_METATYPE(bb::multimedia::MediaState::Type);
 #endif
 
+// way how to find if current QNX target supports readdir64_r()
+//#if defined(__EXT_QNX__READDIR64_R)
+
 using namespace bb::cascades;
 
 ApplicationUI::ApplicationUI(TheApp *app) :

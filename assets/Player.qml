@@ -548,21 +548,41 @@ Page {
             id: systemToast
         },
 		MediaKeyWatcher {
-			id: keyWatcherUp
+			//id: keyWatcherUp
 			key: MediaKey.VolumeUp 
 			onLongPress: {
                 forward(true);
 			} 
         },
 		MediaKeyWatcher {
-			id: keyWatcherDown
+			//id: keyWatcherDown
 			key: MediaKey.VolumeDown 
 			onLongPress: {
                 backward();
 			} 
         },
+        MediaKeyWatcher {
+            key: MediaKey.Play 
+            onShortPress: {
+                play(true);
+            } 
+        },
+        MediaKeyWatcher {
+            key: MediaKey.Stop 
+            onShortPress: {
+                play(false);
+            } 
+        },
+        MediaKeyWatcher {
+            key: MediaKey.Previous 
+            onShortPress: backward();
+        },
+        MediaKeyWatcher {
+            key: MediaKey.Next 
+            onShortPress: forward(true);
+        },
 		MediaKeyWatcher {
-			id: keyWatcherPlayPause
+			//id: keyWatcherPlayPause
 			key: MediaKey.PlayPause 
 			onShortPress: {
                 play(audioPlayer.isPlaying);
