@@ -575,11 +575,17 @@ Page {
         },
         MediaKeyWatcher {
             key: MediaKey.Previous 
-            onShortPress: backward();
+            onShortPress: {
+                console.debug("MediaKey.Previous");
+                backward();
+            }
         },
         MediaKeyWatcher {
             key: MediaKey.Next 
-            onShortPress: forward(true);
+            onShortPress: {
+                console.debug("MediaKey.Next");
+                forward(true);
+            }
         },
 		MediaKeyWatcher {
 			//id: keyWatcherPlayPause
