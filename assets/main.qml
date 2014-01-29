@@ -1,12 +1,12 @@
 import bb.cascades 1.0
-//import bb.multimedia 1.0
+import bb.multimedia 1.0
 import bb.system 1.0
 import "picker"
 
 TabbedPane {
     id: tabbedPane
     property bool tabRemoval: false
-    //property bool tabAppend: false
+    //property variant gNPC
     signal playerTabCountChanged(int new_tab_count);
 
 	Menu.definition: MenuDefinition {
@@ -67,7 +67,7 @@ TabbedPane {
         }
     }
     
-    attachedObjects: [
+    attachedObjects: [        
         ComponentDefinition {
             id: playListTabDef
             Tab {
@@ -114,6 +114,59 @@ TabbedPane {
                 id: player1
                 //playlistId: tab.tabId
             }
+        },
+        NowPlayingConnection {
+	        id: nowPlayingConnection
+	        
+	        connectionName: "NTP Connection"
+	        //icon: "asset:///images/uc.png"
+	        
+	        onAcquired: {
+	            /*
+	             var metadata = { "track": "MyTrack", "artist" : "MyArtist" };
+	             
+	             nowplaying.duration = 120000; // 2min in milliseconds
+	             nowplaying.position = 0;
+	             
+	             nowplaying.mediaState = MediaState.Started;
+	             
+	             nowplaying.setMetaData(metadata);
+	             */
+	            console.debug("NTP NPC acquired !!!");
+	        }
+	        onNext: {
+	            console.debug("NTP NPC next !!!");
+	            var pl = activePlayer();
+	            if(pl) {
+                    pl.forward(true);
+	            }
+	        }            
+	        onPrevious: {
+	            console.debug("NTP NPC prev !!!");
+                var pl = activePlayer();
+                if(pl) {
+                    pl.backward();
+                }
+	        }
+	        onPause: {
+	            console.debug("NTP NPC pause !!!");
+                var pl = activePlayer();
+                if(pl) {
+                    pl.play(true);
+                }
+	        }
+	        onPlay: {
+	            console.debug("NTP NPC play !!!");
+                var pl = activePlayer();
+                if(pl) {
+                    pl.play(false);
+                }
+	        }
+	        onRevoked: {
+	            console.debug("NTP NPC revoked !!!");
+	            //mymedia.stop();
+	        }
+	        
         }
     ]
     function newPlayerTabId()
@@ -282,6 +335,16 @@ TabbedPane {
         }
     }
 
+	function activePlayer()
+	{
+	    var ret = null;
+        var active_tab = tabbedPane.activeTab;
+        if(active_tab) {
+            ret = active_tab.player;
+        }
+        return ret;
+	}
+
 	onCreationCompleted: {
         //console.debug("************************ onCreationCompleted()");
         tabbedPane.tabRemoved.connect(onTabCountChanged);
@@ -290,5 +353,8 @@ TabbedPane {
         ApplicationUI.phoneActivityChanged.connect(tabbedPane.onPhoneActivityChanged);
 
         loadSettings();
+        
+        //gNPC = nowPlayingConnection;
+        nowPlayingConnection.acquire();
     }
 }

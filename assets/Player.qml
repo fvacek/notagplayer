@@ -28,7 +28,7 @@ Page {
 		}
 	]
 
-    id: player
+    id: root
     signal deletePlaylistTab(int playlist_id);
     signal playbackStatusChanged(bool is_playing);
     property int playlistId: -1
@@ -341,15 +341,15 @@ Page {
             property variant sheet: null
             onTriggered: {
                 sheet = playlistSettingsSheetDefinition.createObject();
-                sheet.playlistSettings.playlistName = player.tab.playlistName;
+                sheet.playlistSettings.playlistName = root.tab.playlistName;
                 sheet.playlistSettings.done.connect(done);
                 sheet.open();
             }
             imageSource: "asset:///images/ic_edit_list.png"
             function done(ok) {
                 if(sheet) {
-                    if (ok && player.tab) {
-                        player.tab.playlistName = sheet.playlistSettings.playlistName.trim();
+                    if (ok && root.tab) {
+                        root.tab.playlistName = sheet.playlistSettings.playlistName.trim();
                     }
                     sheet.close();
                     sheet.destroy();
@@ -377,7 +377,7 @@ Page {
             }
             imageSource: "asset:///images/m3u_save.png"
             function exportM3U() {
-                var file_name = player.tab.title.replace(" ", "_");
+                var file_name = root.tab.title.replace(" ", "_");
                 sheetSaveFile.saveFilePage.fileName = file_name;
                 sheetSaveFile.saveFilePage.defaultExtension = "m3u";
                 sheetSaveFile.saveFilePage.load();
@@ -410,7 +410,7 @@ Page {
         ActionItem {
             title: qsTr("Import playlist from file")
             onTriggered: {
-                var file_name = player.tab.title;//.replace(" ", "_");
+                var file_name = root.tab.title;//.replace(" ", "_");
                 sheetOpenFile.openFilePage.fileName = file_name;
                 sheetOpenFile.openFilePage.defaultExtension = "m3u";
                 sheetOpenFile.openFilePage.load();
@@ -436,7 +436,7 @@ Page {
                                         if(playlist_name) {
                                             if(playlist_name.endsWith(".m3u")) playlist_name = playlist_name.slice(0, -4);
                                             //playlist_name = playlist_name.replace("_", " ");
-                                            player.tab.playlistName = playlist_name;
+                                            root.tab.playlistName = playlist_name;
                                         }
                                     }
                                     systemToast.body = qsTr("Playlist successfully loaded from %1 !").arg(file_name);
@@ -478,16 +478,14 @@ Page {
            onMediaStateChanged: {
                console.debug("+++ onMediaStateChanged: " + mediaState);
                if (audioPlayer.mediaState == MediaState.Started) {
-                   //console.debug("STARTED");
                    isPlaying = true;
                } 
                else {
-                   //console.debug("OTHER: ");
                    isPlaying = false;
                }
            }
            onIsPlayingChanged: {
-               player.playbackStatusChanged(isPlaying);
+               root.playbackStatusChanged(isPlaying);
            }
            /*
            onMetaDataChanged: {
@@ -621,7 +619,7 @@ Page {
     function pickFiles() {
         console.log("pickFiles()");
         if (!filePickerSheet) {
-            filePickerSheet = filePickerSheetDefinition.createObject(player);
+            filePickerSheet = filePickerSheetDefinition.createObject(root);
         }
         filePickerSheet.dirPicker.load();
         filePickerSheet.open();
@@ -694,6 +692,7 @@ Page {
                 new_ix = playStatus.playedIndex;
             }  
         }
+        console.log()
         if(new_ix != playStatus.playedIndex) {
             playStatus.playedIndex = new_ix;
             playCurrentPlayListItem();
@@ -833,7 +832,7 @@ Page {
 
     function pauseForPhoneCall(do_pause)
     {
-        //var info = player.getPlaybackInfo();
+        //var info = root.getPlaybackInfo();
         var is_playing = audioPlayer.isPlaying;
         if(is_playing && do_pause) {
             var settings = ApplicationUI.settings();
@@ -865,6 +864,6 @@ Page {
     }
     
 	onCreationCompleted: {
-        ApplicationUI.trackMetaDataResolver().trackMetaDataResolved.connect(player.onTrackMetaDataResolved);
+        ApplicationUI.trackMetaDataResolver().trackMetaDataResolved.connect(root.onTrackMetaDataResolved);
     }
 }
