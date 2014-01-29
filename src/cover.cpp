@@ -19,7 +19,12 @@ Cover::Cover(QObject *parent)
 : SceneCover(parent)
 {
 	m_isActive = false;
-	{
+
+	m_updateTimer = new QTimer(this);
+	m_updateTimer->setInterval(3000);
+    QObject::connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(update()));
+
+    {
 		QmlDocument *qml = QmlDocument::create("asset:///cover.qml").parent(this);
 		Container *cont = qml->createRootObject<Container>();
         QObject::connect(this, SIGNAL(updateQml()), cont, SLOT(update()));
@@ -37,19 +42,19 @@ Cover::~Cover()
 void Cover::foregrounded()
 {
 	m_isActive = false;
+	m_updateTimer->stop();
 }
 
 void Cover::backgrounded()
 {
 	m_isActive = true;
     update();
+    m_updateTimer->start();
 }
 
 void Cover::update() {
 
     if (m_isActive) {
-        QTimer::singleShot(3000, this, SLOT(update()));
-
         emit updateQml();
     }
 }

@@ -24,6 +24,7 @@ signals:
     void updateQml();
 private:
 	bool m_isActive;
+	QTimer *m_updateTimer;
 };
 
 #endif /* COVER_H_ */
