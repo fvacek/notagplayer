@@ -414,6 +414,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../assets/Player.qml" line="457"/>
+        <source>Realy clear current playlist?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../assets/Player.qml" line="398"/>
         <source>m3u music playlist &apos;%1&apos; created!</source>
         <translation type="unfinished"></translation>
@@ -495,12 +500,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="87"/>
+        <location filename="../assets/SettingsPage.qml" line="102"/>
         <source>Track meta data settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/SettingsPage.qml" line="111"/>
+        <location filename="../assets/SettingsPage.qml" line="126"/>
         <source>Developer settings</source>
         <translation type="unfinished"></translation>
     </message>

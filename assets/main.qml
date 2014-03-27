@@ -164,9 +164,19 @@ TabbedPane {
 	        }
 	        onRevoked: {
 	            console.debug("NTP NPC revoked !!!");
-	            //mymedia.stop();
 	        }
-	        
+            function updatePlaybackInfo() {
+                /*
+                var info = getPlaybackInfo();
+                console.debug("NTP NPC updatePlaybackInfo:", info);
+                var metadata = { track: info.trackName, artist : "" };
+                
+                nowPlayingConnection.duration = info.totalMs; // 2min in milliseconds
+                nowPlayingConnection.position = info.playedMs;
+                nowPlayingConnection.mediaState = info.isPlaying? MediaState.Started: MediaState.Paused;
+                nowPlayingConnection.setMetaData(metadata);
+                */
+            }
         }
     ]
     function newPlayerTabId()
@@ -311,16 +321,21 @@ TabbedPane {
 
 	function playerPlaybackStatusChanged(is_playing)
 	{
-	    // stop playback on other tabs
-        var active_tab = tabbedPane.activeTab;
-        if(active_tab) {
-            for(var i=1; i<tabbedPane.count(); i++) {
-                var tab = tabbedPane.at(i);
-                if(tab !== active_tab) {
-                    tab.player.pause();
+        var settings = ApplicationUI.settings();
+        var stop_playback_on_other_tabs = !settings.boolValue("settings/playBack/allowMultiPlaylistPlayback", false);
+        //console.debug("stop_playback_on_other_tabs: " + stop_playback_on_other_tabs);
+	    if(stop_playback_on_other_tabs) {
+            var active_tab = tabbedPane.activeTab;
+            if(active_tab) {
+                for(var i=1; i<tabbedPane.count(); i++) {
+                    var tab = tabbedPane.at(i);
+                    if(tab !== active_tab) {
+                        tab.player.pause();
+                    }
                 }
             }
-        }
+	    }
+        nowPlayingConnection.updatePlaybackInfo();
 	}
 
     function onPhoneActivityChanged(phone_active)
@@ -354,7 +369,6 @@ TabbedPane {
 
         loadSettings();
         
-        //gNPC = nowPlayingConnection;
         nowPlayingConnection.acquire();
     }
 }

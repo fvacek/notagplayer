@@ -9,22 +9,22 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="370"
-   height="310"
+   width="403.9375"
+   height="403.9375"
    id="svg5531"
    sodipodi:version="0.32"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    version="1.0"
    sodipodi:docname="icon1.svg"
-   inkscape:export-filename="/home/fvacek/rim/github/notagplayer/assets/images/icon4.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/fvacek/rim/github/notagplayer/icon-94.png"
+   inkscape:export-xdpi="20.940001"
+   inkscape:export-ydpi="20.940001">
   <defs
      id="defs3">
     <filter
        id="filter4092"
-       style="color-interpolation-filters:sRGB;"
-       inkscape:label="Drop Shadow">
+       inkscape:label="Drop Shadow"
+       color-interpolation-filters="sRGB">
       <feFlood
          id="feFlood4094"
          flood-opacity="1"
@@ -38,7 +38,6 @@
          result="composite1" />
       <feGaussianBlur
          id="feGaussianBlur4098"
-         in="composite"
          stdDeviation="2"
          result="blur" />
       <feOffset
@@ -55,8 +54,8 @@
     </filter>
     <filter
        id="filter6001"
-       style="color-interpolation-filters:sRGB;"
-       inkscape:label="Drop Shadow">
+       inkscape:label="Drop Shadow"
+       color-interpolation-filters="sRGB">
       <feFlood
          id="feFlood6003"
          flood-opacity="1"
@@ -70,7 +69,6 @@
          result="composite1" />
       <feGaussianBlur
          id="feGaussianBlur6007"
-         in="composite"
          stdDeviation="2"
          result="blur" />
       <feOffset
@@ -87,8 +85,8 @@
     </filter>
     <filter
        id="filter6013"
-       style="color-interpolation-filters:sRGB;"
-       inkscape:label="Drop Shadow">
+       inkscape:label="Drop Shadow"
+       color-interpolation-filters="sRGB">
       <feFlood
          id="feFlood6015"
          flood-opacity="1"
@@ -102,7 +100,6 @@
          result="composite1" />
       <feGaussianBlur
          id="feGaussianBlur6019"
-         in="composite"
          stdDeviation="2"
          result="blur" />
       <feOffset
@@ -127,8 +124,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.65701686"
-     inkscape:cx="-556.43514"
-     inkscape:cy="89.101522"
+     inkscape:cx="-539.20507"
+     inkscape:cy="77.123062"
      inkscape:current-layer="layer1"
      height="302.36px"
      width="744.09448px"
@@ -138,12 +135,16 @@
      inkscape:window-y="-3"
      showgrid="false"
      units="px"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-0.98007,247.67779)">
+     transform="translate(16.25,353.59375)">
     <g
        id="g4348"
        transform="translate(-240.1926,109.58623)">
@@ -1962,16 +1963,6 @@
        height="141.72121"
        x="-121.00056"
        y="9.403738" />
-    <rect
-       style="fill:none;stroke:#e0280f;stroke-width:1.47663783999999998;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       id="rect3600"
-       width="402.46036"
-       height="402.46036"
-       x="-15.523604"
-       y="-352.85483"
-       inkscape:export-filename="/home/fvacek/rim/github/notagplayer/icon.png"
-       inkscape:export-xdpi="25.399967"
-       inkscape:export-ydpi="25.399967" />
   </g>
   <metadata
      id="metadata3073">

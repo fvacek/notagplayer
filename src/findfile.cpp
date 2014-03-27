@@ -21,6 +21,14 @@
 #include <sys/stat.h>
 //#endif
 
+#if defined QT_NO_READDIR64
+    #warning QNX readdir64_r defined and supported by current QT version
+#elif defined __EXT_QNX__READDIR64_R
+    #warning QNX readdir64_r defined but not supported by current QT version
+#else
+    #warning QNX readdir64_r not supported by current QNX libraries
+#endif
+
 FindFile::FindFile(QObject *parent)
 : QObject(parent)
 {

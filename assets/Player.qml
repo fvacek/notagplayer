@@ -454,7 +454,11 @@ Page {
         DeleteActionItem {
             title: qsTr("Clear play list")
             onTriggered: {
-                clearPlayList()
+                confirmDialog.body = qsTr("Realy clear current playlist?");
+                confirmDialog.exec()
+                if (confirmDialog.result == SystemUiResult.ConfirmButtonSelection) {
+                    clearPlayList()
+                }
             }
             //imageSource: "asset:///images/ca_delete.png"
 

@@ -81,6 +81,21 @@ Page {
                         id: btPausePlaybackOnPhoneCall
                     }
                 }
+                Container {
+                    layout: StackLayout {
+                        orientation: LayoutOrientation.LeftToRight
+                    }
+                    Label {
+                        text: "Allow multi playlist playback"
+                        layoutProperties: StackLayoutProperties {
+                            spaceQuota: 1.0
+                        }
+                        multiline: true
+                    }
+                    ToggleButton {
+                        id: btAllowMultiPlaylistPlayback
+                    }
+                }
             }
             
             Header {
@@ -145,6 +160,7 @@ Page {
         var settings = ApplicationUI.settings();
         settings.setValue("settings/trackBar/playbackAnimation", btPlaybackAnimation.checked);
         settings.setValue("settings/playBack/pausePlaybackOnPhoneCall", btPausePlaybackOnPhoneCall.checked);
+        settings.setValue("settings/playBack/allowMultiPlaylistPlayback", btAllowMultiPlaylistPlayback.checked);
         settings.setValue("settings/trackMetaData/resolvingEnabled", btResolveTrackMetaData.checked);
         /*
          var orig_log_info = settings.boolValue("settings/application/developerSettings/logDebugInfo");
@@ -161,6 +177,7 @@ Page {
         var settings = ApplicationUI.settings();
         btPlaybackAnimation.checked = settings.boolValue("settings/trackBar/playbackAnimation", true);
         btPausePlaybackOnPhoneCall.checked = settings.boolValue("settings/playBack/pausePlaybackOnPhoneCall", true);
+        btAllowMultiPlaylistPlayback.checked = settings.boolValue("settings/playBack/allowMultiPlaylistPlayback", false);
         btResolveTrackMetaData.checked = settings.boolValue("settings/trackMetaData/resolvingEnabled", true);
         //btLogDebugInfo.checked = settings.boolValue("settings/application/developerSettings/logDebugInfo", false);
     }
