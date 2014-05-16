@@ -63,8 +63,8 @@ signals:
 	//void fileFound(const QVariant &file_info);
 	void phoneActivityChanged(bool phone_active);
 private:
-    QTranslator *m_pTranslator;
-    bb::cascades::LocaleHandler *m_pLocaleHandler;
+    QTranslator *m_translator;
+    bb::cascades::LocaleHandler *m_localeHandler;
     TrackMetaDataResolver *m_trackMetaDataResolver;
 };
 

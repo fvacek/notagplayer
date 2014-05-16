@@ -14,20 +14,31 @@
 #include <QStringBuilder>
 #include <QDebug>
 
+#include <dirent.h>
 //#if 0
 #include <stdio.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <sys/stat.h>
 //#endif
 
-#if defined QT_NO_READDIR64
-    #warning QNX readdir64_r defined and supported by current QT version
-#elif defined __EXT_QNX__READDIR64_R
-    #warning QNX readdir64_r defined but not supported by current QT version
-#else
-    #warning QNX readdir64_r not supported by current QNX libraries
+#if !defined __EXT_QNX__READDIR_R
+    #warning "dirent.h should be included to following test work"
 #endif
+
+#if defined __EXT_QNX__READDIR64_R && !defined QT_NO_READDIR64
+    #warning "QNX readdir64_r defined and supported by current QT version"
+	//#define USE_QT_IMPL
+	#warning "QT DirIterator implementation is disabled even if system supports it"
+#else
+    #if defined __EXT_QNX__READDIR64_R  /// defined in dirent.h
+        #warning "QNX readdir64_r defined but NOT supported by current QT version"
+    #else
+        #warning "QNX readdir64_r NOT supported by current QNX libraries"
+    #endif
+#endif
+
+const QLatin1String FindFile::FileInfo::TypeDir = QLatin1String("dir");
+const QLatin1String FindFile::FileInfo::TypeFile = QLatin1String("file");
 
 FindFile::FindFile(QObject *parent)
 : QObject(parent)
@@ -114,56 +125,16 @@ bool FindFile::dirExists(const QString &dir_path)
 {
 	//QDir dir("/"%dir_path.join("/"));
 	QDir dir(dir_path);
-	return dir.exists();
-}
-
-QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path, const QStringList &file_filters)
-{
-	QList<FileInfo> ret;
-	/// don't know why, but entryInfoList() returns some duplicates
-	QSet<QString> names;
-#if USE_QT_IMPL
-	QDir parent_dir(parent_dir_path);
-	//qDebug() << "ApplicationUI::getDirContent" << parent_dir.canonicalPath();
-	//qDebug() << "file_filters:" << file_filters.join(",") << "dir exists:" << parent_dir.exists() << "count:" << parent_dir.count();
-	QFileInfoList fi_lst;
-	QDir::Filters filters = QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files | QDir::Readable;
-	//if(file_filters.isEmpty()) fi_lst = parent_dir.entryInfoList(filters, QDir::DirsFirst);
-	//else
-	fi_lst = parent_dir.entryInfoList(file_filters, filters, QDir::DirsFirst);
-	foreach(QFileInfo qfi, fi_lst) {
-		QString name = qfi.fileName();
-		if(names.contains(name)) {
-			qDebug() << "--- ignoring duplicate entry:" << name;
-			continue;
-		}
-		names << name;
-		FileInfo fi;
-		fi.name = name;
-		fi.path = qfi.absoluteFilePath();
-		fi.type = qfi.isDir()? "dir": "file";
-		//qDebug() << "\t" << name << "->" << path;
-		ret << fi;
-	}
-#else
-	foreach(const FileInfo &fi, getDirContentPosix(parent_dir_path, file_filters)) {
-		if(names.contains(fi.name)) {
-			qDebug() << "--- ignoring duplicate entry:" << fi.name;
-			continue;
-		}
-		names << fi.name;
-		//qDebug() << "\t" << fi.name << "->" << fi.path;
-		ret << fi;
-	}
-#endif
-	//qDebug() << "ApplicationUI::getDirContent return" << ret.count() << "items";
+	bool ret = dir.exists();
+	qDebug() << Q_FUNC_INFO << dir_path << "return:" << ret;
 	return ret;
 }
 
+#ifndef USE_QT_IMPL
 /// workaround for 32bit readdir in Qt4 on device
-QList<FindFile::FileInfo> FindFile::getDirContentPosix(const QString &parent_dir_path, const QStringList &file_filters)
+static QList<FindFile::FileInfo> getDirContentPosix(const QString &parent_dir_path, const QStringList &file_filters)
 {
-	QList<FileInfo> ret;
+	QList<FindFile::FileInfo> ret;
 	DIR *dp;
 	struct dirent *ep;
 	struct dirent_extra *exp;
@@ -177,9 +148,9 @@ QList<FindFile::FileInfo> FindFile::getDirContentPosix(const QString &parent_dir
 			QStringList file_filters_ends;
 			foreach(QString s, file_filters) file_filters_ends << s.mid(1); // cut * from *.mp3
 			while ((ep = readdir(dp)) != 0) {
-				//fprintf(stderr, "~~~~~~~~~%s\n", ep->d_name);
+				//qDebug() << "~~~~~~~~~" << ep->d_name;
 				QByteArray ba(ep->d_name);
-				FileInfo fi;
+				FindFile::FileInfo fi;
 				fi.name = QFile::decodeName(ba);
 				if(parent_dir_path.endsWith('/')) fi.path = parent_dir_path%fi.name;
 				else fi.path = parent_dir_path%'/'%fi.name;
@@ -203,33 +174,37 @@ QList<FindFile::FileInfo> FindFile::getDirContentPosix(const QString &parent_dir
 					}
 					if(statbuff) {
 						if(S_ISDIR(statbuff->st_mode)) {
-							//fprintf(stderr, "\tDIR\n");
-							fi.type = "dir";
+							//qDebug() << "\tDIR";
+							fi.type = FindFile::FileInfo::TypeDir;
 						}
 						if(S_ISREG(statbuff->st_mode)) {
-							//fprintf(stderr, "\tFILE\n");
-							fi.type = "file";
+							//qDebug() << "\tFILE";
+							fi.type = FindFile::FileInfo::TypeFile;
 						}
 						if(S_ISCHR(statbuff->st_mode)) {
-							//fprintf(stderr, "\tCHAR DEVICE\n");
+							//qDebug() << "\tCHAR DEVICE";
 						}
 						if(S_ISBLK(statbuff->st_mode)) {
-							fprintf(stderr, "\tBLOCK DEVICE\n");
+							//qDebug() << "\tBLOCK DEVICE";
 						}
 						if(S_ISFIFO(statbuff->st_mode)) {
-							//fprintf(stderr, "\tPIPE\n");
+							//qDebug() << "\tPIPE\n";
 						}
 						if(S_ISLNK(statbuff->st_mode)) {
-							//fprintf(stderr, "\tSYMLINK\n");
+							//qDebug() << "\tSYMLINK";
 						}
 						if(S_ISSOCK(statbuff->st_mode)) {
-							//fprintf(stderr, "\tSOCKET\n");
+							//qDebug() << "\tSOCKET";
 						}
 					}
 				}
 				if(fi.name == "." || fi.name == "..") continue;
+				if(fi.type.isEmpty()) {
+					// it is better to hide files with unknown type
+					continue;
+				}
 				bool is_match = true;
-				if(fi.type != "dir") {
+				if(fi.type != FindFile::FileInfo::TypeDir) {
 					is_match = file_filters_ends.isEmpty();
 					if(!is_match) {
 						foreach(QString ff, file_filters_ends) {
@@ -250,6 +225,90 @@ QList<FindFile::FileInfo> FindFile::getDirContentPosix(const QString &parent_dir
 	}
 	else qDebug() << "Couldn't open the directory:" << parent_dir_path;
 	qSort(ret);
+	return ret;
+}
+#endif
+
+QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path, const QStringList &file_filters_ends)
+{
+	qDebug() << "=======" << Q_FUNC_INFO << parent_dir_path;
+	QList<FileInfo> ret;
+	/// don't know why, but entryInfoList() returns some duplicates
+	QSet<QString> names;
+#ifdef USE_QT_IMPL
+	QDirIterator dit(parent_dir_path);
+	while(dit.hasNext()) {
+		dit.next();
+		QFileInfo qfi = dit.fileInfo();
+		QString name = qfi.fileName();
+		if(names.contains(name)) {
+			qDebug() << "--- ignoring duplicate entry:" << name;
+			continue;
+		}
+		names << name;
+
+		if(name == "." || name == "..") continue;
+
+		bool is_match = true;
+		if(qfi.isFile()) {
+			is_match = file_filters_ends.isEmpty();
+			if(!is_match) {
+				foreach(QString ff, file_filters_ends) {
+					if(name.endsWith(ff, Qt::CaseInsensitive)) {
+						is_match = true;
+						break;
+					}
+				}
+			}
+		}
+		if(is_match) {
+			//qDebug() << "###############" << fi.type << fi.path;
+			FileInfo fi;
+			fi.name = name;
+			fi.path = qfi.absoluteFilePath();
+			fi.type = qfi.isDir()? FileInfo::TypeDir: qfi.isFile()? FileInfo::TypeFile: QString();
+			//qDebug() << "\t" << name << "->" << path;
+			if(!fi.type.isEmpty()) {
+				// it is better to hide files with unknown type
+				ret << fi;
+			}
+		}
+	}
+	#if 0
+	QDir parent_dir(parent_dir_path);
+	//qDebug() << "file_filters:" << file_filters.join(",") << "dir exists:" << parent_dir.exists() << "count:" << parent_dir.count();
+	QFileInfoList fi_lst;
+	QDir::Filters filters = QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files | QDir::Readable;
+	//if(file_filters.isEmpty()) fi_lst = parent_dir.entryInfoList(filters, QDir::DirsFirst);
+	//else
+	fi_lst = parent_dir.entryInfoList(file_filters, filters, QDir::DirsFirst);
+	foreach(QFileInfo qfi, fi_lst) {
+		QString name = qfi.fileName();
+		if(names.contains(name)) {
+			qDebug() << "--- ignoring duplicate entry:" << name;
+			continue;
+		}
+		names << name;
+		FileInfo fi;
+		fi.name = name;
+		fi.path = qfi.absoluteFilePath();
+		fi.type = qfi.isDir()? "dir": "file";
+		//qDebug() << "\t" << name << "->" << path;
+		ret << fi;
+	}
+	#endif
+#else
+	foreach(const FileInfo &fi, getDirContentPosix(parent_dir_path, file_filters_ends)) {
+		if(names.contains(fi.name)) {
+			qDebug() << "--- ignoring duplicate entry:" << fi.name;
+			continue;
+		}
+		names << fi.name;
+		qDebug() << "\t" << fi.toString();
+		ret << fi;
+	}
+#endif
+	//qDebug() << "ApplicationUI::getDirContent return" << ret.count() << "items";
 	return ret;
 }
 

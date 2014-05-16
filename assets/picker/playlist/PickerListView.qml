@@ -63,7 +63,7 @@ FSListView {
     
     function initParentPath()
     {
-        console.debug("parentPath: " + parentPath + " of type: " + (typeof parentPath));
+        console.debug("initParentPath() - parentPath: " + parentPath + " of type: " + (typeof parentPath));
         if(!parentPath || !parentPath.length || !ApplicationUI.dirExists(parentPath)) {
             if(ApplicationUI.dirExists(sdcardMusicPath)) {
                 parentPath = listView.sdcardMusicPath;

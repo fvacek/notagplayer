@@ -26,8 +26,8 @@ ListView {
     onTriggered: {
         //itemTriggered();
         var file_info = listModel.data(indexPath);
-        console.debug("onTriggered index: " + indexPath + " -> " + file_info.name + " : " + file_info.type);
-        if (file_info.type == "dir") {
+        console.debug("onTriggered index: " + indexPath + " -> " + file_info.name + " type: " + file_info.type);
+        if (file_info.type != "file") {
             var subdir_name = file_info.name;
             enterSubDir(subdir_name);
         } else {

@@ -39,9 +39,6 @@
 	Q_DECLARE_METATYPE(bb::multimedia::MediaState::Type);
 #endif
 
-// way how to find if current QNX target supports readdir64_r()
-//#if defined(__EXT_QNX__READDIR64_R)
-
 using namespace bb::cascades;
 
 ApplicationUI::ApplicationUI(TheApp *app) :
@@ -57,9 +54,9 @@ QObject(app)
 	//qmlRegisterType<bb::cascades::pickers::FilePicker>("CascadesPickers", 1, 0,"FilePicker");
 
 	// prepare the localization
-	m_pTranslator = new QTranslator(this);
-	m_pLocaleHandler = new LocaleHandler(this);
-	QObject::connect(m_pLocaleHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
+	m_translator = new QTranslator(this);
+	m_localeHandler = new LocaleHandler(this);
+	QObject::connect(m_localeHandler, SIGNAL(systemLanguageChanged()), this, SLOT(onSystemLanguageChanged()));
 	// initial load
 	onSystemLanguageChanged();
 
@@ -94,12 +91,12 @@ ApplicationUI::~ApplicationUI()
 
 void ApplicationUI::onSystemLanguageChanged()
 {
-	QCoreApplication::instance()->removeTranslator(m_pTranslator);
+	QCoreApplication::instance()->removeTranslator(m_translator);
 	// Initiate, load and install the application translation files.
 	QString locale_string = QLocale().name();
 	QString file_name = QString("playdir_%1").arg(locale_string);
-	if (m_pTranslator->load(file_name, "app/native/qm")) {
-		QCoreApplication::instance()->installTranslator(m_pTranslator);
+	if (m_translator->load(file_name, "app/native/qm")) {
+		QCoreApplication::instance()->installTranslator(m_translator);
 	}
 }
 

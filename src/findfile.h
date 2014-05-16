@@ -21,6 +21,9 @@ class FindFile: public QObject
 public:
 	struct FileInfo
 	{
+		static const QLatin1String TypeDir;
+		static const QLatin1String TypeFile;
+
 		QString name;
 		QString path;
 		QString type;
@@ -43,14 +46,20 @@ public:
 			m["type"] = type;
 			return m;
 		}
+
+		QString toString() const
+		{
+			QString ret = "[%2]%1";
+			return ret.arg(path).arg(type == TypeDir? 'D': ' ');
+		}
 	};
 public:
 	FindFile(QObject *parent = NULL);
 	virtual ~FindFile();
 public:
     static bool dirExists(const QString &dir_path);
-    static QList<FileInfo> getDirContent(const QString &parent_dir_path, const QStringList &file_filters = QStringList());
-    static QList<FileInfo> getDirContentPosix(const QString &parent_dir_path, const QStringList &file_filters);
+	static QList<FileInfo> getDirContent(const QString &parent_dir_path, const QStringList &file_filters_ends = QStringList());
+	//static QList<FileInfo> getDirContentPosix(const QString &parent_dir_path, const QStringList &file_filters);
 signals:
 	void fileFound(const QVariant &file_info);
 public slots:
