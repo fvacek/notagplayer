@@ -9,7 +9,8 @@ ListView {
     property variant deviceMusicPath: GlobalDefs.splitPath(GlobalDefs.deviceMusicPath)
     property variant sdcardMusicPath: GlobalDefs.splitPath(GlobalDefs.sdcardMusicPath)
     property variant parentPath: [] // sdcardMusicPath.split("/")
-
+    property variant visitedPathIndicies: []
+    
     property alias actionDirUp: actDirUp 
     property alias actionSDCard: actSDCard
     property alias actionDeviceMedia: actDeviceMedia
@@ -29,7 +30,7 @@ ListView {
         console.debug("onTriggered index: " + indexPath + " -> " + file_info.name + " type: " + file_info.type);
         if (file_info.type != "file") {
             var subdir_name = file_info.name;
-            enterSubDir(subdir_name);
+            enterSubDir(subdir_name, indexPath);
         } else {
             fileTriggered(file_info.path);
         }
@@ -118,11 +119,14 @@ ListView {
         resolveMetaData(files);
     }
 
-    function enterSubDir(subdir_name) {
+    function enterSubDir(subdir_name, index_path) {
         console.debug("enterSubDir: " + parentPath + " + " + subdir_name);
         var pp = parentPath;
         pp.push(subdir_name);
         parentPath = pp;
+        pp = visitedPathIndicies;
+        pp.push(index_path);
+        visitedPathIndicies = pp;
         load();
     }
 
@@ -132,12 +136,22 @@ ListView {
             pp.pop();
             parentPath = pp;
             load();
+            pp = visitedPathIndicies;
+            //console.debug("visitedPathIndicies length: " + pp.length);
+            if(pp.length > 0) {
+                var ix = pp.pop();
+                //console.debug("ix: " + ix);
+                visitedPathIndicies = pp;
+                //console.debug("scroll to index: " + ix[0]);
+                root.scrollToItem(ix);
+            }
         }
     }
 
     function setParentPath(parent_path) {
         if (ApplicationUI.dirExists(parent_path)) {
             parentPath = parent_path;
+            visitedPathIndicies = [];
             load();
         }
     }

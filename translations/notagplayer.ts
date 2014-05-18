@@ -45,17 +45,17 @@
 <context>
     <name>FSListView</name>
     <message>
-        <location filename="../assets/picker/FSListView.qml" line="55"/>
+        <location filename="../assets/picker/FSListView.qml" line="56"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/picker/FSListView.qml" line="64"/>
+        <location filename="../assets/picker/FSListView.qml" line="65"/>
         <source>Media card</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/picker/FSListView.qml" line="73"/>
+        <location filename="../assets/picker/FSListView.qml" line="74"/>
         <source>Device media</source>
         <translation type="unfinished"></translation>
     </message>

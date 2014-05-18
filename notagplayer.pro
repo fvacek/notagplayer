@@ -1,6 +1,6 @@
 APP_NAME = notagplayer
 
-CONFIG += qtc-build
+#CONFIG += qtc-build
 
 # use 64bit readdir
 # this is not needed if QT_NO_READDIR64 is undefined

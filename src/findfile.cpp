@@ -304,7 +304,7 @@ QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path
 			continue;
 		}
 		names << fi.name;
-		qDebug() << "\t" << fi.toString();
+		//qDebug() << "\t" << fi.toString();
 		ret << fi;
 	}
 #endif
