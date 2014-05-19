@@ -68,7 +68,7 @@ Page {
                 var file_info = listModel.data(indexPath);
                 console.debug("onTriggered index: " + indexPath + " -> " + file_info.name + " : " + file_info.type);
                 if (file_info.type == "dir") {
-                    dirChosen(file_info.path);
+                    dirChosen(GlobalDefs.splitPath(file_info.path));
                     done();
                 } else {
                     pathsChosen([ file_info.path ]);

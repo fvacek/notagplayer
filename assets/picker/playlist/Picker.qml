@@ -52,7 +52,7 @@ Page {
                 Sheet {
                     id: sheetFindFiles
                     property alias findFilesPage: findFilesPage
-                    FindFiles.Page {
+                    FindFiles.APage {
                         id: findFilesPage
                         onDone: {
                             sheetFindFiles.close();

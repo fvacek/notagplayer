@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>APage</name>
+    <message>
+        <location filename="../assets/picker/findfiles/APage.qml" line="34"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/picker/findfiles/APage.qml" line="89"/>
+        <source>Add to play list</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutPage</name>
     <message>
         <location filename="../assets/AboutPage.qml" line="55"/>
@@ -228,19 +241,6 @@
     <message>
         <location filename="../assets/MediaErrorLabel.qml" line="40"/>
         <source>Invalid error number %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Page</name>
-    <message>
-        <location filename="../assets/picker/findfiles/Page.qml" line="34"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/picker/findfiles/Page.qml" line="89"/>
-        <source>Add to play list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

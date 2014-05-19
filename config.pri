@@ -94,7 +94,7 @@ config_pri_assets {
         $$quote($$BASEDIR/assets/picker/FSListItem.qml) \
         $$quote($$BASEDIR/assets/picker/FSListView.qml) \
         $$quote($$BASEDIR/assets/picker/findfiles/AListItem.qml) \
-        $$quote($$BASEDIR/assets/picker/findfiles/Page.qml) \
+        $$quote($$BASEDIR/assets/picker/findfiles/APage.qml) \
         $$quote($$BASEDIR/assets/picker/openfile/Picker.qml) \
         $$quote($$BASEDIR/assets/picker/playlist/Picker.qml) \
         $$quote($$BASEDIR/assets/picker/playlist/PickerListItem.qml) \
@@ -144,9 +144,6 @@ lupdate_inclusion {
         $$quote($$BASEDIR/../src/*.cc) \
         $$quote($$BASEDIR/../src/*.cpp) \
         $$quote($$BASEDIR/../src/*.cxx) \
-        $$quote($$BASEDIR/..//*.qml) \
-        $$quote($$BASEDIR/..//*.js) \
-        $$quote($$BASEDIR/..//*.qs) \
         $$quote($$BASEDIR/../assets/*.qml) \
         $$quote($$BASEDIR/../assets/*.js) \
         $$quote($$BASEDIR/../assets/*.qs) \

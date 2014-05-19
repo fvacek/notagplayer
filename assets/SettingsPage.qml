@@ -148,14 +148,6 @@ Page {
         }
     }
 
-    attachedObjects: [
-    /*
-     * SystemToast {
-     * id: systemToast
-     * }
-     */
-    ]
-
     function saveSettings() {
         var settings = ApplicationUI.settings();
         settings.setValue("settings/trackBar/playbackAnimation", btPlaybackAnimation.checked);
