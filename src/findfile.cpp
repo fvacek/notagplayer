@@ -15,11 +15,11 @@
 #include <QDebug>
 
 #include <dirent.h>
-//#if 0
+#if 0
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-//#endif
+#endif
 
 #if !defined __EXT_QNX__READDIR_R
     #warning "dirent.h should be included to following test work"
@@ -27,8 +27,8 @@
 
 #if defined __EXT_QNX__READDIR64_R && !defined QT_NO_READDIR64
     #warning "QNX readdir64_r defined and supported by current QT version"
-	//#define USE_QT_IMPL
-	#warning "QT DirIterator implementation is disabled even if system supports it"
+	#define USE_QT_IMPL
+	//#warning "QT DirIterator implementation is disabled even if system supports it"
 #else
     #if defined __EXT_QNX__READDIR64_R  /// defined in dirent.h
         #warning "QNX readdir64_r defined but NOT supported by current QT version"
