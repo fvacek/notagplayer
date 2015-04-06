@@ -14,7 +14,7 @@ FSListView {
         // multiSelectHandler is active
         actions: [
             ActionItem {
-                title: qsTr("Add to play list")
+                title: qsTr("Add to playlist")
                 imageSource: "asset:///images/ic_add_tracks.png"
                 onTriggered: {
                     root.chooseSelection();

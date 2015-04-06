@@ -297,7 +297,7 @@
     <name>PickerListView</name>
     <message>
         <location filename="../assets/picker/playlist/PickerListView.qml" line="17"/>
-        <source>Add to play list</source>
+        <source>Add to playlist</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

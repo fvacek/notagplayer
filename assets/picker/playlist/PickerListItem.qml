@@ -5,9 +5,8 @@ FSListItem {
     id: root
     contextActions: [
         ActionSet {
-            // needed by multiselect
             ActionItem {
-                title: "Add to play list"
+                title: "Add to playlist"
                 imageSource: "asset:///images/ic_add_tracks.png"
                 onTriggered: {
                     root.ListItem.view.chooseSelection();

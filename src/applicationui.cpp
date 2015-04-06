@@ -100,20 +100,20 @@ void ApplicationUI::onSystemLanguageChanged()
 	}
 }
 
-QVariantList ApplicationUI::fetchFilesRecursively(const QStringList &path_list, const QStringList &file_filters)
+QVariantList ApplicationUI::fetchFilesRecursively(const QStringList &path_list, const QStringList &file_ends_filter)
 {
 	//qDebug() << "ApplicationUI::fetchFilesRecursively:" << path_list.join("/n");
 	QVariantList ret;
 	foreach(QString path, path_list) {
 		//qDebug() << "###########" << path;
-		ret << fetchFilesRecursively(path, file_filters);
+		ret << fetchFilesRecursively(path, file_ends_filter);
 	}
 	return ret;
 }
 
-QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QStringList &file_filters)
+QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QStringList &file_ends_filter)
 {
-	qDebug() << ">>>>>>>>>>>>>>>>>>>>>" << path << ">>>>>>>>>>>>>>>>>>>>>>>>>>>";
+	qDebug() << "fetchFilesRecursively >>>>>>>>>>>>>>>>>>>>>" << path << ">>>>>>>>>>>>>>>>>>>>>>>>>>>";
 	QVariantList ret;
 	QFileInfo fi(path);
 	if(fi.isFile()) {
@@ -128,22 +128,22 @@ QVariantList ApplicationUI::fetchFilesRecursively(const QString &path, const QSt
 		ret << m;
 	}
 	else if(fi.isDir()) {
-		QList<FindFile::FileInfo> files = FindFile::getDirContent(path, file_filters);
-		//qDebug() << "+++" << files.count() << path;
+		QList<FindFile::FileInfo> files = FindFile::getDirContent(path, file_ends_filter);
+		qDebug() << "\t+++" << files.count() << path;
 		foreach(const FindFile::FileInfo &fi, files) {
 			//QVariantMap file_m = file_v.toMap();
-			ret << fetchFilesRecursively(fi.path, file_filters);
+			ret << fetchFilesRecursively(fi.path, file_ends_filter);
 		}
 	}
 	qDebug() << "<<<<<<<<<<<<<<<<<<<<<<<" << path << "<<<<<<<<<<<<<<<<<<<<<<<";
 	return ret;
 }
 
-QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path_list, const QStringList &file_filters)
+QVariantList ApplicationUI::getDirContent(const QStringList &parent_dir_path_list, const QStringList &file_ends_filter)
 {
 	QVariantList ret;
 	QString parent_dir_path = "/"%parent_dir_path_list.join("/");
-	QList<FindFile::FileInfo> files = FindFile::getDirContent(parent_dir_path, file_filters);
+	QList<FindFile::FileInfo> files = FindFile::getDirContent(parent_dir_path, file_ends_filter);
 	foreach(const FindFile::FileInfo &fi, files) {
 		//QVariantMap file_m = file_v.toMap();
 		ret << fi.toVariant();

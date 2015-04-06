@@ -633,7 +633,7 @@ Page {
         console.debug("pathsChosen: " + path_list.join("\n"));
         if (path_list) {
             //ApplicationUI.fileFound.connect(appendToPlayList);
-            var file_infos = ApplicationUI.fetchFilesRecursively(path_list, [ "*.mp3", "*.m4a", "*.aac", "*.ogg", "*.flac" ]);
+            var file_infos = ApplicationUI.fetchFilesRecursively(path_list, [ ".mp3", ".m4a", ".aac", ".ogg", ".flac" ]);
             //ApplicationUI.fileFound.disconnect(appendToPlayList);
             appendToPlayList(file_infos);
         }

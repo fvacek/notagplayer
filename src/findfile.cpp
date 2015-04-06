@@ -229,9 +229,9 @@ static QList<FindFile::FileInfo> getDirContentPosix(const QString &parent_dir_pa
 }
 #endif
 
-QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path, const QStringList &file_filters_ends)
+QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path, const QStringList &file_ends_filter)
 {
-	qDebug() << "=======" << Q_FUNC_INFO << parent_dir_path;
+	qDebug() << "=======" << Q_FUNC_INFO << parent_dir_path << "filters:" << file_ends_filter.join(", ");
 	QList<FileInfo> ret;
 	/// don't know why, but entryInfoList() returns some duplicates
 	QSet<QString> names;
@@ -247,13 +247,15 @@ QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path
 		}
 		names << name;
 
-		if(name == "." || name == "..") continue;
+		if(name == "." || name == "..")
+		    continue;
 
 		bool is_match = true;
+        qDebug() << "###############" << name << "is file:" << qfi.isFile() << "is dir:" << qfi.isDir();
 		if(qfi.isFile()) {
-			is_match = file_filters_ends.isEmpty();
+			is_match = file_ends_filter.isEmpty();
 			if(!is_match) {
-				foreach(QString ff, file_filters_ends) {
+				foreach(QString ff, file_ends_filter) {
 					if(name.endsWith(ff, Qt::CaseInsensitive)) {
 						is_match = true;
 						break;
@@ -262,7 +264,6 @@ QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path
 			}
 		}
 		if(is_match) {
-			//qDebug() << "###############" << fi.type << fi.path;
 			FileInfo fi;
 			fi.name = name;
 			fi.path = qfi.absoluteFilePath();
@@ -309,6 +310,7 @@ QList<FindFile::FileInfo> FindFile::getDirContent(const QString &parent_dir_path
 	}
 #endif
 	//qDebug() << "ApplicationUI::getDirContent return" << ret.count() << "items";
+    qSort(ret);
 	return ret;
 }
 

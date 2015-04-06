@@ -58,7 +58,7 @@ public:
 	virtual ~FindFile();
 public:
     static bool dirExists(const QString &dir_path);
-	static QList<FileInfo> getDirContent(const QString &parent_dir_path, const QStringList &file_filters_ends = QStringList());
+	static QList<FileInfo> getDirContent(const QString &parent_dir_path, const QStringList &file_ends_filter = QStringList());
 	//static QList<FileInfo> getDirContentPosix(const QString &parent_dir_path, const QStringList &file_filters);
 signals:
 	void fileFound(const QVariant &file_info);

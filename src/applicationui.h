@@ -40,8 +40,8 @@ private slots:
     void onShareFileArmed();
     void onShareFileFinished();
 public:
-    Q_INVOKABLE QVariantList fetchFilesRecursively(const QStringList &path_list, const QStringList &file_filters);
-    Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path, const QStringList &file_filters = QStringList());
+    Q_INVOKABLE QVariantList fetchFilesRecursively(const QStringList &path_list, const QStringList &file_ends_filter);
+    Q_INVOKABLE QVariantList getDirContent(const QStringList &parent_dir_path, const QStringList &file_ends_filter = QStringList());
     Q_INVOKABLE bool dirExists(const QStringList &dir_path);
 
 	Q_INVOKABLE QVariantMap displayInfo();
@@ -57,7 +57,7 @@ public:
 	Q_INVOKABLE void shareFile(const QString &file_name, const QString &mime_type = QString(), const QString &action_id = QString(), const QString &target_id = QString());
 	Q_INVOKABLE void shareLogFile();
 private:
-    QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_filters);
+    QVariantList fetchFilesRecursively(const QString &path, const QStringList &file_ends_filter);
     void resolveTrackMetaDataFinish(const QString &path, const QVariant &meta_data);
 signals:
 	//void fileFound(const QVariant &file_info);
